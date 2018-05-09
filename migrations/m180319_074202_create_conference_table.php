@@ -1,6 +1,7 @@
 <?php
 
 use yii\db\Migration;
+use app\entities\Conference;
 
 /**
  * Handles the creation of table `conference`.
@@ -26,7 +27,8 @@ class m180319_074202_create_conference_table extends Migration
             'description' => $this->text()->notNull(),
             'start_time' => $this->integer()->notNull(),
             'end_time' => $this->integer(),
-            'status' => $this->smallInteger()->notNull()->defaultValue(10),
+            'status' => $this->smallInteger()->notNull()->defaultValue(Conference::STATUS_ACTIVE),
+            'deleted' => $this->smallInteger()->notNull()->defaultValue(0),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
         ], $tableOptions);

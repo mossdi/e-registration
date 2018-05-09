@@ -23,6 +23,10 @@ app\assets\AppAsset::register($this);
 
 <?php $this->beginBody() ?>
 
+    <?= $this->render(
+        '/html_block/element/modal'
+    ) ?>
+
     <?= $content ?>
 
 <?php $this->endBody() ?>

@@ -25,6 +25,7 @@ use yii\web\IdentityInterface;
  * @property string $password_hash [VARCHAR(255)]
  * @property string $password_reset_token [VARCHAR(255)]
  * @property int $status [SMALLINT(5)]
+ * @property int $deleted [SMALLINT(5)]
  * @property int $created_at [INT(10)]
  * @property int $updated_at [INT(10)]
  */
@@ -33,11 +34,16 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
 
+    public static $statusList = [
+        self::STATUS_ACTIVE  => 'Включено',
+        self::STATUS_DELETED => 'Заблокирован',
+    ];
+
     public static $roleList = [
-        'admin' => 'Администратор',
-        'receptionist' => 'Регистратор',
-        'speaker' => 'Ведущий',
         'student' => 'Слушатель',
+        'speaker' => 'Ведущий',
+        'receptionist' => 'Регистратор',
+        'admin' => 'Администратор',
     ];
 
     /**

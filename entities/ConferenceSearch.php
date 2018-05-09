@@ -41,12 +41,26 @@ class ConferenceSearch extends Conference
      */
     public function search($params)
     {
-        $query = Conference::find();
+        $query = Conference::find()
+            ->where(['deleted' => 0]);
 
-        // add conditions that should always apply here
+        if (!empty($params['time'])) {
+            if ($params['time'] == 'now') {
+                $query->where(['<', 'start_time', time()])->andWhere(['is', 'end_time', null]);
+            } elseif ($params['time'] == 'future') {
+                $query->where(['>', 'start_time', time()]);
+            } elseif ($params['time'] == 'history') {
+                $query->where(['<', 'start_time', time()])->andWhere(['is not', 'end_time', null]);
+            }
+        }
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'start_time' => SORT_ASC,
+                ]
+            ]
         ]);
 
         $this->load($params);
@@ -69,7 +83,7 @@ class ConferenceSearch extends Conference
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'description', $this->description]);
+              ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;
     }

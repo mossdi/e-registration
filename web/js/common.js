@@ -6,7 +6,9 @@
  * @param id
  */
 function formLoad(url_request, title, id = null) {
-    if (id != null) url_request += '?id=' + id;
+    if (id != null) {
+        url_request += (~url_request.indexOf('?') ? '&id=' : '?id=') + id;
+    }
 
     $('#modalForm').find('.modal-body').load(url_request);
     $('#modalForm').find('.modal-header').html('<span>' + title + '</span><button type="button" class="close" data-dismiss="modal" onclick="formClean()" aria-hidden="true">×</button>');

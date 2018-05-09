@@ -9,6 +9,8 @@ use yii\db\ActiveRecord;
  *
  * @property int $user_id
  * @property int $conference_id
+ * @property Conference $conference
+ * @property User $user
  */
 class UserToConference extends ActiveRecord
 {
@@ -20,9 +22,20 @@ class UserToConference extends ActiveRecord
         return 'user_to_conference';
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getConference()
     {
         return $this->hasOne(Conference::className(), ['id' => 'conference_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return$this->hasOne(User::className(), ['id' => 'user_id']);
     }
 }
 

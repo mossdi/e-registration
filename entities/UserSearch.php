@@ -39,7 +39,8 @@ class UserSearch extends User
      */
     public function search($params)
     {
-        $query = User::find();
+        $query = User::find()
+            ->where(['deleted' => 0]);
 
         // add conditions that should always apply here
 

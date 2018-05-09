@@ -6,7 +6,7 @@ use Yii;
 
 class SendMailComponent
 {
-    public function sendMail($mailTo, $htmlBody)
+    public static function sendMail($mailTo, $htmlBody)
     {
         Yii::$app->mailer->compose()
             ->setFrom('admin@localhost')

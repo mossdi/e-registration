@@ -125,8 +125,16 @@ a.desc:after {
     outline: none;
 }
 
+.nav-pills > li.active > a,
+.nav-pills > li.active > a:hover,
+.nav-pills > li.active > a:focus {
+    background: rgba(60, 141, 188, 0.6);
+    border-radius: 6px;
+}
+
 /* inputs */
-input.form-control {
+input.form-control,
+select.form-control {
     margin-bottom: 10px;
 }
 

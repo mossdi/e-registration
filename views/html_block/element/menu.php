@@ -3,6 +3,7 @@
 /* @var $this \yii\web\View */
 
 use app\widgets\Menu;
+use app\forms\UserForm;
 
 try {
     echo Menu::widget(
@@ -24,14 +25,14 @@ try {
                             'label' => 'Пользователь',
                             'icon' => 'address-book',
                             'url' => '#',
-                            'template' => '<a href="#" data-toggle="modal" data-target="#modalForm" onclick="formLoad(\'/user/signup-form\', \'Регистрационная карточка\')">{icon}{label}</a>',
+                            'template' => '<a href="#" data-toggle="modal" data-target="#modalForm" onclick="formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_CREATE . '\', \'Регистрационная карточка\')">{icon}{label}</a>',
                             'visible' => Yii::$app->user->can('admin') || Yii::$app->user->can('receptionist'),
                         ],
                         [
                             'label' => 'Конференция',
                             'icon' => 'mixcloud',
                             'url' => '#',
-                            'template' => '<a href="#" data-toggle="modal" data-target="#modalForm" onclick="formLoad(\'/conference/conference-form\', \'Новая конференция\')">{icon}{label}</a>',
+                            'template' => '<a href="#" data-toggle="modal" data-target="#modalForm" onclick="formLoad(\'/conference/create-form\', \'Новая конференция\')">{icon}{label}</a>',
                             'visible' => Yii::$app->user->can('admin')
                         ],
                     ]
@@ -57,7 +58,6 @@ try {
                         ],
                     ]
                 ],
-
             ],
         ]
     );

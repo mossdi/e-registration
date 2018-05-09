@@ -6,6 +6,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\widgets\MaskedInput;
+use app\forms\UserForm;
 
 $this->title = 'Авторизация';
 
@@ -49,6 +50,14 @@ $this->title = 'Авторизация';
                 <?= Html::submitButton('Войти', [
                      'class' => 'btn btn-default btn-block btn-flat',
                     'name' => 'login-button'
+                ]) ?>
+            </div>
+
+            <div class="col-xs-12 text-right">
+                <?= Html::a('Зарегистрироваться', ['#'], [
+                    'data-toggle' => 'modal',
+                    'data-target' => '#modalForm',
+                    'onclick'     => 'formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_REGISTER . '\', \'Регистрационная карточка\')',
                 ]) ?>
             </div>
         </div>

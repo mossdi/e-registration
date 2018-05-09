@@ -10,6 +10,7 @@ use DateTimeZone;
 
 /**
  * Class Conference
+ *
  * @package app\entities
  * @property int $id [INT(10)]
  * @property string $title [VARCHAR(255)]
@@ -18,8 +19,10 @@ use DateTimeZone;
  * @property int $start_time [INT(10)]
  * @property int $end_time [INT(10)]
  * @property int $status [SMALLINT(5)]
+ * @property int $deleted [SMALLINT(5)]
  * @property int $created_at [INT(10)]
  * @property int $updated_at [INT(10)]
+ * @property UserToConference $studentCount
  */
 class Conference extends ActiveRecord
 {
@@ -42,6 +45,19 @@ class Conference extends ActiveRecord
         return [
             TimestampBehavior::className(),
         ];
+    }
+
+    /**
+     * @param bool $insert
+     * @return bool
+     */
+    public function beforeSave($insert)
+    {
+        $date = DateTime::createFromFormat('d.m.y H:i', $this->start_time, new DateTimeZone('Europe/Moscow'));
+
+        $this->start_time = $date->getTimestamp();
+
+        return parent::beforeSave($insert);
     }
 
     /**
@@ -75,26 +91,30 @@ class Conference extends ActiveRecord
     {
         $conference = new self();
 
-        $date = DateTime::createFromFormat('d.m.y H:i', $start_time, new DateTimeZone('Europe/Moscow'));
-
         $conference->author_id = Yii::$app->user->id;
         $conference->title = $title;
         $conference->description = $description;
-        $conference->start_time = $date->getTimestamp();
+        $conference->start_time = $start_time;
         $conference->status = self::STATUS_ACTIVE;
         $conference->created_at = time();
 
         return $conference;
-
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getAuthorInfo()
     {
         return $this->hasOne(User::className(), ['id' => 'author_id']);
     }
 
-    public function getConferenceUsers()
+    /**
+     * @return int|string
+     */
+    public function getStudentCount()
     {
-        return $this->hasMany(UserToConference::className(), ['conference_id' => 'id'])->count();
+        return $this->hasMany(UserToConference::className(), ['conference_id' => 'id'])
+            ->count();
     }
 }

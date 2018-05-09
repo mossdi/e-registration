@@ -57,6 +57,9 @@ $config = [
         'class' => 'yii\filters\AccessControl',
         'except' => [
             'user/login',
+            'user/signup-form',
+            'user/form-validate',
+            'user/signup',
         ],
         'rules' => [
             [

@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\entities\Conference;
 use Yii;
 use yii\web\Controller;
 use yii\web\Response;
@@ -25,7 +26,8 @@ class UserController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['post'],
+                    'logout' => ['POST'],
+                    'delete' => ['POST'],
                 ],
             ],
         ];
@@ -43,7 +45,6 @@ class UserController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
-
     }
 
     /**
@@ -62,7 +63,7 @@ class UserController extends Controller
         $form = new LoginForm();
 
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            if ((new LoginComponent())->login($form)) {
+            if (LoginComponent::login($form)) {
                 $this->refresh();
             };
         }
@@ -90,32 +91,25 @@ class UserController extends Controller
      * SignUp form
      *
      * @param null $id
+     * @param $scenario
      * @return array|string
      */
-    public function actionSignupForm($id = null)
+    public function actionSignupForm($id = null, $scenario)
     {
         $form = new UserForm($id);
+        $form->scenario = $scenario;
+
+        $conference = Conference::find()
+            ->where(['>=', '(start_time + 1800)', time()])
+            ->andWhere(['status' => Conference::STATUS_ACTIVE,])
+            ->andWhere(['deleted' => 0])
+            ->orderBy(['start_time' => SORT_ASC])
+            ->all();
 
         return $this->renderAjax('signup', [
             'model' => $form,
-            'user_flag' => $id != null ? true : false
+            'conference' => $conference,
         ]);
-    }
-
-    /**
-     * Update form
-     *
-     * @param $id
-     * @return string
-     */
-    public function actionUpdateForm($id)
-    {
-        $form = new UserForm($id);
-
-        return $this->renderAjax('update', [
-                'model' => $form
-            ]
-        );
     }
 
     /**
@@ -129,10 +123,7 @@ class UserController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
 
         $form = new UserForm();
-
-        if ($scenario == 'create') {
-            $form->scenario = UserForm::SCENARIO_CREATE;
-        }
+        $form->scenario = $scenario;
 
         $form->load(Yii::$app->request->post());
 
@@ -142,18 +133,24 @@ class UserController extends Controller
     /**
      * SignUp user
      *
+     * @param $scenario
+     * @return Response
      * @throws \Exception
      */
-    public function actionSignup()
+    public function actionSignup($scenario)
     {
         $form = new UserForm();
-        $form->scenario = UserForm::SCENARIO_CREATE;
+        $form->scenario = $scenario;
 
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            if ((new UserComponent())->userSignup($form)) {
-                Yii::$app->session->setFlash('success', 'Пользователь успешно зарегистрирован в системе.');
+            if ($scenario == UserForm::SCENARIO_CONFERENCE) {
+                return $this->signupToConference($form);
+            }
+
+            if (UserComponent::userSignup($form)) {
+                Yii::$app->session->setFlash('success', 'Пользователь успешно зарегистрирован в системе!');
             } else {
-                Yii::$app->session->setFlash('error', 'Ошибка. Пользователь не зарегистрирован. Обратитесь к администратору системы.');
+                Yii::$app->session->setFlash('error', 'Ошибка! Пользователь не зарегистрирован. Обратитесь к администратору системы.');
             };
 
             $this->redirect(
@@ -173,36 +170,29 @@ class UserController extends Controller
         $form = new UserForm($id);
 
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            if ((new UserComponent())->userUpdate($form, User::findOne($id))) {
-                Yii::$app->session->setFlash('success', 'Пользователь успешно обновлен.');
+            if (UserComponent::userUpdate($form, User::findOne($id))) {
+                Yii::$app->session->setFlash('success', 'Пользователь успешно обновлен!');
             } else {
-                Yii::$app->session->setFlash('error', 'Ошибка. Пользователь не обновлен. Обратитесь к администратору системы.');
+                Yii::$app->session->setFlash('error', 'Ошибка! Пользователь не обновлен. Обратитесь к администратору системы.');
             };
 
             $this->redirect(
-                '/site/index'
+                '/user/index'
             );
         }
     }
 
     /**
-     * SignUp user to conference
-     *
-     * @throws \Exception
+     * @param $id
+     * @return Response
      */
-    public function actionSignupConference()
+    public function actionDelete($id)
     {
-        $form = new UserForm();
+        User::findOne($id)->updateAttributes(['deleted' => 1]);
 
-        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            $result = (new UserComponent())->singupToConference($form);
-
-            Yii::$app->session->setFlash($result['status'], $result['message']);
-
-            $this->redirect(
-                '/site/index'
-            );
-        }
+        return $this->redirect([
+            '/user/index'
+        ]);
     }
 
     /**
@@ -217,7 +207,8 @@ class UserController extends Controller
         $users = [];
 
         $results = User::find()
-              ->filterWhere(['like', 'first_name', Yii::$app->request->get('term')])
+                    ->where(['deleted' => 0])
+            ->orFilterWhere(['like', 'first_name', Yii::$app->request->get('term')])
             ->orFilterWhere(['like', 'last_name', Yii::$app->request->get('term')])
             ->orFilterWhere(['like', 'patron_name', Yii::$app->request->get('term')])
             ->orFilterWhere(['like', 'passport', Yii::$app->request->get('term')])
@@ -235,5 +226,22 @@ class UserController extends Controller
         }
 
         return $users;
+    }
+
+    /**
+     * SignUp user to conference
+     *
+     * @param UserForm $form
+     * @throws \Exception
+     */
+    private function signupToConference(UserForm $form)
+    {
+        $result = UserComponent::singupToConference($form);
+
+        Yii::$app->session->setFlash($result['status'], $result['message']);
+
+        $this->redirect(
+            '/site/index'
+        );
     }
 }

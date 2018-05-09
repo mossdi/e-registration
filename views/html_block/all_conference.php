@@ -51,7 +51,7 @@ $conferences = new ActiveDataProvider([
                     [
                         'label' => 'Участники конференции',
                         'value' => function($model) {
-                            return $model->conferenceUsers;
+                            return $model->studentCount;
                         }
                     ],
 
@@ -64,7 +64,7 @@ $conferences = new ActiveDataProvider([
                                 return Html::a('Редактировать', ['/#'], [
                                     'data-toggle' => 'modal',
                                     'data-target' => '#modalForm',
-                                    'onclick' => 'formLoad(\'/conference/update\', \'' . $model->title . '\', \'' . $model->id . '\')']
+                                    'onclick' => 'formLoad(\'/conference/update-form\', \'' . $model->title . '\', \'' . $model->id . '\')']
                                 );
                             }
                         ],
