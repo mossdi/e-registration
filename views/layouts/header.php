@@ -4,6 +4,7 @@
 /* @var $content string */
 
 use yii\helpers\Html;
+use app\forms\UserForm;
 
 ?>
 
@@ -29,7 +30,12 @@ use yii\helpers\Html;
                         </li>
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="#" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modalForm" onclick="formLoad('/user/update-form', '<?= Yii::$app->user->identity->first_name; ?> <?= Yii::$app->user->identity->last_name; ?>', '<?= Yii::$app->user->identity->id; ?>')">Настройки профиля</a>
+                                <?= Html::a('Настройки профиля', ['#'], [
+                                    'class' => 'btn btn-default btn-flat',
+                                    'data-toggle' => 'modal',
+                                    'data-target' => '#modalForm',
+                                    'onclick' => 'formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_UPDATE . '\', \'' . Yii::$app->user->identity->first_name . ' ' . Yii::$app->user->identity->last_name . '\', \'' . Yii::$app->user->identity->id .'\')',
+                                ]) ?>
                             </div>
                             <div class="pull-right">
                                 <?= Html::a('Выйти', ['/user/logout'],
