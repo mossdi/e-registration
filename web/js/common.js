@@ -20,3 +20,7 @@ function formLoad(url_request, title, id = null) {
 function formClean() {
     $('#modalForm').find('.modal-body').html('');
 }
+
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});

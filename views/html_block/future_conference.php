@@ -6,14 +6,22 @@
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
 use yii\helpers\Html;
+use yii\widgets\Pjax;
 use app\entities\Conference;
 
 $conferences = new ActiveDataProvider([
     'query' => Conference::find()
-        ->where(['status' => 10])
-        ->limit($limit)
-        ->orderBy(['start_time' => SORT_ASC]),
-    'pagination' => false,
+        ->with(['wishList'])
+        ->where(['>', 'start_time', time()])
+        ->andWhere(['status' => Conference::STATUS_ACTIVE]),
+    'sort' => [
+        'defaultOrder' => [
+            'start_time' => SORT_ASC
+        ]
+    ],
+    'pagination' => [
+        'pageSize' => '10'
+    ],
 ]);
 
 ?>
@@ -27,10 +35,11 @@ $conferences = new ActiveDataProvider([
     </div>
 
     <div class="box-body">
+        <?php Pjax::begin(['id' => 'futureConferenceContainer']) ?>
+
         <?php try {
             echo GridView::widget([
                 'dataProvider' => $conferences,
-                'layout' => '{items}',
                 'columns' => [
                     ['class' => 'yii\grid\SerialColumn'],
 
@@ -49,22 +58,20 @@ $conferences = new ActiveDataProvider([
                     'start_time:datetime',
 
                     [
-                        'label' => 'Участники конференции',
-                        'value' => function($model) {
-                            return $model->studentCount;
-                        }
-                    ],
-
-                    [
                         'class' => 'yii\grid\ActionColumn',
-                        'template' => '{view}',
+                        'template' => '{whishlist}',
                         'controller' => '/conference',
                         'buttons' => [
-                            'view' => function ($url, $model) {
-                                return Html::a('Редактировать', ['/#'], [
-                                    'data-toggle' => 'modal',
-                                    'data-target' => '#modalForm',
-                                    'onclick' => 'formLoad(\'/conference/update-form\', \'' . $model->title . '\', \'' . $model->id . '\')']
+                            'whishlist' => function ($url, $model) {
+                                return !$model->wishList ? Html::a('<span class= "glyphicon glyphicon-star-empty"></span>',
+                                    ['/conference/conference-to-wish-list?id=' . $model->id], [
+                                        'data-toggle' => 'tooltip',
+                                        'title' => 'В избранное'
+                                    ]) : Html::a('<span class= "glyphicon glyphicon-star"></span>',
+                                    ['/conference/delete-conference-to-wish-list?id=' . $model->id], [
+                                        'data-toggle' => 'tooltip',
+                                        'title' => 'Удалить из избранного'
+                                    ]
                                 );
                             }
                         ],
@@ -74,5 +81,7 @@ $conferences = new ActiveDataProvider([
         } catch (Exception $e) {
             echo 'Выброшено исключение: ', $e->getMessage(), "\n";
         } ?>
+
+        <?php Pjax::end() ?>
     </div>
 </div>

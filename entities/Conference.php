@@ -110,11 +110,20 @@ class Conference extends ActiveRecord
     }
 
     /**
-     * @return int|string
+     * @return int
      */
     public function getStudentCount()
     {
         return $this->hasMany(UserToConference::className(), ['conference_id' => 'id'])
             ->count();
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getWishList()
+    {
+        return $this->hasOne(ConferenceWishlist::className(), ['conference_id' => 'id'])
+            ->where(['conference_wishlist.user_id' => Yii::$app->user->id]);
     }
 }

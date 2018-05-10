@@ -6,6 +6,7 @@ use Yii;
 use app\forms\UserForm;
 use app\entities\User;
 use app\entities\UserToConference;
+use app\forms\LoginForm;
 
 class UserComponent
 {
@@ -16,7 +17,7 @@ class UserComponent
      */
     public static function userSignup(UserForm $form)
     {
-        $password = Yii::$app->security->generateRandomString(8);
+        $password = $form->scenario == UserForm::SCENARIO_REGISTER ? $form->password : Yii::$app->security->generateRandomString(8);
 
         $user = User::create(
             $form->first_name,
@@ -38,7 +39,16 @@ class UserComponent
             UserComponent::singupToConference($form);
         }
 
-        UserComponent::assignRole(!empty($form->role) ? $form->role : 'student', $form->phone);
+        if ($form->scenario == UserForm::SCENARIO_REGISTER) {
+            $loginForm = new LoginForm();
+
+            $loginForm->phone = $form->phone;
+            $loginForm->password = $form->password;
+
+            LoginComponent::login($loginForm);
+        }
+
+        UserComponent::assignRole($form->role, $form->phone);
 
         SendMailComponent::sendMail($form->email,'<p>Логин: ' . $form->phone . '</p><p>Пароль: ' . $password . '</p>');
 

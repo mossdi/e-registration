@@ -69,6 +69,7 @@ use app\forms\UserForm;
                     ->textInput(['placeholder' => 'Отчество', 'readonly' => $model->scenario == UserForm::SCENARIO_CONFERENCE ? true : false]) ?>
 
                 <?= $form->field($model, 'passport', ['options' => ['class' => 'col-xs-12']])
+                    ->widget(MaskedInput::className(), ['mask' => '9999999999'])
                     ->textInput(['placeholder' => 'Паспорт', 'readonly' => $model->scenario == UserForm::SCENARIO_CONFERENCE ? true : false]) ?>
 
                 <?= $form->field($model, 'organization', ['options' => ['class' => 'col-xs-6']])

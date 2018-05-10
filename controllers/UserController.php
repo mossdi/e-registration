@@ -2,17 +2,18 @@
 
 namespace app\controllers;
 
-use app\entities\Conference;
 use Yii;
-use yii\web\Controller;
-use yii\web\Response;
 use yii\bootstrap\ActiveForm;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+use yii\web\Controller;
+use yii\web\Response;
 use app\components\UserComponent;
 use app\components\LoginComponent;
-use app\entities\User;
 use app\forms\LoginForm;
 use app\forms\UserForm;
+use app\entities\User;
+use app\entities\Conference;
 use app\entities\UserSearch;
 
 class UserController extends Controller
@@ -30,6 +31,16 @@ class UserController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'delete'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['admin'],
+                    ],
+                ],
+            ]
         ];
     }
 

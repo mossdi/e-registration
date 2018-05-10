@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\entities\ConferenceWishlist;
 use app\entities\UserToConference;
 use Yii;
 use yii\web\Controller;
@@ -218,6 +219,50 @@ class ConferenceController extends Controller
 
         $this->redirect([
             '/conference/index'
+        ]);
+    }
+
+    /**
+     * @param $id
+     */
+    public function actionConferenceToWishList($id)
+    {
+        $wishList = new ConferenceWishlist();
+
+        $wishList->user_id = Yii::$app->user->id;
+        $wishList->conference_id = $id;
+
+        if ($wishList->save()) {
+            Yii::$app->session->setFlash('success','Конференция добавлена в избранное!');
+        } else {
+            Yii::$app->session->setFlash('error', 'Ошибка! Конференция не добавлена в избранное. Обратитесь к администратору системы.');
+        }
+
+        $this->redirect([
+            '/site/index'
+        ]);
+    }
+
+    /**
+     * @param $id
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
+    public function actionDeleteConferenceToWishList($id)
+    {
+        $wishList = ConferenceWishlist::findOne([
+            'conference_id' => $id,
+            'user_id' => Yii::$app->user->id,
+        ]);
+
+        if ($wishList->delete()) {
+            Yii::$app->session->setFlash('success', 'Конференция удалена из избранного!');
+        } else {
+            Yii::$app->session->setFlash('error', 'Ошибка! Конференция не удалена из избранного. Обратитесь к администратору системы.');
+        };
+
+        $this->redirect([
+            '/site/index'
         ]);
     }
 

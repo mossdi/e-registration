@@ -3,9 +3,9 @@
 use yii\db\Migration;
 
 /**
- * Handles the creation of table `user_to_conference`.
+ * Handles the creation of table `conference_wishlist`.
  */
-class m180320_113705_create_user_to_conference_table extends Migration
+class m180510_170311_create_conference_wishlist_table extends Migration
 {
     /**
      * {@inheritdoc}
@@ -19,15 +19,15 @@ class m180320_113705_create_user_to_conference_table extends Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci';
         }
 
-        $this->createTable('user_to_conference', [
+        $this->createTable('conference_wishlist', [
             'user_id' => $this->integer()->notNull(),
             'conference_id' => $this->integer()->notNull(),
             'PRIMARY KEY (user_id, conference_id)'
         ], $tableOptions);
 
         $this->createIndex(
-            'idx-user_to_conference_user_id-conference_id',
-            'user_to_conference',
+            'idx-conference_wishlist-conference_id',
+            'conference_wishlist',
             'user_id, conference_id'
         );
     }
@@ -37,11 +37,11 @@ class m180320_113705_create_user_to_conference_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('user_to_conference');
+        $this->dropTable('conference_wishlist');
 
         $this->dropIndex(
-            'idx-user_to_conference_user_id-conference_id',
-            'user_to_conference'
+            'idx-conference_wishlist-conference_id',
+            'conference_wishlist'
         );
     }
 }

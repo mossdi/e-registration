@@ -54,18 +54,22 @@ class UserForm extends Model
     public function rules()
     {
         return [
-            ['phone', 'unique', 'targetClass' => 'app\entities\User', 'message' => 'Такой телефон уже зарегистрирован', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE, self::SCENARIO_REGISTER]],
-            ['email', 'unique', 'targetClass' => 'app\entities\User', 'message' => 'Такая эл.почта уже зарегистрирована', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE, self::SCENARIO_REGISTER]],
-            ['passport', 'unique', 'targetClass' => 'app\entities\User', 'message' => 'Такой паспорт уже зарегистрирован', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE, self::SCENARIO_REGISTER]],
-
             [['first_name', 'last_name', 'patron_name', 'organization', 'post', 'passport', 'phone', 'email'], 'required', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE, self::SCENARIO_REGISTER, self::SCENARIO_CONFERENCE]],
             ['conference', 'required', 'on' => self::SCENARIO_CONFERENCE],
             ['password', 'required', 'on' => self::SCENARIO_REGISTER],
 
             [['first_name', 'last_name', 'patron_name', 'organization', 'post', 'password', 'role'], 'string'],
-            ['phone', 'match', 'pattern' => '/^\+7\s\([0-9]{3}\)\s[0-9]{3}\-[0-9]{2}\-[0-9]{2}$/'],
             [['passport', 'conference'], 'integer'],
             ['email', 'email'],
+
+            ['phone', 'match', 'pattern' => '/^\+7\s\([0-9]{3}\)\s[0-9]{3}\-[0-9]{2}\-[0-9]{2}$/'],
+            ['passport', 'match', 'pattern' => '/[0-9]{10}$/'],
+
+            ['phone', 'unique', 'targetClass' => 'app\entities\User', 'message' => 'Такой телефон уже зарегистрирован', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE, self::SCENARIO_REGISTER]],
+            ['email', 'unique', 'targetClass' => 'app\entities\User', 'message' => 'Такая эл.почта уже зарегистрирована', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE, self::SCENARIO_REGISTER]],
+            ['passport', 'unique', 'targetClass' => 'app\entities\User', 'message' => 'Такой паспорт уже зарегистрирован', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE, self::SCENARIO_REGISTER]],
+
+            ['role', 'default', 'value' => User::ROLE_STUDENT],
 
             [['first_name', 'last_name', 'patron_name', 'email'], 'trim'],
         ];

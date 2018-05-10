@@ -34,16 +34,21 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
 
+    const ROLE_STUDENT = 'student';
+    const ROLE_SPEAKER = 'speaker';
+    const ROLE_RECEPTIONIST = 'receptionist';
+    const ROLE_ADMIN = 'admin';
+
     public static $statusList = [
         self::STATUS_ACTIVE  => 'Включено',
         self::STATUS_DELETED => 'Заблокирован',
     ];
 
     public static $roleList = [
-        'student' => 'Слушатель',
-        'speaker' => 'Ведущий',
-        'receptionist' => 'Регистратор',
-        'admin' => 'Администратор',
+        self::ROLE_STUDENT      => 'Слушатель',
+        self::ROLE_SPEAKER      => 'Ведущий',
+        self::ROLE_RECEPTIONIST => 'Регистратор',
+        self::ROLE_ADMIN        => 'Администратор',
     ];
 
     /**
