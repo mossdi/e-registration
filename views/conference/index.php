@@ -66,7 +66,7 @@ $dataProvider->pagination->pageSize = INF;
                 'controller' => '/conference',
                 'buttons' => [
                     'view' => function ($url, $model) {
-                        return Html::a('Редактировать', ['/#'], [
+                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['/#'], [
                             'data-toggle' => 'modal',
                             'data-target' => '#modalForm',
                             'onclick'     => 'formLoad(\'/conference/update-form\', \'' . $model->title . '\', \'' . $model->id . '\')'
