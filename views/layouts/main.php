@@ -42,6 +42,14 @@ app\assets\AppAsset::register($this);
         ['content' => $content]
     ) ?>
 
+    <?= $this->render(
+        'footer'
+    ) ?>
+
+    <?= $this->render(
+        'user-sidebar'
+    ) ?>
+
 </div>
 
 <?php $this->endBody() ?>

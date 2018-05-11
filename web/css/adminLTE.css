@@ -680,11 +680,11 @@ a:focus {
 .control-sidebar-bg,
 .control-sidebar {
   top: 0;
-  right: -230px;
-  width: 230px;
+  left: 100%;
+  width: 100%;
   -webkit-transition: right 0.3s ease-in-out;
   -o-transition: right 0.3s ease-in-out;
-  transition: right 0.3s ease-in-out;
+  transition: left 0.3s ease-in-out;
 }
 .control-sidebar {
   position: absolute;
@@ -701,17 +701,16 @@ a:focus {
 }
 .control-sidebar.control-sidebar-open,
 .control-sidebar.control-sidebar-open + .control-sidebar-bg {
-  right: 0;
-}
-.control-sidebar-open .control-sidebar-bg,
-.control-sidebar-open .control-sidebar {
-  right: 0;
+  left: 0;
 }
 @media (min-width: 768px) {
-  .control-sidebar-open .content-wrapper,
-  .control-sidebar-open .right-side,
-  .control-sidebar-open .main-footer {
-    margin-right: 230px;
+  .control-sidebar.control-sidebar-open,
+  .control-sidebar.control-sidebar-open + .control-sidebar-bg {
+    left: 229px;
+  }
+  .sidebar-collapse .control-sidebar.control-sidebar-open,
+  .sidebar-collapse .control-sidebar.control-sidebar-open + .control-sidebar-bg {
+    left: 0;
   }
 }
 .fixed .control-sidebar {

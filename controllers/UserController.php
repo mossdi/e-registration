@@ -218,14 +218,14 @@ class UserController extends Controller
         $users = [];
 
         $results = User::find()
-                    ->where(['deleted' => 0])
             ->orFilterWhere(['like', 'first_name', Yii::$app->request->get('term')])
             ->orFilterWhere(['like', 'last_name', Yii::$app->request->get('term')])
             ->orFilterWhere(['like', 'patron_name', Yii::$app->request->get('term')])
             ->orFilterWhere(['like', 'passport', Yii::$app->request->get('term')])
             ->orFilterWhere(['like', 'phone', Yii::$app->request->get('term')])
             ->orFilterWhere(['like', 'email', Yii::$app->request->get('term')])
-            ->all();
+                 ->andWhere(['deleted' => 0])
+                      ->all();
 
         if ($results) {
             foreach ($results as $user):

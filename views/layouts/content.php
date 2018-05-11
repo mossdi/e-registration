@@ -30,9 +30,3 @@ use yii2mod\alert\Alert;
         <?= $content ?>
     </section>
 </div>
-
-<footer class="main-footer">
-    <strong>Все права защищены</strong> <span class="glyphicon glyphicon-copyright-mark"></span>
-</footer>
-
-<div class='control-sidebar-bg'></div>

@@ -1,13 +1,13 @@
 <?php
 
-/* @var $this \yii\web\View */
-/* @var $limit int */
-
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
 use app\entities\Conference;
+
+/* @var $this \yii\web\View */
+/* @var $limit int */
 
 $conferences = new ActiveDataProvider([
     'query' => Conference::find()
