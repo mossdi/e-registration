@@ -73,7 +73,7 @@ $conferences = new ActiveDataProvider([
                         'buttons' => [
                             'delete' => function ($url, $model) {
                                 return Html::a('<span class="glyphicon glyphicon-trash"></span>',
-                                    ['conference/delete-conference-to-wish-list?id=' . $model->conference_id], [
+                                    ['conference/delete-from-wish-list?id=' . $model->conference_id], [
                                         'data-toggle' => 'tooltip',
                                         'title' => 'Удалить'
                                     ]

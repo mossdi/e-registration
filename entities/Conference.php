@@ -22,7 +22,7 @@ use DateTimeZone;
  * @property int $deleted [SMALLINT(5)]
  * @property int $created_at [INT(10)]
  * @property int $updated_at [INT(10)]
- * @property UserToConference $studentCount
+ * @property ConferenceParticipant $studentCount
  */
 class Conference extends ActiveRecord
 {
@@ -114,7 +114,7 @@ class Conference extends ActiveRecord
      */
     public function getStudentCount()
     {
-        return $this->hasMany(UserToConference::className(), ['conference_id' => 'id'])
+        return $this->hasMany(ConferenceParticipant::className(), ['conference_id' => 'id'])
             ->count();
     }
 

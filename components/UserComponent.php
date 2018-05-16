@@ -5,7 +5,7 @@ namespace app\components;
 use Yii;
 use app\forms\UserForm;
 use app\entities\User;
-use app\entities\UserToConference;
+use app\entities\ConferenceParticipant;
 use app\forms\LoginForm;
 
 class UserComponent
@@ -36,7 +36,7 @@ class UserComponent
         }
 
         if ($form->conference) {
-            UserComponent::singupToConference($form);
+            UserComponent::registerParticipant($form);
         }
 
         if ($form->scenario == UserForm::SCENARIO_REGISTER) {
@@ -92,32 +92,32 @@ class UserComponent
      * @throws \Exception
      * @return array|string
      */
-    public static function singupToConference(UserForm $form)
+    public static function registerParticipant(UserForm $form)
     {
         $user = User::findOne([
             'phone' => $form->phone
         ]);
 
-        $userToConference = UserToConference::findOne([
+        $participant = ConferenceParticipant::findOne([
             'user_id' => $user->id,
             'conference_id' => $form->conference
         ]);
 
-        if ($userToConference) {
+        if ($participant) {
             return [
                 'status'  => 'success',
-                'message' => 'Этот пользователь уже зарегистрирован на конференцию - ' . $userToConference->conference->title
+                'message' => 'Этот пользователь уже зарегистрирован на конференцию - ' . $participant->conference->title
             ];
         }
 
-        $register_student = new UserToConference();
+        $participant = new ConferenceParticipant();
 
-        $register_student->user_id = $user->id;
-        $register_student->conference_id = $form->conference;
+        $participant->user_id = $user->id;
+        $participant->conference_id = $form->conference;
 
-        return $register_student->save() ? [
+        return $participant->save() ? [
             'status'  => 'success',
-            'message' => 'Пользователь успешно зарегистрирован на конференцию - ' . $register_student->conference->title
+            'message' => 'Пользователь успешно зарегистрирован на конференцию - ' . $participant->conference->title
         ] : [
             'status'  => 'error',
             'message' => 'Ошибка. Пользователь не зарегистрирован на конференцию. Обратитесь к администратору системы.'

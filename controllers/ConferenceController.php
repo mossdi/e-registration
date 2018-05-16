@@ -2,19 +2,21 @@
 
 namespace app\controllers;
 
-use app\entities\ConferenceWishlist;
-use app\entities\UserToConference;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\data\ActiveDataProvider;
-use yii\filters\VerbFilter;
 use yii\web\Response;
+use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+use yii\data\ActiveDataProvider;
 use yii\widgets\ActiveForm;
-use app\entities\Conference;
-use app\entities\ConferenceSearch;
 use app\forms\ConferenceForm;
 use app\components\ConferenceComponent;
+use app\entities\Conference;
+use app\entities\ConferenceSearch;
+use app\entities\ConferenceWishlist;
+use app\entities\ConferenceParticipant;
+use app\entities\User;
 
 /**
  * ConferenceController implements the CRUD actions for Conference model.
@@ -31,7 +33,17 @@ class ConferenceController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
-                    'delete-user-to-conference' => ['POST'],
+                    'delete-participant' => ['POST'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['delete-participant', 'delete'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => [User::ROLE_ADMIN],
+                    ],
                 ],
             ],
         ];
@@ -171,30 +183,31 @@ class ConferenceController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      * @throws \Exception
      * @throws \Throwable
-     * @throws \yii\db\StaleObjectException
      */
     public function actionDelete($id)
     {
         $this->findModel($id)->updateAttributes(['deleted' => 1]);
 
-        return $this->redirect(['/conference/index']);
+        return $this->redirect([
+            '/conference/index'
+        ]);
     }
 
     /**
      * @param $id
      * @return string
      */
-    public function actionUserToConference($id)
+    public function actionParticipant($id)
     {
-        $students = new ActiveDataProvider([
-            'query' => UserToConference::find()
-                ->with(['user'])
+        $participants = new ActiveDataProvider([
+            'query' => ConferenceParticipant::find()
+                 ->with(['user'])
                 ->where(['conference_id' => $id]),
             'pagination' => false,
         ]);
 
-        return $this->renderAjax('students_list', [
-            'students' => $students,
+        return $this->renderAjax('participants', [
+            'participants' => $participants,
         ]);
     }
 
@@ -204,14 +217,14 @@ class ConferenceController extends Controller
      * @throws \Throwable
      * @throws \yii\db\StaleObjectException
      */
-    public function actionDeleteUserToConference($user_id, $conference_id)
+    public function actionDeleteParticipant($user_id, $conference_id)
     {
-        $studentToConference = UserToConference::findOne([
+        $participant = ConferenceParticipant::findOne([
             'user_id' => $user_id,
             'conference_id' => $conference_id,
         ]);
 
-        if ($studentToConference->delete()) {
+        if ($participant->delete()) {
             Yii::$app->session->setFlash('success', 'Пользователь удален с конференции!');
         } else {
             Yii::$app->session->setFlash('error', 'Ошибка! Пользователь не удален с конференции. Обратитесь к администратору системы.');
@@ -225,7 +238,7 @@ class ConferenceController extends Controller
     /**
      * @param $id
      */
-    public function actionConferenceToWishList($id)
+    public function actionAddToWishList($id)
     {
         $wishList = new ConferenceWishlist();
 
@@ -248,7 +261,7 @@ class ConferenceController extends Controller
      * @throws \Throwable
      * @throws \yii\db\StaleObjectException
      */
-    public function actionDeleteConferenceToWishList($id)
+    public function actionDeleteFromWishList($id)
     {
         $wishList = ConferenceWishlist::findOne([
             'conference_id' => $id,

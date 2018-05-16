@@ -3,9 +3,9 @@
 use yii\db\Migration;
 
 /**
- * Handles the creation of table `user_to_conference`.
+ * Handles the creation of table `conference_participant`.
  */
-class m180320_113705_create_user_to_conference_table extends Migration
+class m180320_113705_create_conference_participant_table extends Migration
 {
     /**
      * {@inheritdoc}
@@ -19,15 +19,17 @@ class m180320_113705_create_user_to_conference_table extends Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci';
         }
 
-        $this->createTable('user_to_conference', [
+        $this->createTable('conference_participant', [
             'user_id' => $this->integer()->notNull(),
             'conference_id' => $this->integer()->notNull(),
+            'created_at' => $this->integer()->notNull(),
+            'updated_at' => $this->integer()->notNull(),
             'PRIMARY KEY (user_id, conference_id)'
         ], $tableOptions);
 
         $this->createIndex(
-            'idx-user_to_conference_user_id-conference_id',
-            'user_to_conference',
+            'idx-conference_participant-user_id-conference_id',
+            'conference_participant',
             'user_id, conference_id'
         );
     }
@@ -37,11 +39,11 @@ class m180320_113705_create_user_to_conference_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('user_to_conference');
+        $this->dropTable('conference_participant');
 
         $this->dropIndex(
-            'idx-user_to_conference_user_id-conference_id',
-            'user_to_conference'
+            'idx-conference_participant_user_id-conference_id',
+            'conference_participant'
         );
     }
 }

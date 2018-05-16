@@ -64,14 +64,10 @@ $conferences = new ActiveDataProvider([
                         'buttons' => [
                             'whishlist' => function ($url, $model) {
                                 return !$model->wishList ? Html::a('<span class= "glyphicon glyphicon-star-empty"></span>',
-                                    ['/conference/conference-to-wish-list?id=' . $model->id], [
-                                        'data-toggle' => 'tooltip',
-                                        'title' => 'В избранное'
-                                    ]) : Html::a('<span class= "glyphicon glyphicon-star"></span>',
-                                    ['/conference/delete-conference-to-wish-list?id=' . $model->id], [
-                                        'data-toggle' => 'tooltip',
-                                        'title' => 'Удалить из избранного'
-                                    ]
+                                    ['/conference/add-to-wish-list?id=' . $model->id],
+                                    ['data-toggle' => 'tooltip', 'title' => 'В избранное']
+                                ) : Html::a('<span class= "glyphicon glyphicon-star"></span>', ['/conference/delete-from-wish-list?id=' . $model->id],
+                                    ['data-toggle' => 'tooltip', 'title' => 'Удалить из избранного']
                                 );
                             }
                         ],

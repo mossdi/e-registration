@@ -3,6 +3,7 @@
 namespace app\entities;
 
 use yii\db\ActiveRecord;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * Class Certificate

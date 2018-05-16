@@ -63,7 +63,7 @@ $dataProvider->pagination->pageSize = 50;
                             return 'Количество: ' . $model->studentCount . ' / ' . Html::a('Список', ['/#'], [
                                     'data-toggle' => 'modal',
                                     'data-target' => '#modalForm',
-                                    'onclick'     => 'formLoad(\'/conference/user-to-conference\', \'' . $model->title . '\', \'' . $model->id . '\')'
+                                    'onclick'     => 'formLoad(\'/conference/participant\', \'' . $model->title . '\', \'' . $model->id . '\')'
                                 ]);
                         }
                     ],

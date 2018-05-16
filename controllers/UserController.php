@@ -37,7 +37,7 @@ class UserController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['admin'],
+                        'roles' => [User::ROLE_ADMIN],
                     ],
                 ],
             ]
@@ -154,8 +154,8 @@ class UserController extends Controller
         $form->scenario = $scenario;
 
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            if ($scenario == UserForm::SCENARIO_CONFERENCE) {
-                return $this->signupToConference($form);
+            if ($scenario == UserForm::SCENARIO_PARTICIPANT) {
+                return $this->registerParticipant($form);
             }
 
             if (UserComponent::userSignup($form)) {
@@ -245,9 +245,9 @@ class UserController extends Controller
      * @param UserForm $form
      * @throws \Exception
      */
-    private function signupToConference(UserForm $form)
+    private function registerParticipant(UserForm $form)
     {
-        $result = UserComponent::singupToConference($form);
+        $result = UserComponent::registerParticipant($form);
 
         Yii::$app->session->setFlash($result['status'], $result['message']);
 

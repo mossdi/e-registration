@@ -11,9 +11,9 @@ use app\entities\User;
 class UserForm extends Model
 {
     const SCENARIO_CREATE = 'create';
-    const SCENARIO_UPDATE = 'update';
-    const SCENARIO_CONFERENCE = 'conference';
     const SCENARIO_REGISTER = 'register';
+    const SCENARIO_PARTICIPANT = 'participant';
+    const SCENARIO_UPDATE = 'update';
 
     public $id;
     public $first_name;
@@ -54,8 +54,8 @@ class UserForm extends Model
     public function rules()
     {
         return [
-            [['first_name', 'last_name', 'patron_name', 'organization', 'post', 'passport', 'phone', 'email'], 'required', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE, self::SCENARIO_REGISTER, self::SCENARIO_CONFERENCE]],
-            ['conference', 'required', 'on' => self::SCENARIO_CONFERENCE],
+            [['first_name', 'last_name', 'patron_name', 'organization', 'post', 'passport', 'phone', 'email'], 'required', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE, self::SCENARIO_REGISTER, self::SCENARIO_PARTICIPANT]],
+            ['conference', 'required', 'on' => self::SCENARIO_PARTICIPANT],
             ['password', 'required', 'on' => self::SCENARIO_REGISTER],
 
             [['first_name', 'last_name', 'patron_name', 'organization', 'post', 'password', 'role'], 'string'],
@@ -69,7 +69,7 @@ class UserForm extends Model
             ['email', 'unique', 'targetClass' => 'app\entities\User', 'message' => 'Такая эл.почта уже зарегистрирована', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE, self::SCENARIO_REGISTER]],
             ['passport', 'unique', 'targetClass' => 'app\entities\User', 'message' => 'Такой паспорт уже зарегистрирован', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE, self::SCENARIO_REGISTER]],
 
-            ['role', 'default', 'value' => User::ROLE_STUDENT],
+            ['role', 'default', 'value' => User::ROLE_PARTICIPANT],
 
             [['first_name', 'last_name', 'patron_name', 'email'], 'trim'],
         ];

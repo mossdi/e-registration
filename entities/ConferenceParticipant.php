@@ -3,23 +3,36 @@
 namespace app\entities;
 
 use yii\db\ActiveRecord;
+use yii\behaviors\TimestampBehavior;
 
 /**
- * This is the model class for table "user_to_conference".
+ * This is the model class for table "conference_participant".
  *
  * @property int $user_id
  * @property int $conference_id
+ * @property int $created_at
+ * @property int $updated_at
  * @property Conference $conference
  * @property User $user
  */
-class UserToConference extends ActiveRecord
+class ConferenceParticipant extends ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'user_to_conference';
+        return 'conference_participant';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
     }
 
     /**
@@ -38,4 +51,3 @@ class UserToConference extends ActiveRecord
         return$this->hasOne(User::className(), ['id' => 'user_id']);
     }
 }
-
