@@ -29,6 +29,9 @@ class Conference extends ActiveRecord
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
 
+    const LEARNING_DISTANCE = 'distance';
+    const LEARNING_FULL_TIME = 'full-time';
+
     /**
      * @inheritdoc
      */

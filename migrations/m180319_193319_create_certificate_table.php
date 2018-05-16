@@ -1,6 +1,7 @@
 <?php
 
 use yii\db\Migration;
+use app\entities\Certificate;
 
 /**
  * Handles the creation of table `certificate`.
@@ -26,7 +27,9 @@ class m180319_193319_create_certificate_table extends Migration
             'conference_id' => $this->integer()->notNull(),
             'date_issue' => $this->integer()->null(),
             'document_series' => $this->integer()->null(),
-            'status' => $this->smallInteger()->notNull()->defaultValue(10),
+            'learning_method' => $this->integer()->null(),
+            'status' => $this->smallInteger()->notNull()->defaultValue(Certificate::STATUS_ACTIVE),
+            'deleted' => $this->smallInteger()->notNull()->defaultValue(0),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
         ], $tableOptions);

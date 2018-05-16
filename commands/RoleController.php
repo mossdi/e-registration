@@ -28,16 +28,34 @@ class RoleController extends Controller
     }
 
     /**
+     * @return int
+     * @throws \Exception
+     */
+    public function actionCreateAllRole()
+    {
+        foreach (User::$roleList as $role => $description) {
+
+            $role = Yii::$app->authManager->createRole($role);
+
+            $role->description = $description;
+
+            Yii::$app->authManager->add($role);
+
+            echo 'Роль ' . $role->name . ' добавлена!' . PHP_EOL;
+        }
+    }
+
+    /**
      * @param $role
-     * @param $user_phone
+     * @param $id
      * @return int
      */
-    public function actionAssignRole($role, $user_phone)
+    public function actionAssignRole($role, $id)
     {
-        $user = User::findByPhone($user_phone);
+        $user = User::findOne($id);
 
         if (!$user) {
-            echo 'Пользователь c номером ' . $user_phone . ' не найден' . "\n";
+            echo 'Пользователь c id = ' . $id . ' не найден' . "\n";
             return ExitCode::NOUSER;
         }
 
