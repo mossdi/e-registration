@@ -10,6 +10,7 @@ use yii\behaviors\TimestampBehavior;
  *
  * @property int $user_id
  * @property int $conference_id
+ * @property string $method
  * @property int $created_at
  * @property int $updated_at
  * @property Conference $conference

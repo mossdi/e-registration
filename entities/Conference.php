@@ -12,16 +12,16 @@ use DateTimeZone;
  * Class Conference
  *
  * @package app\entities
- * @property int $id [INT(10)]
- * @property string $title [VARCHAR(255)]
- * @property int $author_id [INT(10)]
- * @property string $description [TEXT(65535)]
- * @property int $start_time [INT(10)]
- * @property int $end_time [INT(10)]
- * @property int $status [SMALLINT(5)]
- * @property int $deleted [SMALLINT(5)]
- * @property int $created_at [INT(10)]
- * @property int $updated_at [INT(10)]
+ * @property int $id
+ * @property string $title
+ * @property int $author_id
+ * @property string $description
+ * @property int $start_time
+ * @property int $end_time
+ * @property int $status
+ * @property int $deleted
+ * @property int $created_at
+ * @property int $updated_at
  * @property ConferenceParticipant $studentCount
  */
 class Conference extends ActiveRecord

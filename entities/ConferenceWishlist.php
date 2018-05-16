@@ -2,6 +2,8 @@
 
 namespace app\entities;
 
+use yii\db\ActiveRecord;
+
 /**
  * This is the model class for table "conference_wishlist".
  *
@@ -9,7 +11,7 @@ namespace app\entities;
  * @property int $conference_id
  * @property Conference $conference
  */
-class ConferenceWishlist extends \yii\db\ActiveRecord
+class ConferenceWishlist extends ActiveRecord
 {
     /**
      * @inheritdoc

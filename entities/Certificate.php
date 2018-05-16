@@ -8,15 +8,17 @@ use yii\behaviors\TimestampBehavior;
 /**
  * Class Certificate
  * @package app\entities
- * @property int $id [INT(10)]
- * @property int $author_id [INT(10)]
- * @property int $owner_id [INT(10)]
- * @property int $conference_id [INT(10)]
- * @property int $date_issue [INT(10)]
- * @property int $document_series [INT(10)]
- * @property int $status [SMALLINT(5)]
- * @property int $created_at [INT(10)]
- * @property int $updated_at [INT(10)]
+ * @property int $id
+ * @property int $author_id
+ * @property int $owner_id
+ * @property int $conference_id
+ * @property int $date_issue
+ * @property int $document_series
+ * @property int $learning_method
+ * @property int $status
+ * @property int $deleted
+ * @property int $created_at
+ * @property int $updated_at
  */
 class Certificate extends ActiveRecord
 {

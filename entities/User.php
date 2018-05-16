@@ -12,22 +12,22 @@ use yii\web\IdentityInterface;
 /**
  * User model
  *
- * @property int $id [INT(10)]
- * @property string $first_name [VARCHAR(255)]
- * @property string $last_name [VARCHAR(255)]
- * @property string $patron_name [VARCHAR(255)]
- * @property string $organization [VARCHAR(255)]
- * @property string $post [VARCHAR(255)]
- * @property string $passport [INT(10)]
- * @property string $email [VARCHAR(255)]
- * @property string $phone [INT(10)]
- * @property string $auth_key [VARCHAR(32)]
- * @property string $password_hash [VARCHAR(255)]
- * @property string $password_reset_token [VARCHAR(255)]
- * @property int $status [SMALLINT(5)]
- * @property int $deleted [SMALLINT(5)]
- * @property int $created_at [INT(10)]
- * @property int $updated_at [INT(10)]
+ * @property int $id
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $patron_name
+ * @property string $organization
+ * @property string $post
+ * @property string $passport
+ * @property string $email
+ * @property string $phone
+ * @property string $auth_key
+ * @property string $password_hash
+ * @property string $password_reset_token
+ * @property int $status
+ * @property int $deleted
+ * @property int $created_at
+ * @property int $updated_at
  */
 class User extends ActiveRecord implements IdentityInterface
 {
