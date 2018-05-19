@@ -3,7 +3,7 @@
  *   Author: Almsaeed Studio
  *	 Website: Almsaeed Studio <https://adminlte.io>
  *   License: Open source - MIT
- *           Please visit http://opensource.org/licenses/MIT for more information
+ *   Please visit http://opensource.org/licenses/MIT for more information
  */
 /*
  * Core: General Layout Style
@@ -1859,7 +1859,7 @@ a:focus {
   font-weight: 400;
   font-size: 12px;
 }
-/* Widget: TODO LIST */
+/* Widget */
 .todo-list {
   margin: 0;
   padding: 0;

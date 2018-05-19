@@ -34,8 +34,8 @@ use app\forms\UserForm;
                             'autoFill' => true,
                             'minLength' => '0',
                             'select' => new JsExpression('function(event, ui) {
-                            formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_PARTICIPANT . '\', ui.item.label, ui.item.value);
-                        }'),
+                                formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_REGISTER_PARTICIPANT . '\', ui.item.label, ui.item.value);
+                            }'),
                         ],
 
                     ]);
@@ -59,31 +59,35 @@ use app\forms\UserForm;
                     ],
                 ]); ?>
 
+                <?php if ($model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT): ?>
+                    <?= $form->field($model, 'id')->hiddenInput()->label(false) ?>
+                <?php endif; ?>
+
                 <?= $form->field($model, 'last_name', ['options' => ['class' => 'col-xs-4']])
-                    ->textInput(['placeholder' => 'Фамилия', 'readonly' => $model->scenario == UserForm::SCENARIO_PARTICIPANT ? true : false]) ?>
+                    ->textInput(['placeholder' => 'Фамилия', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT ? true : false]) ?>
 
                 <?= $form->field($model, 'first_name', ['options' => ['class' => 'col-xs-4']])
-                    ->textInput(['placeholder' => 'Имя', 'readonly' => $model->scenario == UserForm::SCENARIO_PARTICIPANT ? true : false]) ?>
+                    ->textInput(['placeholder' => 'Имя', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT ? true : false]) ?>
 
                 <?= $form->field($model, 'patron_name', ['options' => ['class' => 'col-xs-4']])
-                    ->textInput(['placeholder' => 'Отчество', 'readonly' => $model->scenario == UserForm::SCENARIO_PARTICIPANT ? true : false]) ?>
+                    ->textInput(['placeholder' => 'Отчество', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT ? true : false]) ?>
 
                 <?= $form->field($model, 'passport', ['options' => ['class' => 'col-xs-12']])
                     ->widget(MaskedInput::className(), ['mask' => '9999999999'])
-                    ->textInput(['placeholder' => 'Паспорт', 'readonly' => $model->scenario == UserForm::SCENARIO_PARTICIPANT ? true : false]) ?>
+                    ->textInput(['placeholder' => 'Паспорт', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT ? true : false]) ?>
 
                 <?= $form->field($model, 'organization', ['options' => ['class' => 'col-xs-6']])
-                    ->textInput(['placeholder' => 'Оргнанизация', 'readonly' => $model->scenario == UserForm::SCENARIO_PARTICIPANT ? true : false]) ?>
+                    ->textInput(['placeholder' => 'Оргнанизация', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT ? true : false]) ?>
 
                 <?= $form->field($model, 'post', ['options' => ['class' => 'col-xs-6']])
-                    ->textInput(['placeholder' => 'Должность', 'readonly' => $model->scenario == UserForm::SCENARIO_PARTICIPANT ? true : false]) ?>
+                    ->textInput(['placeholder' => 'Должность', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT ? true : false]) ?>
 
                 <?= $form->field($model, 'phone', ['options' => ['class' => 'col-xs-6']])
                     ->widget(MaskedInput::className(), ['mask' => '+7 (999) 999-99-99'])
-                    ->textInput(['placeholder' => 'Телефон', 'readonly' => $model->scenario == UserForm::SCENARIO_PARTICIPANT ? true : false]) ?>
+                    ->textInput(['placeholder' => 'Телефон', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT ? true : false]) ?>
 
                 <?= $form->field($model, 'email', ['options' => ['class' => 'col-xs-6']])
-                    ->textInput(['placeholder' => 'Эл.почта', 'readonly' => $model->scenario == UserForm::SCENARIO_PARTICIPANT ? true : false]) ?>
+                    ->textInput(['placeholder' => 'Эл.почта', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT ? true : false]) ?>
 
                 <?php if ($model->scenario == UserForm::SCENARIO_REGISTER || ($model->scenario == UserForm::SCENARIO_UPDATE && Yii::$app->user->id == $model->id)):
                     echo $form->field($model, 'password', ['options' => ['class' => 'col-xs-12']])
@@ -111,7 +115,7 @@ use app\forms\UserForm;
                     'form' => 'signup-form'
                 ]); ?>
 
-                <?php if ($model->scenario == UserForm::SCENARIO_PARTICIPANT):
+                <?php if ($model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT):
                     echo Html::button('Очистить форму', [
                         'class' => 'col-xs-3 pull-right btn btn-default',
                         'onclick' => 'formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_CREATE . '\', \'Регистрационная карточка\')'

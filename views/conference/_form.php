@@ -7,7 +7,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\datetime\DateTimePicker;
-use vova07\imperavi\Widget as Imperavi;
+use vova07\imperavi\Widget as ImperaviEditor;
 
 ?>
 
@@ -42,10 +42,10 @@ use vova07\imperavi\Widget as Imperavi;
         ->textInput(['placeholder' => 'Название конференции', 'maxlength' => true]) ?>
 
     <?= $form->field($model, 'description')
-        ->widget(Imperavi::className(),[
+        ->widget(ImperaviEditor::className(), [
             'settings' => [
                 'lang' => 'ru',
-                'minHeight' => 200,
+                'minHeight' => 300,
                 'plugins' => [
                     'clips',
                     'fullscreen',

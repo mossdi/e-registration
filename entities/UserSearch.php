@@ -11,7 +11,7 @@ use yii\data\ActiveDataProvider;
 class UserSearch extends User
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {
@@ -22,7 +22,7 @@ class UserSearch extends User
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function scenarios()
     {

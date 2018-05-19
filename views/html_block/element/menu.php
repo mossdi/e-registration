@@ -34,7 +34,7 @@ try {
                             'icon' => 'mixcloud',
                             'url' => '#',
                             'template' => '<a href="#" data-toggle="modal" data-target="#modalForm" onclick="formLoad(\'/conference/create-form\', \'Новая конференция\')">{icon}{label}</a>',
-                            'visible' => Yii::$app->user->can(User::ROLE_ADMIN)
+                            'visible' => Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_SPEAKER),
                         ],
                     ]
                 ],
@@ -53,9 +53,15 @@ try {
                         ],
                         [
                             'label' => 'Конференции',
-                            'icon' => 'address-book',
+                            'icon' => 'mixcloud',
                             'url' => ['/conference/index'],
-                            'visible' => Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_RECEPTIONIST)
+                            'visible' => Yii::$app->user->can(User::ROLE_ADMIN)
+                        ],
+                        [
+                            'label' => 'Сертификаты',
+                            'icon' => 'file',
+                            'url' => ['/certificate/index?form=ready'],
+                            'visible' => Yii::$app->user->can(User::ROLE_ADMIN)
                         ],
                     ]
                 ],

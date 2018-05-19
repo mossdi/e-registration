@@ -22,12 +22,11 @@ class m180319_193319_create_certificate_table extends Migration
 
         $this->createTable('certificate', [
             'id' => $this->primaryKey(),
-            'author_id' => $this->integer()->notNull(),
-            'owner_id' => $this->integer()->notNull(),
+            'user_id' => $this->integer()->notNull(),
             'conference_id' => $this->integer()->notNull(),
             'date_issue' => $this->integer()->null(),
-            'document_series' => $this->integer()->null(),
-            'learning_method' => $this->integer()->null(),
+            'document_series' => $this->string()->null(),
+            'learning_method' => $this->string()->notNull(),
             'status' => $this->smallInteger()->notNull()->defaultValue(Certificate::STATUS_ACTIVE),
             'deleted' => $this->smallInteger()->notNull()->defaultValue(0),
             'created_at' => $this->integer()->notNull(),
@@ -35,9 +34,9 @@ class m180319_193319_create_certificate_table extends Migration
         ], $tableOptions);
 
         $this->createIndex(
-            'idx-certificate-owner_id',
+            'idx-certificate-user_id',
             'certificate',
-            'owner_id',
+            'user_id',
             true
         );
     }
@@ -50,7 +49,7 @@ class m180319_193319_create_certificate_table extends Migration
         $this->dropTable('certificate');
 
         $this->dropIndex(
-            'idx-certificate-owner_id',
+            'idx-certificate-user_id',
             'certificate'
         );
     }

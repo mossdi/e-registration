@@ -33,7 +33,7 @@ class Conference extends ActiveRecord
     const LEARNING_FULL_TIME = 'full-time';
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function tableName()
     {
@@ -64,7 +64,7 @@ class Conference extends ActiveRecord
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {

@@ -14,11 +14,11 @@ use yii\helpers\Html;
 class Menu extends \yii\widgets\Menu
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $linkTemplate = '<a href="{url}">{icon} {label}</a>';
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      * Styles all labels of items on sidebar by AdminLTE
      */
     public $labelTemplate = '<span>{label}</span>';
@@ -69,7 +69,7 @@ class Menu extends \yii\widgets\Menu
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function renderItem($item)
     {
@@ -140,7 +140,7 @@ class Menu extends \yii\widgets\Menu
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function normalizeItems($items, &$active)
     {

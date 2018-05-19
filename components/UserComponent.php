@@ -7,6 +7,8 @@ use app\forms\UserForm;
 use app\entities\User;
 use app\entities\ConferenceParticipant;
 use app\forms\LoginForm;
+use app\entities\Conference;
+use app\entities\Certificate;
 
 class UserComponent
 {
@@ -35,10 +37,6 @@ class UserComponent
             throw new \RuntimeException('Ошибка создания пользователя');
         }
 
-        if ($form->conference) {
-            UserComponent::registerParticipant($form);
-        }
-
         if ($form->scenario == UserForm::SCENARIO_REGISTER) {
             $loginForm = new LoginForm();
 
@@ -46,6 +44,10 @@ class UserComponent
             $loginForm->password = $form->password;
 
             LoginComponent::login($loginForm);
+        }
+
+        if ($form->conference) {
+            UserComponent::registerParticipant($user->id, $form->conference, Conference::LEARNING_FULL_TIME);
         }
 
         UserComponent::assignRole($form->role, $form->phone);
@@ -88,19 +90,17 @@ class UserComponent
     }
 
     /**
-     * @param UserForm $form
+     * @param int $user_id
+     * @param int $conference_id
+     * @param string $method
      * @throws \Exception
      * @return array|string
      */
-    public static function registerParticipant(UserForm $form)
+    public static function registerParticipant($user_id, $conference_id, $method)
     {
-        $user = User::findOne([
-            'phone' => $form->phone
-        ]);
-
         $participant = ConferenceParticipant::findOne([
-            'user_id' => $user->id,
-            'conference_id' => $form->conference
+            'user_id' => $user_id,
+            'conference_id' => $conference_id
         ]);
 
         if ($participant) {
@@ -112,16 +112,39 @@ class UserComponent
 
         $participant = new ConferenceParticipant();
 
-        $participant->user_id = $user->id;
-        $participant->conference_id = $form->conference;
+        $participant->user_id = $user_id;
+        $participant->conference_id = $conference_id;
+        $participant->method = $method;
 
-        return $participant->save() ? [
-            'status'  => 'success',
-            'message' => 'Пользователь успешно зарегистрирован на конференцию - ' . $participant->conference->title
-        ] : [
-            'status'  => 'error',
-            'message' => 'Ошибка. Пользователь не зарегистрирован на конференцию. Обратитесь к администратору системы.'
-        ];
+        if ($method == Conference::LEARNING_FULL_TIME){
+            $certificate = Certificate::create($user_id, $conference_id, $method);
+
+            $transaction = Yii::$app->db->beginTransaction();
+
+            if ($participant->save() && $certificate->save()) {
+                $transaction->commit();
+
+                return [
+                    'status'  => 'success',
+                    'message' => 'Пользователь успешно зарегистрирован на конференцию - ' . $participant->conference->title
+                ];
+            } else {
+                $transaction->rollBack();
+
+                return [
+                    'status'  => 'error',
+                    'message' => 'Ошибка! Пользователь не зарегистрирован на конференцию. Обратитесь к администратору системы.'
+                ];
+            }
+        } else {
+            return $participant->save() ? [
+                'status'  => 'success',
+                'message' => 'Пользователь успешно зарегистрирован на конференцию - ' . $participant->conference->title
+            ]: [
+                'status'  => 'error',
+                'message' => 'Ошибка. Пользователь не зарегистрирован на конференцию. Обратитесь к администратору системы.'
+            ];
+        }
     }
 
     /**

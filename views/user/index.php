@@ -40,6 +40,7 @@ $dataProvider->pagination->pageSize = 50;
                     'passport',
                     'email:email',
                     'phone',
+
                     [
                         'attribute' => 'status',
                         'value' => function($model) {

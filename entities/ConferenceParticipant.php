@@ -19,7 +19,7 @@ use yii\behaviors\TimestampBehavior;
 class ConferenceParticipant extends ActiveRecord
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function tableName()
     {

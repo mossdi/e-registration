@@ -19,7 +19,7 @@ use app\entities\UserSearch;
 class UserController extends Controller
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function behaviors()
     {
@@ -111,11 +111,11 @@ class UserController extends Controller
         $form->scenario = $scenario;
 
         $conference = Conference::find()
-            ->where(['>=', '(start_time + 1800)', time()])
+               ->where(['>=', '(start_time + 1800)', time()])
             ->andWhere(['status' => Conference::STATUS_ACTIVE,])
             ->andWhere(['deleted' => 0])
-            ->orderBy(['start_time' => SORT_ASC])
-            ->all();
+             ->orderBy(['start_time' => SORT_ASC])
+                 ->all();
 
         return $this->renderAjax('signup', [
             'model' => $form,
@@ -154,8 +154,8 @@ class UserController extends Controller
         $form->scenario = $scenario;
 
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            if ($scenario == UserForm::SCENARIO_PARTICIPANT) {
-                return $this->registerParticipant($form);
+            if ($scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT) {
+                return $this->actionRegisterParticipant($form->id, $form->conference, Conference::LEARNING_FULL_TIME);
             }
 
             if (UserComponent::userSignup($form)) {
@@ -207,6 +207,25 @@ class UserController extends Controller
     }
 
     /**
+     * SignUp user to conference
+     *
+     * @param $user_id
+     * @param $conference_id
+     * @param $method
+     * @throws \Exception
+     */
+    public function actionRegisterParticipant($user_id, $conference_id, $method)
+    {
+        $result = UserComponent::registerParticipant($user_id, $conference_id, $method);
+
+        Yii::$app->session->setFlash($result['status'], $result['message']);
+
+        $this->redirect(
+            '/site/index'
+        );
+    }
+
+    /**
      * FindUser action
      *
      * @return mixed
@@ -237,22 +256,5 @@ class UserController extends Controller
         }
 
         return $users;
-    }
-
-    /**
-     * SignUp user to conference
-     *
-     * @param UserForm $form
-     * @throws \Exception
-     */
-    private function registerParticipant(UserForm $form)
-    {
-        $result = UserComponent::registerParticipant($form);
-
-        Yii::$app->session->setFlash($result['status'], $result['message']);
-
-        $this->redirect(
-            '/site/index'
-        );
     }
 }

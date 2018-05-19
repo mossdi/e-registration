@@ -14,7 +14,7 @@ use yii\db\ActiveRecord;
 class ConferenceWishlist extends ActiveRecord
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function tableName()
     {

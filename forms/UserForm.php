@@ -12,8 +12,8 @@ class UserForm extends Model
 {
     const SCENARIO_CREATE = 'create';
     const SCENARIO_REGISTER = 'register';
-    const SCENARIO_PARTICIPANT = 'participant';
     const SCENARIO_UPDATE = 'update';
+    const SCENARIO_REGISTER_PARTICIPANT = 'register-participant';
 
     public $id;
     public $first_name;
@@ -54,12 +54,12 @@ class UserForm extends Model
     public function rules()
     {
         return [
-            [['first_name', 'last_name', 'patron_name', 'organization', 'post', 'passport', 'phone', 'email'], 'required', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE, self::SCENARIO_REGISTER, self::SCENARIO_PARTICIPANT]],
-            ['conference', 'required', 'on' => self::SCENARIO_PARTICIPANT],
+            [['first_name', 'last_name', 'patron_name', 'organization', 'post', 'passport', 'phone', 'email'], 'required', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE, self::SCENARIO_REGISTER, self::SCENARIO_REGISTER_PARTICIPANT]],
+            ['conference', 'required', 'on' => self::SCENARIO_REGISTER_PARTICIPANT],
             ['password', 'required', 'on' => self::SCENARIO_REGISTER],
 
             [['first_name', 'last_name', 'patron_name', 'organization', 'post', 'password', 'role'], 'string'],
-            [['passport', 'conference'], 'integer'],
+            [['id', 'passport', 'conference'], 'integer'],
             ['email', 'email'],
 
             ['phone', 'match', 'pattern' => '/^\+7\s\([0-9]{3}\)\s[0-9]{3}\-[0-9]{2}\-[0-9]{2}$/'],
@@ -76,7 +76,7 @@ class UserForm extends Model
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function attributeLabels()
     {

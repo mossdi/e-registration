@@ -13,7 +13,7 @@ use app\entities\Conference;
 class ConferenceSearch extends Conference
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {
@@ -24,7 +24,7 @@ class ConferenceSearch extends Conference
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function scenarios()
     {

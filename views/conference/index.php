@@ -21,7 +21,6 @@ $dataProvider->pagination->pageSize = 50;
     </div>
 
     <div class="box-body">
-
         <?php Pjax::begin(['id' => 'conferenceListContainer']); ?>
 
         <?php $timeParams = Yii::$app->request->get('time') ?>
@@ -45,10 +44,10 @@ $dataProvider->pagination->pageSize = 50;
                         'format' => 'raw',
                         'value' => function ($model) {
                             return Html::a($model->title, ['/#'], [
-                                    'data-toggle' => 'modal',
-                                    'data-target' => '#modalForm',
-                                    'onclick'     => 'formLoad(\'/conference/view\', \'' . $model->title . '\', \'' . $model->id . '\')']
-                            );
+                                'data-toggle' => 'modal',
+                                'data-target' => '#modalForm',
+                                'onclick'     => 'formLoad(\'/conference/view\', \'' . $model->title . '\', \'' . $model->id . '\')'
+                            ]);
                         }
                     ],
                     [
@@ -61,10 +60,10 @@ $dataProvider->pagination->pageSize = 50;
                         'format' => 'raw',
                         'value' => function($model) {
                             return 'Количество: ' . $model->studentCount . ' / ' . Html::a('Список', ['/#'], [
-                                    'data-toggle' => 'modal',
-                                    'data-target' => '#modalForm',
-                                    'onclick'     => 'formLoad(\'/conference/participant\', \'' . $model->title . '\', \'' . $model->id . '\')'
-                                ]);
+                                'data-toggle' => 'modal',
+                                'data-target' => '#modalForm',
+                                'onclick'     => 'formLoad(\'/conference/participant\', \'' . $model->title . '\', \'' . $model->id . '\')'
+                            ]);
                         }
                     ],
 
@@ -81,12 +80,10 @@ $dataProvider->pagination->pageSize = 50;
                                 ]);
                             },
                             'delete' => function ($url, $model) {
-                                return !($model->start_time < time() && $model->end_time == null) ?
-                                    Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
-                                            'data-method'  => 'post',
-                                            'data-confirm' => 'Вы уверены, что хотите удалить событие?',
-                                        ]
-                                    ) : null;
+                                return !($model->start_time < time() && $model->end_time == null) ? Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
+                                    'data-method'  => 'post',
+                                    'data-confirm' => 'Вы уверены, что хотите удалить событие?',
+                                ]) : null;
                             },
                         ],
                     ],

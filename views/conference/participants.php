@@ -5,6 +5,7 @@
 
 use yii\grid\GridView;
 use yii\helpers\Html;
+use app\entities\User;
 
 try {
     echo GridView::widget([
@@ -21,15 +22,11 @@ try {
             ],
             [
                 'label' => 'Организация',
-                'value' => function($model) {
-                    return $model->user->organization;
-                }
+                'attribute' => 'user.organization',
             ],
             [
                 'label' => 'Должность',
-                'value' => function($model) {
-                    return $model->user->post;
-                }
+                'attribute' => 'user.post',
             ],
 
             [
@@ -37,12 +34,12 @@ try {
                 'template' => '{delete}',
                 'buttons' => [
                     'delete' => function ($url, $model) {
-                        return Html::a('Удалить', ['/conference/delete-participant?user_id=' . $model->user_id . '&conference_id=' . $model->conference_id], [
+                        return Yii::$app->user->can(User::ROLE_ADMIN) ? Html::a('Удалить', ['/conference/delete-participant?user_id=' . $model->user_id . '&conference_id=' . $model->conference_id], [
                             'data' => [
-                                'confirm' => 'Are you sure you want to delete this item?',
-                                'method' => 'post',
+                                'confirm' => 'Вы уверены, что хотите удалить пользователя с конференции?',
+                                'method'  => 'post',
                             ]
-                        ]);
+                        ]) : null;
                     },
                 ]
             ],

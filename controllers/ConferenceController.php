@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\entities\Certificate;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -24,7 +25,7 @@ use app\entities\User;
 class ConferenceController extends Controller
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function behaviors()
     {
@@ -38,7 +39,7 @@ class ConferenceController extends Controller
             ],
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['delete-participant', 'delete'],
+                'only' => ['index', 'delete', 'delete-participant'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -224,9 +225,20 @@ class ConferenceController extends Controller
             'conference_id' => $conference_id,
         ]);
 
-        if ($participant->delete()) {
+        $certificate = Certificate::findOne([
+            'user_id' => $user_id,
+            'conference_id' => $conference_id,
+        ]);
+
+        $transaction = Yii::$app->db->beginTransaction();
+
+        if ($participant->delete() && $certificate->delete()) {
+            $transaction->commit();
+
             Yii::$app->session->setFlash('success', 'Пользователь удален с конференции!');
         } else {
+            $transaction->rollBack();
+
             Yii::$app->session->setFlash('error', 'Ошибка! Пользователь не удален с конференции. Обратитесь к администратору системы.');
         }
 
@@ -264,8 +276,8 @@ class ConferenceController extends Controller
     public function actionDeleteFromWishList($id)
     {
         $wishList = ConferenceWishlist::findOne([
-            'conference_id' => $id,
             'user_id' => Yii::$app->user->id,
+            'conference_id' => $id,
         ]);
 
         if ($wishList->delete()) {
