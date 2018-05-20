@@ -5,6 +5,13 @@
 use app\widgets\Menu;
 use app\forms\UserForm;
 use app\entities\User;
+use app\entities\Conference;
+
+$conference_now = Conference::find()
+       ->where(['<', 'start_time', time()])
+    ->andWhere(['is', 'end_time', null])
+    ->andWhere(['status' => Conference::STATUS_ACTIVE])
+         ->one();
 
 try {
     echo Menu::widget(
@@ -16,6 +23,13 @@ try {
                     'options' => [
                         'class' => 'header'
                     ]
+                ],
+
+                [
+                    'label' => 'Текущая конференция',
+                    'icon' => 'comment',
+                    'url' => $conference_now ? '/conference/view-now?id=' . $conference_now->id : '',
+                    'visible' => $conference_now ? true : false,
                 ],
 
                 [
@@ -34,7 +48,7 @@ try {
                             'icon' => 'mixcloud',
                             'url' => '#',
                             'template' => '<a href="#" data-toggle="modal" data-target="#modalForm" onclick="formLoad(\'/conference/create-form\', \'Новая конференция\')">{icon}{label}</a>',
-                            'visible' => Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_SPEAKER),
+                            'visible' => Yii::$app->user->can(User::ROLE_ADMIN) || (Yii::$app->user->can(User::ROLE_SPEAKER) && !$conference_now),
                         ],
                     ]
                 ],

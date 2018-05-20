@@ -81,6 +81,21 @@ class ConferenceController extends Controller
     }
 
     /**
+     * @param $id
+     * @return string
+     */
+    public function actionViewNow ($id)
+    {
+        $model = Conference::findOne($id);
+
+        return $this->render(
+            'view_now',[
+                'model' => $model,
+            ]
+        );
+    }
+
+    /**
      * Create new conference
      *
      * @param null $id

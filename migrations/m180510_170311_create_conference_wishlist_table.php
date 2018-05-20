@@ -28,7 +28,8 @@ class m180510_170311_create_conference_wishlist_table extends Migration
         $this->createIndex(
             'idx-conference_wishlist-conference_id',
             'conference_wishlist',
-            'user_id, conference_id'
+            'user_id, conference_id',
+            true
         );
     }
 

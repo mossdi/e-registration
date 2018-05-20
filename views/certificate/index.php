@@ -53,12 +53,12 @@ $this->title = 'Сертификаты';
                     [
                         'attribute' => 'conference.title',
                     ],
+                    'document_series',
                     [
                         'attribute' => 'date_issue',
                         'format' => 'date',
                         'filter' => false
                     ],
-                    'document_series',
 
                     ['class' => 'yii\grid\ActionColumn'],
                 ],

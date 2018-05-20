@@ -82,7 +82,7 @@ class Certificate extends ActiveRecord
             'userFirstName' => 'Имя',
             'userPatronName' => 'Отчество',
             'conference.title' => 'Конференция',
-            'date_issue' => 'Дата проведения',
+            'date_issue' => 'Дата выдачи',
             'document_series' => 'Номер документа',
         ];
     }
