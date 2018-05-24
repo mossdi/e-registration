@@ -34,6 +34,7 @@ class ConferenceWishlist extends ActiveRecord
     public function getConference()
     {
         return $this->hasOne(Conference::className(), ['id' => 'conference_id'])
+                ->with(['author'])
                ->where(['conference.status' => Conference::STATUS_ACTIVE])
             ->andWhere(['conference.deleted' => 0])
              ->orderBy(['conference.start_time' => SORT_ASC]);

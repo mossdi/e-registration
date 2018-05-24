@@ -17,7 +17,7 @@ use yii\widgets\DetailView;
                     'attribute' => 'author_id',
                     'label' => 'Ведущий',
                     'value' => function($model) {
-                        return $model->authorInfo->first_name . ' ' . $model->authorInfo->last_name;
+                        return $model->author->first_name . ' ' . $model->author->last_name;
                     }
                 ],
                 [

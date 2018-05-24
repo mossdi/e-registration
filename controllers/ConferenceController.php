@@ -35,6 +35,7 @@ class ConferenceController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                     'delete-participant' => ['POST'],
+                    'close' => ['POST']
                 ],
             ],
             'access' => [
@@ -211,6 +212,21 @@ class ConferenceController extends Controller
 
     /**
      * @param $id
+     * @return Response
+     */
+    public  function actionClose($id)
+    {
+        $conference = Conference::findOne($id);
+
+        $conference->updateAttributes(['end_time' => time()]);
+
+        return $this->redirect([
+            '/site/index'
+        ]);
+    }
+
+    /**
+     * @param $id
      * @return string
      */
     public function actionParticipant($id)
@@ -219,7 +235,6 @@ class ConferenceController extends Controller
             'query' => ConferenceParticipant::find()
                  ->with(['user'])
                 ->where(['conference_id' => $id]),
-            'pagination' => false,
         ]);
 
         return $this->renderAjax('participants', [

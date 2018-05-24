@@ -64,6 +64,14 @@ $conferences = new ActiveDataProvider([
                         }
                     ],
 
+                    [
+                        'attribute' => 'conference.author_id',
+                        'label' => 'Ведущий',
+                        'value' => function($model) {
+                            return $model->conference->author->first_name . ' ' . $model->conference->author->last_name;
+                        }
+                    ],
+
                     'conference.start_time:datetime',
 
                     [

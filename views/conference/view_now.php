@@ -10,7 +10,17 @@ use yii\helpers\Html;
 
 <?php if (Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_SPEAKER)):  ?>
 <div class="control-panel">
-    <?= Html::a('Закрыть конференцию', ['#'], ['class' => 'btn btn-danger']) ?>
+    <?= Html::a('Список участников', ['/#'], [
+        'class' => 'btn btn-info',
+        'data-toggle' => 'modal',
+        'data-target' => '#modalForm',
+        'onclick'     => 'formLoad(\'/conference/participant\', \'' . $model->title . '\', \'' . $model->id . '\')'
+    ]) ?>
+    <?= Html::a('Закрыть конференцию', ['/conference/close?id=' . $model->id], [
+        'class' => 'btn btn-danger pull-right',
+        'data-method' => 'post',
+        'data-confirm' => 'Хотите закрыть конференцию?'
+    ]) ?>
 </div>
 <?php endif; ?>
 

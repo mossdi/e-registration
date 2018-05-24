@@ -107,7 +107,7 @@ class Conference extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAuthorInfo()
+    public function getAuthor()
     {
         return $this->hasOne(User::className(), ['id' => 'author_id']);
     }

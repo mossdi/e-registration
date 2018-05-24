@@ -48,7 +48,7 @@ try {
                             'icon' => 'mixcloud',
                             'url' => '#',
                             'template' => '<a href="#" data-toggle="modal" data-target="#modalForm" onclick="formLoad(\'/conference/create-form\', \'Новая конференция\')">{icon}{label}</a>',
-                            'visible' => Yii::$app->user->can(User::ROLE_ADMIN) || (Yii::$app->user->can(User::ROLE_SPEAKER) && !$conference_now),
+                            'visible' => Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_SPEAKER),
                         ],
                     ]
                 ],
