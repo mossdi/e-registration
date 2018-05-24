@@ -21,7 +21,7 @@ class m180319_193319_create_certificate_table extends Migration
         }
 
         $this->createTable('certificate', [
-            'id' => $this->integer()->notNull(),
+            'id' => $this->primaryKey(),
             'user_id' => $this->integer()->notNull(),
             'conference_id' => $this->integer()->notNull(),
             'date_issue' => $this->integer()->null(),
@@ -31,13 +31,12 @@ class m180319_193319_create_certificate_table extends Migration
             'deleted' => $this->smallInteger()->notNull()->defaultValue(0),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
-            'PRIMARY KEY (id, user_id, conference_id)'
         ], $tableOptions);
 
         $this->createIndex(
             'idx-certificate-id-user_id-conference_id',
             'certificate',
-            'user_id, conference_id, id',
+            'id, user_id, conference_id',
             true
         );
     }
@@ -51,6 +50,11 @@ class m180319_193319_create_certificate_table extends Migration
 
         $this->dropIndex(
             'idx-certificate-id-user_id-conference_id',
+            'certificate'
+        );
+
+        $this->dropPrimaryKey(
+            'pk-certificate-user_id-conference_id',
             'certificate'
         );
     }
