@@ -124,6 +124,15 @@ class Conference extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getConferenceParticipant()
+    {
+        return $this->hasOne(ConferenceParticipant::className(), ['conference_id' => 'id'])
+            ->where(['conference_participant.user_id' => Yii::$app->user->id]);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getWishList()
     {
         return $this->hasOne(ConferenceWishlist::className(), ['conference_id' => 'id'])

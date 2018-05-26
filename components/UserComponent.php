@@ -140,7 +140,7 @@ class UserComponent
             return $participant->save() ? [
                 'status'  => 'success',
                 'message' => 'Пользователь успешно зарегистрирован на конференцию - ' . $participant->conference->title
-            ]: [
+            ] : [
                 'status'  => 'error',
                 'message' => 'Ошибка. Пользователь не зарегистрирован на конференцию. Обратитесь к администратору системы.'
             ];

@@ -255,20 +255,18 @@ class ConferenceController extends Controller
             'conference_id' => $conference_id,
         ]);
 
-        $certificate = Certificate::findOne([
-            'user_id' => $user_id,
-            'conference_id' => $conference_id,
-        ]);
+        if ($participant->method == Conference::LEARNING_FULL_TIME) {
+            $certificate = Certificate::findOne([
+                'user_id' => $user_id,
+                'conference_id' => $conference_id,
+            ]);
 
-        $transaction = Yii::$app->db->beginTransaction();
+            $certificate->delete();
+        }
 
-        if ($participant->delete() && $certificate->delete()) {
-            $transaction->commit();
-
+        if ($participant->delete()) {
             Yii::$app->session->setFlash('success', 'Пользователь удален с конференции!');
         } else {
-            $transaction->rollBack();
-
             Yii::$app->session->setFlash('error', 'Ошибка! Пользователь не удален с конференции. Обратитесь к администратору системы.');
         }
 

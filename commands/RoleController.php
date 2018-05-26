@@ -7,6 +7,10 @@ use yii\console\Controller;
 use yii\console\ExitCode;
 use app\entities\User;
 
+/**
+ * Class RoleController
+ * @package app\commands
+ */
 class RoleController extends Controller
 {
     /**
@@ -28,7 +32,6 @@ class RoleController extends Controller
     }
 
     /**
-     * @return int
      * @throws \Exception
      */
     public function actionCreateAllRole()

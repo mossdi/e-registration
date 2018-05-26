@@ -14,6 +14,9 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+        'setting' => [
+            'class' => 'app\components\SettingComponent',
+        ],
         'request' => [
             'cookieValidationKey' => 'UayAHkW-zVazTrXeG0T6sZ3vRGvXQrzM',
         ],
