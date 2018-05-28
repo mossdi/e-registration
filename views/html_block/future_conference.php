@@ -12,7 +12,7 @@ use app\entities\Conference;
 $conferences = new ActiveDataProvider([
     'query' => Conference::find()
             ->with(['wishList'])
-           ->where(['>', 'start_time', time()])
+           ->where(['>', '(start_time + ' . Yii::$app->setting->get('registerClose') . ')', time()])
         ->andWhere(['status' => Conference::STATUS_ACTIVE]),
     'sort' => [
         'defaultOrder' => [
@@ -71,7 +71,7 @@ $conferences = new ActiveDataProvider([
                         'controller' => '/conference',
                         'buttons' => [
                             'register' => function ($url, $model) {
-                                return !$model->conferenceParticipant && (($model->start_time - Yii::$app->setting->get('registerOpen')) >= time()) && (($model->start_time + Yii::$app->setting->get('registerClose')) >= time()) ? Html::a('Участвовать', ['/user/register-participant?user_id=' . Yii::$app->user->id . '&conference_id=' . $model->id . '&method=' . Conference::LEARNING_DISTANCE]) . ' / ' : '';
+                                return !$model->conferenceParticipant && (($model->start_time - Yii::$app->setting->get('registerOpen')) <= time()) && (($model->start_time + Yii::$app->setting->get('registerClose')) >= time()) ? Html::a('Участвовать', ['/user/register-participant?user_id=' . Yii::$app->user->id . '&conference_id=' . $model->id . '&method=' . Conference::LEARNING_DISTANCE]) . ' / ' : '';
                             },
                             'whishlist' => function ($url, $model) {
                                 return !$model->wishList ? Html::a('<span class= "glyphicon glyphicon-star-empty"></span>', ['/conference/add-to-wish-list?id=' . $model->id],

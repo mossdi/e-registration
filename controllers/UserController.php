@@ -111,7 +111,7 @@ class UserController extends Controller
         $form->scenario = $scenario;
 
         $conference = Conference::find()
-               ->where(['>=', '(start_time - ' . Yii::$app->setting->get('registerOpen') .')', time()])
+               ->where(['<=', '(start_time - ' . Yii::$app->setting->get('registerOpen') .')', time()])
             ->andWhere(['>=', '(start_time + ' . Yii::$app->setting->get('registerClose') . ')', time()])
             ->andWhere(['status' => Conference::STATUS_ACTIVE,])
             ->andWhere(['deleted' => 0])
