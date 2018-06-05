@@ -23,7 +23,10 @@ $dataProvider->pagination->pageSize = 50;
     </div>
 
     <div class="box-body">
-        <?php Pjax::begin(['id' => 'usersListContainer']) ?>
+        <?php Pjax::begin([
+            'id' => 'usersListContainer',
+            'enablePushState' => false,
+        ]) ?>
 
         <?php try {
             echo GridView::widget([

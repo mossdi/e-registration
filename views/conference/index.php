@@ -21,7 +21,10 @@ $dataProvider->pagination->pageSize = 50;
     </div>
 
     <div class="box-body">
-        <?php Pjax::begin(['id' => 'conferenceListContainer']); ?>
+        <?php Pjax::begin([
+            'id' => 'conferenceListContainer',
+            'enablePushState' => false,
+        ]); ?>
 
         <?php $timeParams = Yii::$app->request->get('time') ?>
 
@@ -59,7 +62,7 @@ $dataProvider->pagination->pageSize = 50;
                         'label' => 'Участники конференции',
                         'format' => 'raw',
                         'value' => function($model) {
-                            return 'Количество: ' . $model->studentCount . ' / ' . Html::a('Список', ['/#'], [
+                            return 'Количество: ' . $model->participantCount . ' / ' . Html::a('Список', ['/#'], [
                                 'data-toggle' => 'modal',
                                 'data-target' => '#modalForm',
                                 'onclick'     => 'formLoad(\'/conference/participant\', \'' . $model->title . '\', \'' . $model->id . '\')'

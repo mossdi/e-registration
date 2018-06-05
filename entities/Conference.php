@@ -22,7 +22,8 @@ use DateTimeZone;
  * @property int $deleted
  * @property int $created_at
  * @property int $updated_at
- * @property ConferenceParticipant $studentCount
+ * @property int $participantCount
+ * @property ConferenceParticipant $participant
  */
 class Conference extends ActiveRecord
 {
@@ -113,21 +114,21 @@ class Conference extends ActiveRecord
     }
 
     /**
-     * @return int
-     */
-    public function getStudentCount()
-    {
-        return $this->hasMany(ConferenceParticipant::className(), ['conference_id' => 'id'])
-            ->count();
-    }
-
-    /**
      * @return \yii\db\ActiveQuery
      */
-    public function getConferenceParticipant()
+    public function getParticipant()
     {
         return $this->hasOne(ConferenceParticipant::className(), ['conference_id' => 'id'])
             ->where(['conference_participant.user_id' => Yii::$app->user->id]);
+    }
+
+    /**
+     * @return int
+     */
+    public function getParticipantCount()
+    {
+        return $this->hasMany(ConferenceParticipant::className(), ['conference_id' => 'id'])
+            ->count();
     }
 
     /**

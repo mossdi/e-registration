@@ -65,6 +65,7 @@ class CertificateSearch extends Certificate
                     'user.first_name',
                     'user.patron_name',
                     'conference.title',
+                    'conference.start_time',
                     'date_issue',
                     'document_series',
                 ],
@@ -85,6 +86,7 @@ class CertificateSearch extends Certificate
         // grid filtering conditions
         $query->andFilterWhere([
             'certificate.date_issue' => $this->date_issue,
+            'certificate.conference_id' => $this->conference_id,
         ]);
 
         $query->andFilterWhere(['like', 'certificate.document_series', $this->document_series])

@@ -1,18 +1,11 @@
 <?php
 
-use yii\helpers\Html;
-
 /* @var $this yii\web\View */
 /* @var $model app\entities\Certificate */
 
-$this->title = 'Update Certificate: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Certificates', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
 ?>
-<div class="certificate-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="certificate-update">
 
     <?= $this->render('_form', [
         'model' => $model,

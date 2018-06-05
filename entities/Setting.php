@@ -31,10 +31,8 @@ class Setting extends ActiveRecord
     public function rules()
     {
         return [
-            [['param', 'value', 'default', 'label', 'type'], 'required'],
-            [['value', 'default'], 'string'],
-            [['param', 'label', 'type'], 'string', 'max' => 255],
-            [['param'], 'unique'],
+            ['value', 'required'],
+            ['value', 'string'],
         ];
     }
 
@@ -44,12 +42,10 @@ class Setting extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'param' => 'Param',
-            'value' => 'Value',
-            'default' => 'Default',
-            'label' => 'Label',
-            'type' => 'Type',
+            'param' => 'Параметр',
+            'value' => 'Значение',
+            'label' => 'Название',
+            'type' => 'Тип',
         ];
     }
 }

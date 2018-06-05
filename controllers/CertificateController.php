@@ -30,7 +30,7 @@ class CertificateController extends Controller
             ],
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'delete'],
+                'only' => ['index', 'update', 'delete'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -64,7 +64,7 @@ class CertificateController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+        return $this->renderAjax('view', [
             'model' => $this->findModel($id),
         ]);
     }
@@ -84,7 +84,7 @@ class CertificateController extends Controller
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
-        return $this->render('update', [
+        return $this->renderAjax('update', [
             'model' => $model,
         ]);
     }

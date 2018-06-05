@@ -27,14 +27,14 @@ try {
 
                 [
                     'label' => 'Текущая конференция',
-                    'icon' => 'comment',
+                    'icon' => 'bullhorn',
                     'url' => $conference_now ? '/conference/view-now?id=' . $conference_now->id : '',
                     'visible' => $conference_now ? true : false,
                 ],
 
                 [
                     'label' => 'Регистрация',
-                    'icon' => 'bell',
+                    'icon' => 'plus-square',
                     'items' => [
                         [
                             'label' => 'Пользователь',
@@ -54,7 +54,7 @@ try {
                 ],
                 [
                     'label' => 'Администрирование',
-                    'icon' => 'cogs',
+                    'icon' => 'edit',
                     'options' => [
                         'class' => ''
                     ],
@@ -62,22 +62,28 @@ try {
                         [
                             'label' => 'Пользователи',
                             'icon' => 'address-book',
-                            'url' => ['/user/index'],
+                            'url' => ['/user'],
                             'visible' => Yii::$app->user->can(User::ROLE_ADMIN)
                         ],
                         [
                             'label' => 'Конференции',
                             'icon' => 'mixcloud',
-                            'url' => ['/conference/index'],
+                            'url' => ['/conference'],
                             'visible' => Yii::$app->user->can(User::ROLE_ADMIN)
                         ],
                         [
                             'label' => 'Сертификаты',
                             'icon' => 'file',
-                            'url' => ['/certificate/index?form=ready'],
+                            'url' => ['/certificate'],
                             'visible' => Yii::$app->user->can(User::ROLE_ADMIN)
                         ],
                     ]
+                ],
+                [
+                    'label' => 'Настройки',
+                    'icon' => 'cogs',
+                    'url' => ['/setting/index'],
+                    'visible' => Yii::$app->user->can(User::ROLE_ADMIN)
                 ],
             ],
         ]

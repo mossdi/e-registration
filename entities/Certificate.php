@@ -26,6 +26,11 @@ class Certificate extends ActiveRecord
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
 
+    public static $statusList = [
+        self::STATUS_ACTIVE  => 'Активный',
+        self::STATUS_DELETED => 'Заблокированный',
+    ];
+
     /**
      * {@inheritdoc}
      */
@@ -84,6 +89,7 @@ class Certificate extends ActiveRecord
             'conference.title' => 'Конференция',
             'date_issue' => 'Дата выдачи',
             'document_series' => 'Номер документа',
+            'status' => 'Статус',
         ];
     }
 

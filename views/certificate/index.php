@@ -1,8 +1,10 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use app\entities\Conference;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\entities\CertificateSearch */
@@ -21,7 +23,10 @@ $this->title = 'Сертификаты';
     </div>
 
     <div class="box-body">
-        <?php Pjax::begin(['id' => 'certificateListContainer']) ?>
+        <?php Pjax::begin([
+            'id' => 'certificateListContainer',
+            'enablePushState' => false,
+        ]) ?>
 
         <?php $certificateForm = Yii::$app->request->get('form') ?>
 
@@ -52,6 +57,17 @@ $this->title = 'Сертификаты';
                     ],
                     [
                         'attribute' => 'conference.title',
+                        'filter' => $dataProvider->count > 0 ? Html::activeDropDownList($searchModel, 'conference_id',
+                            ArrayHelper::map(Conference::find()
+                                ->all(), 'id', 'title'
+                            ),  ['prompt' => 'Все']
+                        ) : false
+                    ],
+                    [
+
+                        'label' =>  'Дата проведения конференции',
+                        'attribute' => 'conference.start_time',
+                        'format' => 'date',
                     ],
                     'document_series',
                     [
@@ -60,7 +76,26 @@ $this->title = 'Сертификаты';
                         'filter' => false
                     ],
 
-                    ['class' => 'yii\grid\ActionColumn'],
+                    [
+                        'class' => 'yii\grid\ActionColumn',
+                        'template' => '{view} {update}',
+                        'buttons' => [
+                            'view' => function ($url, $model) {
+                                return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, [
+                                    'data-toggle' => 'modal',
+                                    'data-target' => '#modalForm',
+                                    'onclick' => 'formLoad(\'/certificate/view\', \'' . $model->conference->title . '\', \'' . $model->id . '\')'
+                                ]);
+                            },
+                            'update' => function ($url, $model) {
+                                return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
+                                    'data-toggle' => 'modal',
+                                    'data-target' => '#modalForm',
+                                    'onclick' => 'formLoad(\'/certificate/update\', \'' . $model->conference->title . '\', \'' . $model->id . '\')'
+                                ]);
+                            },
+                        ]
+                    ],
                 ],
             ]);
         } catch (Exception $e) {
