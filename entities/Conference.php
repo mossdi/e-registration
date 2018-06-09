@@ -139,4 +139,12 @@ class Conference extends ActiveRecord
         return $this->hasOne(ConferenceWishlist::className(), ['conference_id' => 'id'])
             ->where(['conference_wishlist.user_id' => Yii::$app->user->id]);
     }
+
+    /**
+     * @return bool
+     */
+    public function getRegisterTime()
+    {
+        return (($this->start_time - Yii::$app->setting->get('registerOpen')) <= time()) && (($this->start_time + Yii::$app->setting->get('registerClose')) >= time());
+    }
 }

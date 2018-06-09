@@ -21,7 +21,7 @@ class SettingComponent extends Component {
 
         foreach ($items as $item) {
             if ($item->param) {
-                if ($item->type === 'int') {
+                if ($item->type === 'integer') {
                     $this->data[$item->param] = $item->value === '' ? (int)$item->default : (int)$item->value;
                 } else {
                     $this->data[$item->param] = $item->value === '' ? $item->default : $item->value;

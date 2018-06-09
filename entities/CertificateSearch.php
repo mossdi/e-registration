@@ -70,7 +70,7 @@ class CertificateSearch extends Certificate
                     'document_series',
                 ],
                 'defaultOrder' => [
-                    'date_issue' => SORT_ASC,
+                    'conference.start_time' => SORT_ASC,
                 ]
             ]
         ]);

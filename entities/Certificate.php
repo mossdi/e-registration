@@ -4,6 +4,8 @@ namespace app\entities;
 
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
+use DateTime;
+use DateTimeZone;
 
 /**
  * Class Certificate
@@ -23,6 +25,8 @@ use yii\behaviors\TimestampBehavior;
  */
 class Certificate extends ActiveRecord
 {
+    const SCENARIO_ISSUE = 'issue';
+
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
 
@@ -50,11 +54,28 @@ class Certificate extends ActiveRecord
     }
 
     /**
+     * @param bool $insert
+     * @return bool
+     */
+    public function beforeSave($insert)
+    {
+        if (!empty($this->date_issue)) {
+            $date = DateTime::createFromFormat('d.m.y H:i', $this->date_issue, new DateTimeZone('Europe/Moscow'));
+
+            $this->date_issue = $date->getTimestamp();
+        }
+
+        return parent::beforeSave($insert);
+    }
+
+    /**
      * @return array
      */
     public function rules()
     {
         return [
+            [['date_issue', 'document_series'], 'required', 'on' => self::SCENARIO_ISSUE],
+
             [['date_issue', 'document_series'], 'default', 'value' => null],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['deleted', 'default', 'value' => 0],

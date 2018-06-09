@@ -80,8 +80,12 @@ class CertificateController extends Controller
     {
         $model = $this->findModel($id);
 
+        $model->scenario = Certificate::SCENARIO_ISSUE;
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect([
+                '/certificate/index'
+            ]);
         }
 
         return $this->renderAjax('update', [
