@@ -11,12 +11,22 @@ use app\forms\UserForm;
     <!-- Create the tabs -->
     <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
         <li class="active"><a href="#home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+        <li><a href="#certificate-tab" data-toggle="tab"><i class="fa fa-file"></i></a></li>
         <li><a href="#setting-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
     </ul>
     <div class="tab-content">
         <div id="home-tab" class="tab-pane active fade in">
 
+            <?= $this->render(
+                '/html_block/wishlist_conference'
+            ) ?>
+
         </div>
+
+        <div id="certificate-tab">
+
+        </div>
+
         <div id="setting-tab" class="tab-pane fade">
             <ul class="list-unstyled">
                 <li class="col-margin-bottom-10">

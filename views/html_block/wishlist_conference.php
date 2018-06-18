@@ -8,6 +8,7 @@ use yii\grid\GridView;
 use yii\helpers\Html;
 use app\entities\ConferenceWishlist;
 use yii\widgets\Pjax;
+use yii2mod\alert\Alert;
 
 $conferences = new ActiveDataProvider([
     'query' => ConferenceWishlist::find()
@@ -35,6 +36,17 @@ $conferences = new ActiveDataProvider([
 
 ?>
 
+<?php Pjax::begin([
+    'id' => 'wishListContainer',
+    'enablePushState' => false,
+]) ?>
+
+<?php try {
+    echo Alert::widget();
+} catch (Exception $e) {
+    echo 'Выброшено исключение: ',  $e->getMessage(), "\n";
+} ?>
+
 <div class="box">
     <div class="box-header with-border">
         <h3 class="box-title">Избранные конференции</h3>
@@ -44,7 +56,6 @@ $conferences = new ActiveDataProvider([
     </div>
 
     <div class="box-body">
-        <?php Pjax::begin(['id' => 'wishListContainer']) ?>
 
         <?php try {
             echo GridView::widget([
@@ -81,9 +92,8 @@ $conferences = new ActiveDataProvider([
                         'buttons' => [
                             'delete' => function ($url, $model) {
                                 return Html::a('<span class="glyphicon glyphicon-trash"></span>',
-                                    ['conference/delete-from-wish-list?id=' . $model->conference_id], [
-                                        'data-toggle' => 'tooltip',
-                                        'title' => 'Удалить'
+                                    ['conference/delete-from-wish-list?id=' . $model->conference_id . '&from=wishlist_conference'], [
+                                        'data' => ['toggle' => 'tooltip', 'pjax' => true,], 'title' => 'Удалить'
                                     ]
                                 );
                             }
@@ -95,7 +105,8 @@ $conferences = new ActiveDataProvider([
             echo 'Выброшено исключение: ', $e->getMessage(), "\n";
         } ?>
 
-        <?php Pjax::end() ?>
     </div>
 
 </div>
+
+<?php Pjax::end() ?>

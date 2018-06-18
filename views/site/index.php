@@ -12,8 +12,4 @@ $this->title = 'Департамент здравоохранения';
         '/html_block/future_conference'
     ) ?>
 
-    <?= $this->render(
-        '/html_block/wishlist_conference'
-    ) ?>
-
 </div>

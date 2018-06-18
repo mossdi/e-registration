@@ -5,6 +5,7 @@ use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
 use app\entities\Conference;
+use yii2mod\alert\Alert;
 
 /* @var $this \yii\web\View */
 /* @var $limit int */
@@ -26,6 +27,17 @@ $conferences = new ActiveDataProvider([
 
 ?>
 
+<?php Pjax::begin([
+    'id' => 'futureConferenceContainer',
+    'enablePushState' => false,
+]) ?>
+
+<?php try {
+    echo Alert::widget();
+} catch (Exception $e) {
+    echo 'Выброшено исключение: ',  $e->getMessage(), "\n";
+} ?>
+
 <div class="box">
     <div class="box-header with-border">
         <h3 class="box-title">Ближайшие конференции</h3>
@@ -35,7 +47,6 @@ $conferences = new ActiveDataProvider([
     </div>
 
     <div class="box-body">
-        <?php Pjax::begin(['id' => 'futureConferenceContainer']) ?>
 
         <?php try {
             echo GridView::widget([
@@ -71,13 +82,15 @@ $conferences = new ActiveDataProvider([
                         'controller' => '/conference',
                         'buttons' => [
                             'register' => function ($url, $model) {
-                                return !$model->participant && $model->registerTime ? Html::a('Участвовать', ['/user/register-participant?user_id=' . Yii::$app->user->id . '&conference_id=' . $model->id . '&method=' . Conference::LEARNING_DISTANCE]) . ' / ' : '';
+                                return !$model->participant && $model->registerTime ? Html::a('Участвовать', ['/user/register-participant?user_id=' . Yii::$app->user->id . '&conference_id=' . $model->id . '&method=' . Conference::LEARNING_DISTANCE . '&from=future_conference'],
+                                    ['data-pjax' => true]
+                                ) : '';
                             },
                             'whishlist' => function ($url, $model) {
-                                return !$model->wishList ? Html::a('<span class= "glyphicon glyphicon-star-empty"></span>', ['/conference/add-to-wish-list?id=' . $model->id],
-                                    ['data-toggle' => 'tooltip', 'title' => 'В избранное']
-                                ) : Html::a('<span class= "glyphicon glyphicon-star"></span>', ['/conference/delete-from-wish-list?id=' . $model->id],
-                                    ['data-toggle' => 'tooltip', 'title' => 'Удалить из избранного']
+                                return !$model->wishList ? Html::a('<span class= "glyphicon glyphicon-star-empty"></span>', ['/conference/add-to-wish-list?id=' . $model->id . '&from=future_conference'],
+                                    ['data' => ['toggle' => 'tooltip', 'pjax' => true], 'title' => 'В избранное']
+                                ) : Html::a('<span class= "glyphicon glyphicon-star"></span>', ['/conference/delete-from-wish-list?id=' . $model->id . '&from=future_conference'],
+                                    ['data' => ['toggle' => 'tooltip', 'pjax' => true], 'title' => 'Удалить из избранного']
                                 );
                             },
                         ],
@@ -88,6 +101,7 @@ $conferences = new ActiveDataProvider([
             echo 'Выброшено исключение: ', $e->getMessage(), "\n";
         } ?>
 
-        <?php Pjax::end() ?>
     </div>
 </div>
+
+<?php Pjax::end() ?>

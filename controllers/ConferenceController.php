@@ -277,8 +277,10 @@ class ConferenceController extends Controller
 
     /**
      * @param $id
+     * @param $from
+     * @return string
      */
-    public function actionAddToWishList($id)
+    public function actionAddToWishList($id, $from)
     {
         $wishList = new ConferenceWishlist();
 
@@ -286,22 +288,24 @@ class ConferenceController extends Controller
         $wishList->conference_id = $id;
 
         if ($wishList->save()) {
-            Yii::$app->session->setFlash('success','Конференция добавлена в избранное!');
+            //Yii::$app->session->setFlash('success','Конференция добавлена в избранное!');
         } else {
             Yii::$app->session->setFlash('error', 'Ошибка! Конференция не добавлена в избранное. Обратитесь к администратору системы.');
         }
 
-        $this->redirect([
-            '/site/index'
-        ]);
+        return $this->render(
+            '/html_block/' . $from
+        );
     }
 
     /**
      * @param $id
+     * @param $from
+     * @return string
      * @throws \Throwable
      * @throws \yii\db\StaleObjectException
      */
-    public function actionDeleteFromWishList($id)
+    public function actionDeleteFromWishList($id, $from)
     {
         $wishList = ConferenceWishlist::findOne([
             'user_id' => Yii::$app->user->id,
@@ -309,14 +313,14 @@ class ConferenceController extends Controller
         ]);
 
         if ($wishList->delete()) {
-            Yii::$app->session->setFlash('success', 'Конференция удалена из избранного!');
+            //Yii::$app->session->setFlash('success', 'Конференция удалена из избранного!');
         } else {
             Yii::$app->session->setFlash('error', 'Ошибка! Конференция не удалена из избранного. Обратитесь к администратору системы.');
         };
 
-        $this->redirect([
-            '/site/index'
-        ]);
+        return $this->render(
+            '/html_block/' . $from
+        );
     }
 
     /**
