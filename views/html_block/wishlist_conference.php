@@ -93,7 +93,7 @@ $conferences = new ActiveDataProvider([
                             'delete' => function ($url, $model) {
                                 return Html::a('<span class="glyphicon glyphicon-trash"></span>',
                                     ['conference/delete-from-wish-list?id=' . $model->conference_id . '&from=wishlist_conference'], [
-                                        'data' => ['toggle' => 'tooltip', 'pjax' => true,], 'title' => 'Удалить'
+                                        'data' => ['toggle' => 'tooltip', 'pjax' => true], 'title' => 'Удалить'
                                     ]
                                 );
                             }

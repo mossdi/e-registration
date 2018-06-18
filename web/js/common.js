@@ -22,5 +22,14 @@ function formClean() {
 }
 
 $(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();
+     $('[data-toggle="tooltip"]').tooltip();
+});
+
+/**
+ * Pjax container refresh
+ */
+$('.grid-view a#wishlistToggle').on('click', function() {
+    $.pjax.reload({
+        container: '#wishListContainer'
+    });
 });
