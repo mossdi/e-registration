@@ -9,7 +9,7 @@ $this->title = 'Департамент здравоохранения';
 <div class="site-index">
 
     <?= $this->render(
-        '/html_block/future_conference'
+        '/html_block/conference_future'
     ) ?>
 
 </div>

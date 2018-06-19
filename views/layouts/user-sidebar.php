@@ -10,20 +10,24 @@ use app\forms\UserForm;
 <aside class="control-sidebar control-sidebar-light">
     <!-- Create the tabs -->
     <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-        <li class="active"><a href="#home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
-        <li><a href="#certificate-tab" data-toggle="tab"><i class="fa fa-file"></i></a></li>
+        <li class="active"><a href="#home-tab" data-toggle="tab"><i class="fa fa-home"></i>Конференции</a></li>
+        <li><a href="#certificate-tab" data-toggle="tab"><i class="fa fa-file"></i>Мои сертификаты</a></li>
         <li><a href="#setting-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
     </ul>
     <div class="tab-content">
         <div id="home-tab" class="tab-pane active fade in">
 
             <?= $this->render(
-                '/html_block/wishlist_conference'
+                '/html_block/conference_wishlist'
             ) ?>
 
         </div>
 
         <div id="certificate-tab" class="tab-pane fade">
+
+            <?= $this->render(
+                '/html_block/certificate_user'
+            ) ?>
 
         </div>
 
