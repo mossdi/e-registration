@@ -23,7 +23,7 @@ use app\forms\UserForm;
 
         </div>
 
-        <div id="certificate-tab">
+        <div id="certificate-tab" class="tab-pane fade">
 
         </div>
 

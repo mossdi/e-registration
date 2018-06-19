@@ -504,13 +504,14 @@ a:focus {
   padding: 0;
 }
 .sidebar-menu > li > a {
-  padding: 12px 5px 12px 15px;
+  padding: 12px 7px 12px 7px;
   display: block;
 }
 .sidebar-menu > li > a > .fa,
 .sidebar-menu > li > a > .glyphicon,
 .sidebar-menu > li > a > .ion {
-  width: 20px;
+  vertical-align: middle;
+  margin-right: 7px;
 }
 .sidebar-menu > li .label,
 .sidebar-menu > li .badge {

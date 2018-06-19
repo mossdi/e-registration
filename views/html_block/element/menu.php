@@ -27,14 +27,14 @@ try {
 
                 [
                     'label' => 'Текущая конференция',
-                    'icon' => 'bullhorn',
+                    'icon' => 'bullhorn fa-2x',
                     'url' => $conference_now ? '/conference/view-now?id=' . $conference_now->id : '',
                     'visible' => $conference_now ? true : false,
                 ],
 
                 [
                     'label' => 'Регистрация',
-                    'icon' => 'plus-square',
+                    'icon' => 'plus-square fa-2x',
                     'items' => [
                         [
                             'label' => 'Пользователь',
@@ -54,7 +54,7 @@ try {
                 ],
                 [
                     'label' => 'Администрирование',
-                    'icon' => 'edit',
+                    'icon' => 'edit fa-2x',
                     'options' => [
                         'class' => ''
                     ],
@@ -81,7 +81,7 @@ try {
                 ],
                 [
                     'label' => 'Настройки',
-                    'icon' => 'cogs',
+                    'icon' => 'cogs fa-2x',
                     'url' => ['/setting/index'],
                     'visible' => Yii::$app->user->can(User::ROLE_ADMIN)
                 ],

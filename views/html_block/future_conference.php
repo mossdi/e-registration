@@ -82,7 +82,7 @@ $conferences = new ActiveDataProvider([
                         'controller' => '/conference',
                         'buttons' => [
                             'register' => function ($url, $model) {
-                                return !$model->participant && $model->registerTime ? Html::a('Участвовать', ['/user/register-participant?user_id=' . Yii::$app->user->id . '&conference_id=' . $model->id . '&method=' . Conference::LEARNING_DISTANCE . '&from=future_conference'],
+                                return !$model->participant && $model->registerTime ? Html::a('Участвовать', ['/user/register-participant?user_id=' . Yii::$app->user->id . '&conference_id=' . $model->id . '&method=' . Conference::LEARNING_DISTANCE],
                                     ['data-pjax' => true]
                                 ) : '';
                             },

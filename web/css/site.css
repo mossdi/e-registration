@@ -44,6 +44,13 @@ body {
 .main-header .logo .logo-lg > img,
 .main-header .logo .logo-mini > img {
     max-height: 40px;
+}
+
+.main-header .logo .logo-lg > img {
+    padding-left: 10px;
+}
+
+.main-header .logo .logo-mini > img {
     margin: auto;
 }
 

@@ -213,18 +213,17 @@ class UserController extends Controller
      * @param $user_id
      * @param $conference_id
      * @param $method
-     * @param $from
-     * @return string
+     * @return Response
      * @throws \Exception
      */
-    public function actionRegisterParticipant($user_id, $conference_id, $method, $from)
+    public function actionRegisterParticipant($user_id, $conference_id, $method)
     {
         $result = UserComponent::registerParticipant($user_id, $conference_id, $method);
 
         Yii::$app->session->setFlash($result['status'], $result['message']);
 
-        return $this->render(
-            '/html_block/' . $from
+        return $this->redirect(
+            '/site/index'
         );
     }
 
