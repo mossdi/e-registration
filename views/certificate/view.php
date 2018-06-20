@@ -26,19 +26,19 @@ $this->title = $model->id;
     </p>
     <?php endif; ?>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'user_id',
-            'conference_id',
-            'date_issue',
-            'document_series',
-            'learning_method',
-            'status',
-            'deleted',
-            'created_at',
-            'updated_at',
-        ],
-    ]) ?>
+    <?php try {
+        echo DetailView::widget([
+            'model' => $model,
+            'attributes' => [
+                'userFullName',
+                'conference.title',
+                'date_issue:date',
+                'document_series',
+                'participantMethod',
+            ],
+        ]);
+    } catch (Exception $e) {
+        echo $e->getMessage();
+    } ?>
 
 </div>

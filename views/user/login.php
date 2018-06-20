@@ -14,7 +14,7 @@ $this->title = 'Авторизация';
 
 <div class="login-box">
     <div class="login-logo">
-        <?= Html::img('/image/department_logo.png', ['class' => 'img-responsive']) ?>
+        <?= Html::img('/image/niiozmm_logo_full.png', ['class' => 'img-responsive']) ?>
     </div>
 
     <div class="login-box-body">

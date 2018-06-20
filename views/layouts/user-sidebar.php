@@ -21,6 +21,10 @@ use app\forms\UserForm;
                 '/html_block/conference_wishlist'
             ) ?>
 
+            <?= $this->render(
+                '/html_block/conference_history'
+            ) ?>
+
         </div>
 
         <div id="certificate-tab" class="tab-pane fade">

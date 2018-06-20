@@ -2,6 +2,7 @@
 
 namespace app\entities;
 
+use Yii;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use DateTime;
@@ -107,6 +108,8 @@ class Certificate extends ActiveRecord
             'userLastName' => 'Фамилия',
             'userFirstName' => 'Имя',
             'userPatronName' => 'Отчество',
+            'userFullName' => 'Владелец',
+            'participantMethod' => 'Форма обучения',
             'conference.title' => 'Конференция',
             'date_issue' => 'Дата выдачи',
             'document_series' => 'Номер документа',
@@ -123,10 +126,27 @@ class Certificate extends ActiveRecord
     }
 
     /**
+     * @return string
+     */
+    public function getUserFullName() {
+        return $this->user->last_name . ' ' . $this->user->first_name . ' ' . $this->user->patron_name;
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public  function getConference()
     {
         return$this->hasOne(Conference::className(), ['id' => 'conference_id']);
+    }
+
+    /**
+     * @return string
+     */
+    public function getParticipantMethod()
+    {
+        $model = ConferenceParticipant::findOne(['conference_id' => $this->conference_id, 'user_id' => Yii::$app->user->id]);
+
+        return !empty($model) && $model->method == Conference::LEARNING_FULL_TIME ? 'Очно' : 'Дистанционно';
     }
 }
