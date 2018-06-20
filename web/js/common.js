@@ -27,3 +27,25 @@ function formClean() {
 $(document).ready(function(){
      $('[data-toggle="tooltip"]').tooltip();
 });
+
+/**
+ * wishListReload
+ */
+function wishListReload() {
+    setTimeout(function () {
+        $.pjax.reload({
+            container: '#wishListContainer'
+        })
+    }, 2000)
+}
+
+/**
+ * futureConferenceReload
+ */
+function futureConferenceReload() {
+    setTimeout(function () {
+        $.pjax.reload({
+            container: '#futureConferenceContainer'
+        })
+    }, 2000)
+}

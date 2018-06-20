@@ -5,5 +5,5 @@
 ?>
 
 <footer class="main-footer">
-    <strong>Все права защищены</strong> <span class="glyphicon glyphicon-copyright-mark"></span>
+    <strong>НИИ Организации здравоохранения и медицинского менеджмента. Все права защищены</strong> <span class="glyphicon glyphicon-copyright-mark"></span>
 </footer>
