@@ -288,7 +288,7 @@ class ConferenceController extends Controller
         $wishList->conference_id = $id;
 
         if ($wishList->save()) {
-            //Yii::$app->session->setFlash('success','Конференция добавлена в избранное!');
+            Yii::$app->session->setFlash('success','Конференция добавлена в избранное!');
         } else {
             Yii::$app->session->setFlash('error', 'Ошибка! Конференция не добавлена в избранное. Обратитесь к администратору системы.');
         }
@@ -313,7 +313,7 @@ class ConferenceController extends Controller
         ]);
 
         if ($wishList->delete()) {
-            //Yii::$app->session->setFlash('success', 'Конференция удалена из избранного!');
+            Yii::$app->session->setFlash('success', 'Конференция удалена из избранного!');
         } else {
             Yii::$app->session->setFlash('error', 'Ошибка! Конференция не удалена из избранного. Обратитесь к администратору системы.');
         };

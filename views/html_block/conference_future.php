@@ -84,12 +84,12 @@ $conferences = new ActiveDataProvider([
                             'register' => function ($url, $model) {
                                 return !$model->participant && $model->registerTime ? Html::a('Участвовать', ['/user/register-participant?user_id=' . Yii::$app->user->id . '&conference_id=' . $model->id . '&method=' . Conference::LEARNING_DISTANCE],
                                     ['data-pjax' => true]
-                                ) : '';
+                                ) . ' / ' : '';
                             },
                             'whishlist' => function ($url, $model) {
-                                return !$model->wishList ? Html::a('<span class= "glyphicon glyphicon-star-empty"></span>', ['/conference/add-to-wish-list?id=' . $model->id . '&from=future_conference'],
+                                return !$model->wishList ? Html::a('<span class= "glyphicon glyphicon-star-empty"></span>', ['/conference/add-to-wish-list?id=' . $model->id . '&from=conference_future'],
                                     ['data' => ['toggle' => 'tooltip', 'pjax' => true], 'id' => 'wishlistToggle', 'title' => 'В избранное']
-                                ) : Html::a('<span class= "glyphicon glyphicon-star"></span>', ['/conference/delete-from-wish-list?id=' . $model->id . '&from=future_conference'],
+                                ) : Html::a('<span class= "glyphicon glyphicon-star"></span>', ['/conference/delete-from-wish-list?id=' . $model->id . '&from=conference_future'],
                                     ['data' => ['toggle' => 'tooltip', 'pjax' => true], 'id' => 'wishlistToggle', 'title' => 'Удалить из избранного']
                                 );
                             },

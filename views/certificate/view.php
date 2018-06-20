@@ -13,18 +13,20 @@ $this->title = $model->id;
 
 <div class="certificate-view">
 
-    <?php if (Yii::$app->user->can(User::ROLE_ADMIN)): ?>
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
+    <p class="control-panel">
+        <?php if (Yii::$app->user->can(User::ROLE_ADMIN)): ?>
+            <?= Html::a('Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
+                'class' => 'btn btn-danger',
+                'data' => [
+                    'confirm' => 'Are you sure you want to delete this item?',
+                    'method' => 'post',
+                ],
+            ]) ?>
+        <?php endif; ?>
+
+        <?= Html::a('Скачать', ['#', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
     </p>
-    <?php endif; ?>
 
     <?php try {
         echo DetailView::widget([
