@@ -12,7 +12,7 @@ use yii2mod\alert\Alert;
 
 $conferences = new ActiveDataProvider([
     'query' => Conference::find()
-            ->with(['wishList'])
+            ->with(['wishList', 'author', 'participant', 'wishList'])
            ->where(['>', '(start_time + ' . Yii::$app->setting->get('registerClose') . ')', time()])
         ->andWhere(['status' => Conference::STATUS_ACTIVE]),
     'sort' => [
