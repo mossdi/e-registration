@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\entities\Certificate;
-use kartik\datetime\DateTimePicker;
+use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\entities\Certificate */
@@ -13,23 +13,31 @@ use kartik\datetime\DateTimePicker;
 
 <div class="certificate-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin([
+        'id' => 'certificate-form',
+        'action' => ['/certificate/update?id=' . $model->id],
+        'validationUrl' => ['/certificate/form-validate'],
+        'enableAjaxValidation' => true,
+        'fieldConfig' => [
+            'template' => "{label}\n{input}",
+        ],
+    ]); ?>
 
     <?= $form->field($model, 'date_issue')
-        ->widget(DateTimePicker::className(), [
-            'name' => 'start_time',
+        ->widget(DatePicker::className(), [
+            'name' => 'date_issue',
             'convertFormat' => false,
             'readonly' => true,
             'layout' => '{picker}{input}{remove}',
             'options' => [
-                'placeholder' => 'Укажите дату выдачи'
+                'placeholder' => 'Выберите дату'
             ],
             'pluginOptions' => [
                 'autoclose' => true,
-                'format' => 'dd.mm.yy hh:ii',
+                'format' => 'dd.mm.yy',
                 'todayHighlight' => true
             ]
-        ]) ?>
+        ])?>
 
     <?= $form->field($model, 'document_series')->textInput(['maxlength' => true]) ?>
 

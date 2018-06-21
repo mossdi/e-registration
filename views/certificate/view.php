@@ -17,7 +17,7 @@ $this->title = $model->id;
         <?php if (Yii::$app->user->can(User::ROLE_ADMIN)): ?>
             <?= Html::button('Редактировать', [
                 'class' => 'btn btn-primary',
-                'onclick' => 'formLoad(\'/certificate/update\', \'' . $model->conference->title . '\', \'' . $model->id . '\')'
+                'onclick' => 'formLoad(\'/certificate/update-form\', \'' . $model->conference->title . '\', \'' . $model->id . '\')'
             ]); ?>
             <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
                 'class' => 'btn btn-danger',

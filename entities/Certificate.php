@@ -26,8 +26,6 @@ use DateTimeZone;
  */
 class Certificate extends ActiveRecord
 {
-    const SCENARIO_ISSUE = 'issue';
-
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
 
@@ -35,23 +33,6 @@ class Certificate extends ActiveRecord
         self::STATUS_ACTIVE  => 'Активный',
         self::STATUS_DELETED => 'Заблокированный',
     ];
-
-    /**
-     * Certificate constructor.
-     * @param null $id
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function __construct($id = null)
-    {
-        if ($id != null) {
-            $certificate = Certificate::findOne($id);
-
-            $this->id = $certificate->id;
-            $this->date_issue = Yii::$app->formatter->asDate($certificate->date_issue,'php:d.m.y H:i');
-        }
-
-        return parent::__construct();
-    }
 
     /**
      * {@inheritdoc}
@@ -78,7 +59,7 @@ class Certificate extends ActiveRecord
     public function beforeSave($insert)
     {
         if (!empty($this->date_issue)) {
-            $date = DateTime::createFromFormat('d.m.y H:i', $this->date_issue, new DateTimeZone('Europe/Moscow'));
+            $date = DateTime::createFromFormat('d.m.y', $this->date_issue, new DateTimeZone('Europe/Moscow'));
 
             $this->date_issue = $date->getTimestamp();
         }
@@ -92,8 +73,6 @@ class Certificate extends ActiveRecord
     public function rules()
     {
         return [
-            [['date_issue', 'document_series'], 'required', 'on' => self::SCENARIO_ISSUE],
-
             [['date_issue', 'document_series'], 'default', 'value' => null],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['deleted', 'default', 'value' => 0],

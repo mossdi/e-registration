@@ -11,7 +11,7 @@ class ConferenceComponent
      * @param ConferenceForm $form
      * @return Conference
      */
-    public function conferenceCreate(ConferenceForm $form)
+    public static function conferenceCreate(ConferenceForm $form)
     {
         $conference = Conference::create(
             $form->title,
@@ -31,7 +31,7 @@ class ConferenceComponent
      * @param Conference $conference
      * @return Conference
      */
-    public function conferenceUpdate(ConferenceForm $form, Conference $conference)
+    public static function conferenceUpdate(ConferenceForm $form, Conference $conference)
     {
         $conference->title = $form->title;
         $conference->description = $form->description;

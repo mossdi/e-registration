@@ -157,7 +157,7 @@ class ConferenceController extends Controller
         $form = new ConferenceForm($id);
 
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            if ((new ConferenceComponent())->conferenceCreate($form)) {
+            if (ConferenceComponent::conferenceCreate($form)) {
                 Yii::$app->session->setFlash('success', 'Событие успешно зарегистрировано в системе!');
             } else {
                 Yii::$app->session->setFlash('error', 'Ошибка! Событие не зарегистрировано. Обратитесь к администратору системы.');
@@ -180,7 +180,7 @@ class ConferenceController extends Controller
         $form = new ConferenceForm($id);
 
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            if ((new ConferenceComponent())->conferenceUpdate($form, Conference::findOne($id))) {
+            if (ConferenceComponent::conferenceUpdate($form, Conference::findOne($id))) {
                 Yii::$app->session->setFlash('success', 'Событие успешно обновлено!');
             } else {
                 Yii::$app->session->setFlash('error', 'Ошибка! Событие не обновлено. Обратитесь к администратору системы.');

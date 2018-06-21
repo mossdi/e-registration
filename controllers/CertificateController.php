@@ -2,14 +2,18 @@
 
 namespace app\controllers;
 
+use app\components\CertificateComponent;
+use app\forms\CertificateForm;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\Response;
 use yii\web\NotFoundHttpException;
 use app\entities\User;
 use app\entities\Certificate;
 use app\entities\CertificateSearch;
+use yii\widgets\ActiveForm;
 
 /**
  * CertificateController implements the CRUD actions for Certificate model.
@@ -44,7 +48,6 @@ class CertificateController extends Controller
     /**
      * Lists all Certificate models.
      * @return mixed
-     * @throws \yii\base\InvalidConfigException
      */
     public function actionIndex()
     {
@@ -74,24 +77,56 @@ class CertificateController extends Controller
      * Updates an existing Certificate model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
+     * @return string
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function actionUpdateForm($id)
+    {
+        $form = new CertificateForm($id);
+
+        return $this->renderAjax('update', [
+            'model' => $form,
+        ]);
+    }
+
+    /**
+     * Certificate form validate
+     *
+     * @throws \yii\base\InvalidConfigException
+     * @return array
+     */
+    public function actionFormValidate()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        $form = new CertificateForm();
+
+        $form->load(Yii::$app->request->post());
+
+        return ActiveForm::validate($form);
+    }
+
+    /**
+     * Conference update
+     *
+     * @param integer $id
+     * @throws \yii\base\InvalidConfigException
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $form = new CertificateForm($id);
 
-        $model->scenario = Certificate::SCENARIO_ISSUE;
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            if (CertificateComponent::certificateUpdate($form, Certificate::findOne($id))) {
+                Yii::$app->session->setFlash('success', 'Сертификат успешно обновлен!');
+            } else {
+                Yii::$app->session->setFlash('error', 'Ошибка! Сертификат не обновлен. Обратитесь к администратору системы.');
+            }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect([
+            $this->redirect(
                 '/certificate/index'
-            ]);
+            );
         }
-
-        return $this->renderAjax('update', [
-            'model' => $model,
-        ]);
     }
 
     /**

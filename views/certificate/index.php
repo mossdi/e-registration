@@ -1,10 +1,8 @@
 <?php
 
 use yii\helpers\Html;
-use yii\helpers\ArrayHelper;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
-use app\entities\Conference;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\entities\CertificateSearch */
@@ -57,11 +55,6 @@ $this->title = 'Сертификаты';
                     ],
                     [
                         'attribute' => 'conference.title',
-                        'filter' => $dataProvider->count > 0 ? Html::activeDropDownList($searchModel, 'conference_id',
-                            ArrayHelper::map(Conference::find()
-                                ->all(), 'id', 'title'
-                            ),  ['prompt' => 'Все']
-                        ) : false
                     ],
                     [
 
@@ -91,7 +84,7 @@ $this->title = 'Сертификаты';
                                 return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
                                     'data-toggle' => 'modal',
                                     'data-target' => '#modalForm',
-                                    'onclick' => 'formLoad(\'/certificate/update\', \'' . $model->conference->title . '\', \'' . $model->id . '\')'
+                                    'onclick' => 'formLoad(\'/certificate/update-form\', \'' . $model->conference->title . '\', \'' . $model->id . '\')'
                                 ]);
                             },
                         ]
