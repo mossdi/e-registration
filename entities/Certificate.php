@@ -37,6 +37,23 @@ class Certificate extends ActiveRecord
     ];
 
     /**
+     * Certificate constructor.
+     * @param null $id
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function __construct($id = null)
+    {
+        if ($id != null) {
+            $certificate = Certificate::findOne($id);
+
+            $this->id = $certificate->id;
+            $this->date_issue = Yii::$app->formatter->asDate($certificate->date_issue,'php:d.m.y H:i');
+        }
+
+        return parent::__construct();
+    }
+
+    /**
      * {@inheritdoc}
      */
     public static function tableName()

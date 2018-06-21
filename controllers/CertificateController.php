@@ -44,6 +44,7 @@ class CertificateController extends Controller
     /**
      * Lists all Certificate models.
      * @return mixed
+     * @throws \yii\base\InvalidConfigException
      */
     public function actionIndex()
     {
