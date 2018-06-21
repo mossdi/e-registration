@@ -59,7 +59,7 @@ class Certificate extends ActiveRecord
     public function beforeSave($insert)
     {
         if (!empty($this->date_issue)) {
-            $date = DateTime::createFromFormat('d.m.y', $this->date_issue, new DateTimeZone('Europe/Moscow'));
+            $date = DateTime::createFromFormat('d.m.yy', $this->date_issue, new DateTimeZone('Europe/Moscow'));
 
             $this->date_issue = $date->getTimestamp();
         }

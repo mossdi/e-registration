@@ -24,7 +24,7 @@ class CertificateForm extends Model
             $certificate = Certificate::findOne($id);
 
             $this->id = $certificate->id;
-            $this->date_issue = Yii::$app->formatter->asDate($certificate->date_issue,'php:d.m.y');
+            $this->date_issue = Yii::$app->formatter->asDate($certificate->date_issue,'php:d.m.yy');
             $this->document_series = $certificate->document_series;
             $this->status = $certificate->status;
         }
@@ -39,7 +39,7 @@ class CertificateForm extends Model
     {
         return [
             [['date_issue', 'document_series'], 'required'],
-            [['date_issue'], 'date', 'format' => 'php:d.m.y'],
+            [['date_issue'], 'date', 'format' => 'php:d.m.yy'],
             [['document_series'], 'string'],
         ];
     }

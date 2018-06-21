@@ -34,8 +34,9 @@ use kartik\date\DatePicker;
             ],
             'pluginOptions' => [
                 'autoclose' => true,
-                'format' => 'dd.mm.yy',
-                'todayHighlight' => true
+                'format' => 'dd.mm.yyyy',
+                'todayHighlight' => true,
+                'todayBtn' => true,
             ]
         ])?>
 
