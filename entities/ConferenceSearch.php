@@ -42,6 +42,7 @@ class ConferenceSearch extends Conference
     public function search($params)
     {
         $query = Conference::find()
+             ->with(['wishList', 'author', 'participant', 'wishList'])
             ->where(['deleted' => 0]);
 
         if (!empty($params['time'])) {

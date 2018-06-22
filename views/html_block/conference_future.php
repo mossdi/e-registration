@@ -1,42 +1,22 @@
 <?php
 
-use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
 use app\entities\Conference;
+use app\entities\ConferenceSearch;
 use yii2mod\alert\Alert;
 
 /* @var $this \yii\web\View */
-/* @var $limit int */
+/* @var $searchModel app\entities\ConferenceSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
 
-$conferences = new ActiveDataProvider([
-    'query' => Conference::find()
-            ->with(['wishList', 'author', 'participant', 'wishList'])
-           ->where(['>', '(start_time + ' . Yii::$app->setting->get('registerClose') . ')', time()])
-        ->andWhere(['status' => Conference::STATUS_ACTIVE]),
-    'sort' => [
-        'defaultOrder' => [
-            'start_time' => SORT_ASC
-        ]
-    ],
-    'pagination' => [
-        'pageSize' => '10'
-    ],
-]);
+$searchModel = new ConferenceSearch();
+$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+$dataProvider->query->where(['>', '(start_time + ' . Yii::$app->setting->get('registerClose') . ')', time()])->andWhere(['status' => Conference::STATUS_ACTIVE]);
 
 ?>
-
-<?php Pjax::begin([
-    'id' => 'futureConferenceContainer',
-    'enablePushState' => false,
-]) ?>
-
-<?php try {
-    echo Alert::widget();
-} catch (Exception $e) {
-    echo 'Выброшено исключение: ',  $e->getMessage(), "\n";
-} ?>
 
 <div class="box">
     <div class="box-header with-border">
@@ -47,10 +27,20 @@ $conferences = new ActiveDataProvider([
     </div>
 
     <div class="box-body">
+        <?php Pjax::begin([
+            'id' => 'futureConferenceContainer',
+            'enablePushState' => false,
+        ]) ?>
+
+        <?php try {
+            echo Alert::widget();
+        } catch (Exception $e) {
+            echo 'Выброшено исключение: ',  $e->getMessage(), "\n";
+        } ?>
 
         <?php try {
             echo GridView::widget([
-                'dataProvider' => $conferences,
+                'dataProvider' => $dataProvider,
                 'columns' => [
                     ['class' => 'yii\grid\SerialColumn'],
 
@@ -101,7 +91,6 @@ $conferences = new ActiveDataProvider([
             echo 'Выброшено исключение: ', $e->getMessage(), "\n";
         } ?>
 
+        <?php Pjax::end() ?>
     </div>
 </div>
-
-<?php Pjax::end() ?>

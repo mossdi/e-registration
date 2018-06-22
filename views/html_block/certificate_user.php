@@ -6,6 +6,7 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 use app\entities\Conference;
 use app\entities\CertificateSearch;
+use app\entities\Certificate;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\entities\CertificateSearch */
@@ -14,7 +15,7 @@ use app\entities\CertificateSearch;
 $searchModel = new CertificateSearch();
 $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-$dataProvider->query->where(['user_id' => Yii::$app->user->id]);
+$dataProvider->query->where(['user_id' => Yii::$app->user->id])->andWhere(['status' => Certificate::STATUS_ACTIVE]);
 
 ?>
 
@@ -38,18 +39,6 @@ $dataProvider->query->where(['user_id' => Yii::$app->user->id]);
                 'columns' => [
                     ['class' => 'yii\grid\SerialColumn'],
 
-//                    [
-//                        'attribute' => 'user.last_name',
-//                        'filter' => Html::activeInput('text', $searchModel, 'userLastName', ['class' => 'form-control'])
-//                    ],
-//                    [
-//                        'attribute' => 'user.first_name',
-//                        'filter' => Html::activeInput('text', $searchModel, 'userFirstName', ['class' => 'form-control'])
-//                    ],
-//                    [
-//                        'attribute' => 'user.patron_name',
-//                        'filter' => Html::activeInput('text', $searchModel, 'userPatronName', ['class' => 'form-control'])
-//                    ],
                     [
                         'attribute' => 'conference.title',
                         'filter' => $dataProvider->count > 0 ? Html::activeDropDownList($searchModel, 'conference_id',

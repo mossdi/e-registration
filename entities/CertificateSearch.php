@@ -46,8 +46,8 @@ class CertificateSearch extends Certificate
     public function search($params)
     {
         $query = Certificate::find()
-               ->where(['certificate.deleted' => 0])
-            ->joinWith(['user', 'conference']);
+            ->joinWith(['user', 'conference'])
+               ->where(['certificate.deleted' => 0]);
 
         if (!empty($params['form'])) {
             if ($params['form'] == 'ready') {
