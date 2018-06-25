@@ -14,6 +14,14 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+        'mongodb' => [
+            'class' => '\yii\mongodb\Connection',
+            'dsn' => 'mongodb://@localhost:27017/cert',
+            'options' => [
+                'username' => '',
+                'password' => ''
+            ]
+        ],
         'setting' => [
             'class' => 'app\components\SettingComponent',
         ],

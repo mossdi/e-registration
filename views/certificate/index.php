@@ -8,6 +8,8 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\entities\CertificateSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
+$dataProvider->pagination->pageSize = 50;
+
 $this->title = 'Сертификаты';
 
 ?>

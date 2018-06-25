@@ -12,6 +12,8 @@ use yii\widgets\Pjax;
 
 $dataProvider->pagination->pageSize = 50;
 
+$this->title = 'Пользователи';
+
 ?>
 
 <div class="box">

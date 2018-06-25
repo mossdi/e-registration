@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "2f1ee366b603e36f6abc2511436c94a2",
+    "content-hash": "62f168f8759bc029f449954d6e237eb6",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -33,7 +33,7 @@
             "version": "5.38.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/components/codemirror.git",
+                "url": "git@github.com:components/codemirror.git",
                 "reference": "1352279f1a103af38e3033743745310ee94b4530"
             },
             "dist": {
@@ -655,16 +655,16 @@
         },
         {
             "name": "vova07/yii2-imperavi-widget",
-            "version": "2.0.4",
+            "version": "2.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vova07/yii2-imperavi-widget.git",
-                "reference": "0d0c3801301cbba3dd9bf894e9248696ada1bac1"
+                "reference": "6ea9a41c3ec18889a4b38cd700fa81ae03154b4d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vova07/yii2-imperavi-widget/zipball/0d0c3801301cbba3dd9bf894e9248696ada1bac1",
-                "reference": "0d0c3801301cbba3dd9bf894e9248696ada1bac1",
+                "url": "https://api.github.com/repos/vova07/yii2-imperavi-widget/zipball/6ea9a41c3ec18889a4b38cd700fa81ae03154b4d",
+                "reference": "6ea9a41c3ec18889a4b38cd700fa81ae03154b4d",
                 "shasum": ""
             },
             "require": {
@@ -706,7 +706,7 @@
                 "yii 2",
                 "yii2"
             ],
-            "time": "2018-06-21T09:14:45+00:00"
+            "time": "2018-06-22T17:18:43+00:00"
         },
         {
             "name": "yii2mod/yii2-sweet-alert",
@@ -1015,6 +1015,55 @@
                 "yii2"
             ],
             "time": "2017-11-25T15:32:29+00:00"
+        },
+        {
+            "name": "yiisoft/yii2-mongodb",
+            "version": "2.1.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/yii2-mongodb.git",
+                "reference": "68fc79f36487da5b386afd16ad7576394d7dd714"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiisoft/yii2-mongodb/zipball/68fc79f36487da5b386afd16ad7576394d7dd714",
+                "reference": "68fc79f36487da5b386afd16ad7576394d7dd714",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mongodb": ">=1.0.0",
+                "yiisoft/yii2": "~2.0.14"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "yii\\mongodb\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Paul Klimov",
+                    "email": "klimov.paul@gmail.com"
+                }
+            ],
+            "description": "MongoDB extension for the Yii framework",
+            "keywords": [
+                "GridFS",
+                "active-record",
+                "mongo",
+                "mongodb",
+                "yii2"
+            ],
+            "time": "2018-03-30T15:05:41+00:00"
         },
         {
             "name": "yiisoft/yii2-swiftmailer",

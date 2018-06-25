@@ -15,7 +15,7 @@ use app\entities\Certificate;
 $searchModel = new CertificateSearch();
 $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-$dataProvider->query->where(['user_id' => Yii::$app->user->id])->andWhere(['status' => Certificate::STATUS_ACTIVE]);
+$dataProvider->query->where(['user_id' => Yii::$app->user->id])->andWhere(['certificate.status' => Certificate::STATUS_ACTIVE]);
 
 ?>
 

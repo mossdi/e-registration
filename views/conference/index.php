@@ -10,6 +10,8 @@ use yii\widgets\Pjax;
 
 $dataProvider->pagination->pageSize = 50;
 
+$this->title = 'Конференции';
+
 ?>
 
 <div class="box">
