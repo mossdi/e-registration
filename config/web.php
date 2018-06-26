@@ -16,11 +16,7 @@ $config = [
     'components' => [
         'mongodb' => [
             'class' => '\yii\mongodb\Connection',
-            'dsn' => 'mongodb://@localhost:27017/cert',
-            'options' => [
-                'username' => '',
-                'password' => ''
-            ]
+            'dsn' => 'mongodb://127.0.0.1:27017/cert',
         ],
         'setting' => [
             'class' => 'app\components\SettingComponent',

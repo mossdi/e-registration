@@ -25,7 +25,8 @@
         "marqu3s/yii2-summernote": "dev-master",
         "vova07/yii2-imperavi-widget": "*",
         "kartik-v/yii2-widget-datepicker": "@dev",
-        "yiisoft/yii2-mongodb": "^2.1"
+        "yiisoft/yii2-mongodb": "^2.1",
+        "kartik-v/yii2-mpdf": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

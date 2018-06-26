@@ -6,6 +6,8 @@
 use app\entities\User;
 use yii\helpers\Html;
 
+$this->title = $model->title;
+
 ?>
 
 <?php if (Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_SPEAKER)):  ?>
