@@ -18,6 +18,10 @@ $this->title = $model->title;
         'data-target' => '#modalForm',
         'onclick'     => 'formLoad(\'/conference/participant\', \'' . $model->title . '\', \'' . $model->id . '\')'
     ]) ?>
+    <?= Html::a('Тестирование', ['/test/view?id=' . $model->id], [
+        'class' => 'btn btn-primary',
+        'data-method' => 'post',
+    ]) ?>
     <?= Html::a('Закрыть конференцию', ['/conference/close?id=' . $model->id], [
         'class' => 'btn btn-danger pull-right',
         'data-method' => 'post',

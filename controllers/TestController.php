@@ -3,7 +3,7 @@
 namespace app\controllers;
 
 use yii\web\Controller;
-use app\entities\mongodb\Test;
+use app\entities\Conference;
 
 /**
  * Class TestController
@@ -11,14 +11,20 @@ use app\entities\mongodb\Test;
 class TestController extends Controller
 {
     /**
+     * @param $id
      * @return string
      */
-    public function actionIndex()
+    public function actionView($id)
     {
-        $test = Test::find()->all();
+        $conference = Conference::findOne($id);
 
-        return $this->render('index', [
-            'test' => $test
+        return $this->render('view', [
+            'conference' => $conference,
         ]);
+    }
+
+    public function actionAddQuestionForm($id)
+    {
+
     }
 }
