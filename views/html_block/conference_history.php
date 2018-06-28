@@ -16,6 +16,8 @@ $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
 $dataProvider->query->where(['is not', 'end_time', null])->andWhere(['status' => Conference::STATUS_ACTIVE]);
 
+//TODO: Переделать!!!!!!!!!!
+
 ?>
 
 <div class="box">

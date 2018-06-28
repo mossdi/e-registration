@@ -144,6 +144,14 @@ a.desc:after {
     overflow-y: scroll;
 }
 
+table tr.col-question {
+    background: #dddddd;
+}
+
+table tr.col-answer {
+    background: #ffffff;
+}
+
 /* inputs */
 input.form-control,
 select.form-control {

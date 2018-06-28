@@ -20,8 +20,20 @@ class m180628_123337_create_answer_table extends Migration
         }
 
         $this->createTable('answer', [
-            'question_id' => $this->primaryKey(),
+            'id' => $this->primaryKey(),
+            'question_id' => $this->integer()->notNull(),
+            'answer' => $this->string()->notNull(),
+            'correctness' => $this->smallInteger()->notNull()
         ], $tableOptions);
+
+        $this->addForeignKey(
+            'fk-answer-question_id',
+            'answer',
+            'question_id',
+            'question',
+            'id',
+            'CASCADE'
+        );
     }
 
     /**
@@ -30,5 +42,10 @@ class m180628_123337_create_answer_table extends Migration
     public function safeDown()
     {
         $this->dropTable('answer');
+
+        $this->dropForeignKey(
+            'fk-answer-question_id',
+            'answer'
+        );
     }
 }

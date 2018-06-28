@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\entities\Question;
 use app\entities\Conference;
+use app\entities\Answer;
 use yii\web\Controller;
 
 
@@ -45,6 +46,29 @@ class TestController extends Controller
 
         return $this->renderAjax('/test/question_form', [
             'model' => $question,
+        ]);
+    }
+
+    /**
+     * @param $id
+     * @return string|\yii\web\Response
+     */
+    public function actionAddAnswer($id)
+    {
+        $answer = new Answer();
+
+        if ($answer->load(Yii::$app->request->post()) && $answer->validate()) {
+            $answer->question_id = $id;
+
+            $answer->save();
+
+            return $this->redirect([
+                '/test/view?id=' . Question::findOne($id)->conference_id
+            ]);
+        }
+
+        return $this->renderAjax('/test/answer_form', [
+            'model' => $answer,
         ]);
     }
 }
