@@ -20,7 +20,6 @@ $this->title = $model->title;
     ]) ?>
     <?= Html::a('Тестирование', ['/test/view?id=' . $model->id], [
         'class' => 'btn btn-primary',
-        'data-method' => 'post',
     ]) ?>
     <?= Html::a('Закрыть конференцию', ['/conference/close?id=' . $model->id], [
         'class' => 'btn btn-danger pull-right',

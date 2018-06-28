@@ -21,10 +21,19 @@ class m180627_160900_create_question_table extends Migration
 
         $this->createTable('question', [
             'id' => $this->primaryKey(),
-            'question' => $this->string()->notNull(),
             'conference_id' => $this->integer()->notNull(),
+            'question' => $this->string()->notNull(),
             'sort_order' => $this->integer()->notNull(),
         ], $tableOptions);
+
+        $this->addForeignKey(
+            'fk-question-conference_id',
+            'question',
+            'conference_id',
+            'conference',
+            'id',
+            'CASCADE'
+        );
     }
 
     /**
@@ -33,5 +42,10 @@ class m180627_160900_create_question_table extends Migration
     public function safeDown()
     {
         $this->dropTable('question');
+
+        $this->dropForeignKey(
+            'fk-question-conference_id',
+            'question'
+        );
     }
 }

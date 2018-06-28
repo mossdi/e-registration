@@ -2,8 +2,11 @@
 
 namespace app\controllers;
 
-use yii\web\Controller;
+use Yii;
+use app\entities\Question;
 use app\entities\Conference;
+use yii\web\Controller;
+
 
 /**
  * Class TestController
@@ -16,15 +19,32 @@ class TestController extends Controller
      */
     public function actionView($id)
     {
-        $conference = Conference::findOne($id);
-
         return $this->render('view', [
-            'conference' => $conference,
+            'questions' => Question::findAll(['conference_id' => $id]),
+            'conference' => Conference::findOne($id),
         ]);
     }
 
-    public function actionAddQuestionForm($id)
+    /**
+     * @param $id
+     * @return string|\yii\web\Response
+     */
+    public function actionAddQuestion($id)
     {
+        $question = new Question();
 
+        if ($question->load(Yii::$app->request->post()) && $question->validate()) {
+            $question->conference_id = $id;
+
+            $question->save();
+
+            return $this->redirect([
+                '/test/view?id=' . $id
+            ]);
+        }
+
+        return $this->renderAjax('/test/question_form', [
+            'model' => $question,
+        ]);
     }
 }
