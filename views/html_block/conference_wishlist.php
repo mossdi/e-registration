@@ -36,17 +36,6 @@ $conferences = new ActiveDataProvider([
 
 ?>
 
-<?php Pjax::begin([
-    'id' => 'wishListContainer',
-    'enablePushState' => false,
-]) ?>
-
-<?php try {
-    echo Alert::widget();
-} catch (Exception $e) {
-    echo 'Выброшено исключение: ',  $e->getMessage(), "\n";
-} ?>
-
 <div class="box">
     <div class="box-header with-border">
         <h3 class="box-title">Избранные конференции</h3>
@@ -56,6 +45,16 @@ $conferences = new ActiveDataProvider([
     </div>
 
     <div class="box-body">
+        <?php Pjax::begin([
+            'id' => 'wishListContainer',
+            'enablePushState' => false,
+        ]) ?>
+
+        <?php try {
+            echo Alert::widget();
+        } catch (Exception $e) {
+            echo 'Выброшено исключение: ',  $e->getMessage(), "\n";
+        } ?>
 
         <?php try {
             echo GridView::widget([
@@ -104,8 +103,6 @@ $conferences = new ActiveDataProvider([
             echo 'Выброшено исключение: ', $e->getMessage(), "\n";
         } ?>
 
+        <?php Pjax::end() ?>
     </div>
-
 </div>
-
-<?php Pjax::end() ?>
