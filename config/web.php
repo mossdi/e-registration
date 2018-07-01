@@ -14,10 +14,6 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
-        'mongodb' => [
-            'class' => '\yii\mongodb\Connection',
-            'dsn' => 'mongodb://127.0.0.1:27017/cert',
-        ],
         'setting' => [
             'class' => 'app\components\SettingComponent',
         ],
