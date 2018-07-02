@@ -9,7 +9,9 @@ use app\entities\User;
 use app\entities\Conference;
 use yii\widgets\Pjax;
 
-Pjax::begin(['id' => 'participantsListContainer']);
+Pjax::begin([
+    'id' => 'participantsListContainer'
+]);
 
 try {
     echo GridView::widget([
