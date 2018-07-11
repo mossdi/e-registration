@@ -14,7 +14,8 @@ use yii2mod\alert\Alert;
 $searchModel = new ConferenceSearch();
 $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-$dataProvider->query->where(['>', '(start_time + ' . Yii::$app->setting->get('registerClose') . ')', time()])->andWhere(['status' => Conference::STATUS_ACTIVE]);
+$dataProvider->query->where(['>', '(start_time + ' . Yii::$app->setting->get('registerClose') . ')', time()])
+                 ->andWhere(['status' => Conference::STATUS_ACTIVE]);
 
 ?>
 
@@ -72,15 +73,23 @@ $dataProvider->query->where(['>', '(start_time + ' . Yii::$app->setting->get('re
                         'controller' => '/conference',
                         'buttons' => [
                             'register' => function ($url, $model) {
-                                return !$model->participant && $model->registerTime ? Html::a('Участвовать', ['/user/register-participant?user_id=' . Yii::$app->user->id . '&conference_id=' . $model->id . '&method=' . Conference::LEARNING_DISTANCE],
+                                return !$model->participant && $model->registerTime ? Html::button('Участвовать', ['/user/register-participant?user_id=' . Yii::$app->user->id . '&conference_id=' . $model->id . '&method=' . Conference::LEARNING_DISTANCE],
                                     ['data-pjax' => true]
                                 ) . ' / ' : '';
                             },
                             'whishlist' => function ($url, $model) {
-                                return !$model->wishList ? Html::a('<span class= "glyphicon glyphicon-star-empty"></span>', ['/conference/add-to-wish-list?id=' . $model->id . '&from=' . basename(__FILE__)],
-                                    ['data' => ['toggle' => 'tooltip', 'pjax' => true], 'title' => 'В избранное', 'onclick' => 'wishListReload()']
-                                ) : Html::a('<span class= "glyphicon glyphicon-star"></span>', ['/conference/delete-from-wish-list?id=' . $model->id . '&from=' . basename(__FILE__)],
-                                    ['data' => ['toggle' => 'tooltip', 'pjax' => true], 'title' => 'Удалить из избранного', 'onclick' => 'wishListReload()']
+                                return !$model->wishList ? Html::button('<span class= "glyphicon glyphicon-star-empty"></span>', [
+                                        'onclick' => 'addToWishList(' . $model->id . ')',
+                                        'data'    => ['toggle' => 'tooltip'],
+                                        'class'   => 'btn',
+                                        'title'   => 'В избранное',
+                                    ]
+                                ) : Html::button('<span class= "glyphicon glyphicon-star"></span>', [
+                                        'onclick' => 'deleteFromWishList(' . $model->id . ')',
+                                        'data'    => ['toggle' => 'tooltip'],
+                                        'class'   => 'btn',
+                                        'title'   => 'Удалить из избранного',
+                                    ]
                                 );
                             },
                         ],

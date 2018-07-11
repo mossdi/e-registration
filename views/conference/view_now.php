@@ -10,31 +10,35 @@ $this->title = $model->title;
 
 ?>
 
-<?php if (Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_SPEAKER)):  ?>
-<div class="control-panel">
-    <?= Html::a('Список участников', ['/#'], [
-        'class' => 'btn btn-info',
-        'data-toggle' => 'modal',
-        'data-target' => '#modalForm',
-        'onclick'     => 'formLoad(\'/conference/participant\', \'' . $model->title . '\', \'' . $model->id . '\')'
-    ]) ?>
-    <?= Html::a('Тестирование', ['/test/view?id=' . $model->id], [
-        'class' => 'btn btn-primary',
-    ]) ?>
-    <?= Html::a('Закрыть конференцию', ['/conference/close?id=' . $model->id], [
-        'class' => 'btn btn-danger pull-right',
-        'data-method' => 'post',
-        'data-confirm' => 'Хотите закрыть конференцию?'
-    ]) ?>
-</div>
-<?php endif; ?>
+<div id="conference-now">
+    <?php if (Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_SPEAKER)):  ?>
+        <div class="control-panel">
+            <?= Html::a('Список участников', ['/#'], [
+                'class' => 'btn btn-info col-margin-bottom-10',
+                'data-toggle' => 'modal',
+                'data-target' => '#modalForm',
+                'onclick'     => 'formLoad(\'/conference/participant\', \'Участники конференции\', \'' . $model->id . '\')'
+            ]) ?>
 
-<hr>
+            <?= Html::a('Тестирование', ['/test/view?id=' . $model->id], [
+                'class' => 'btn btn-primary col-margin-bottom-10',
+            ]) ?>
 
-<h1><?= $model->title ?></h1>
+            <?= Html::a('Закрыть конференцию', ['/conference/close?id=' . $model->id], [
+                'class' => 'btn btn-danger col-margin-bottom-10',
+                'data-method' => 'post',
+                'data-confirm' => 'Хотите закрыть конференцию?'
+            ]) ?>
+        </div>
+    <?php endif; ?>
 
-<hr>
+    <hr>
 
-<div class="description">
-    <?= $model->description ?>
+    <h1><?= $model->title ?></h1>
+
+    <hr>
+
+    <div class="description">
+        <?= $model->description ?>
+    </div>
 </div>

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "408428ed33f4306127382222f7052459",
+    "content-hash": "2e73967237e38b8c7335c818c9541b6d",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -30,16 +30,16 @@
         },
         {
             "name": "bower-asset/codemirror",
-            "version": "5.38.0",
+            "version": "5.39.0",
             "source": {
                 "type": "git",
-                "url": "git@github.com:components/codemirror.git",
-                "reference": "1352279f1a103af38e3033743745310ee94b4530"
+                "url": "https://github.com/components/codemirror.git",
+                "reference": "5eb2040f8945857e58ed5362a1fdaea7cc9fdbe9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/components/codemirror/zipball/1352279f1a103af38e3033743745310ee94b4530",
-                "reference": "1352279f1a103af38e3033743745310ee94b4530",
+                "url": "https://api.github.com/repos/components/codemirror/zipball/5eb2040f8945857e58ed5362a1fdaea7cc9fdbe9",
+                "reference": "5eb2040f8945857e58ed5362a1fdaea7cc9fdbe9",
                 "shasum": null
             },
             "type": "bower-asset"
@@ -1328,55 +1328,6 @@
                 "yii2"
             ],
             "time": "2017-11-25T15:32:29+00:00"
-        },
-        {
-            "name": "yiisoft/yii2-mongodb",
-            "version": "2.1.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/yiisoft/yii2-mongodb.git",
-                "reference": "68fc79f36487da5b386afd16ad7576394d7dd714"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-mongodb/zipball/68fc79f36487da5b386afd16ad7576394d7dd714",
-                "reference": "68fc79f36487da5b386afd16ad7576394d7dd714",
-                "shasum": ""
-            },
-            "require": {
-                "ext-mongodb": ">=1.0.0",
-                "yiisoft/yii2": "~2.0.14"
-            },
-            "type": "yii2-extension",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "yii\\mongodb\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Paul Klimov",
-                    "email": "klimov.paul@gmail.com"
-                }
-            ],
-            "description": "MongoDB extension for the Yii framework",
-            "keywords": [
-                "GridFS",
-                "active-record",
-                "mongo",
-                "mongodb",
-                "yii2"
-            ],
-            "time": "2018-03-30T15:05:41+00:00"
         },
         {
             "name": "yiisoft/yii2-swiftmailer",

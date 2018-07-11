@@ -90,9 +90,12 @@ $conferences = new ActiveDataProvider([
                         'controller' => '/conference',
                         'buttons' => [
                             'delete' => function ($url, $model) {
-                                return Html::a('<span class="glyphicon glyphicon-trash"></span>',
-                                    ['conference/delete-from-wish-list?id=' . $model->conference_id . '&from=' . basename(__FILE__)],
-                                    ['data' => ['toggle' => 'tooltip', 'pjax' => true], 'title' => 'Удалить', 'onclick' => 'futureConferenceReload()']
+                                return Html::button('<span class="glyphicon glyphicon-trash"></span>', [
+                                        'onclick' => 'deleteFromWishList(' . $model->conference_id . ')',
+                                        'data'    => ['toggle' => 'tooltip'],
+                                        'class'   => 'btn',
+                                        'title'   => 'Удалить',
+                                    ]
                                 );
                             }
                         ],

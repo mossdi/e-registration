@@ -25,27 +25,59 @@ function formClean() {
  * Tooltip
  */
 $(document).ready(function(){
-     $('[data-toggle="tooltip"]').tooltip();
+    $('[data-toggle="tooltip"]').tooltip();
 });
 
 /**
- * wishListReload
+ * Add conference to wish-list
  */
-function wishListReload() {
-    setTimeout(function () {
-        $.pjax.reload({
-            container: '#wishListContainer'
-        })
-    }, 2000)
+function addToWishList(id) {
+    $.ajax({
+        type: 'GET',
+        url: '/conference/add-to-wish-list',
+        data: { 'id': id, },
+        success: function () {
+            pjaxContainersReload();
+        }
+    })
 }
 
 /**
- * futureConferenceReload
+ * Delete conference from wish-list
  */
-function futureConferenceReload() {
+function deleteFromWishList(id) {
+    $.ajax({
+        type: 'GET',
+        url: '/conference/delete-from-wish-list',
+        data: { 'id': id, },
+        success: function () {
+            pjaxContainersReload();
+        }
+    })
+}
+
+function registerParticipant(id) {
+    $.ajax({
+        type: 'GET',
+        url: '/user/register-participant?user_id=\' . Yii::$app->user->id . \'&conference_id=\' . $model->id . \'&method=\' . Conference::LEARNING_DISTANCE',
+        data: { 'id': id },
+        success: function () {
+            pjaxContainersReload();
+        }
+    })
+}
+
+/**
+ * Pjax containers reload
+ */
+function pjaxContainersReload() {
+    $.pjax.reload({
+        container: '#futureConferenceContainer'
+    });
+
     setTimeout(function () {
         $.pjax.reload({
-            container: '#futureConferenceContainer'
-        })
-    }, 2000)
+            container: '#wishListContainer'
+        });
+    }, 500);
 }

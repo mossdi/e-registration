@@ -85,7 +85,7 @@ $this->title = 'Конференции';
                                 ]);
                             },
                             'delete' => function ($url, $model) {
-                                return !($model->start_time < time() && $model->end_time == null) ? Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
+                                return !($model->start_time < time()) ? Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
                                     'data-method'  => 'post',
                                     'data-confirm' => 'Вы уверены, что хотите удалить событие?',
                                 ]) : null;

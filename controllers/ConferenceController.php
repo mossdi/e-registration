@@ -2,7 +2,6 @@
 
 namespace app\controllers;
 
-use app\entities\Certificate;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -17,6 +16,7 @@ use app\entities\Conference;
 use app\entities\ConferenceSearch;
 use app\entities\ConferenceWishlist;
 use app\entities\ConferenceParticipant;
+use app\entities\Certificate;
 use app\entities\User;
 
 /**
@@ -277,11 +277,11 @@ class ConferenceController extends Controller
 
     /**
      * @param $id
-     * @param $from
-     * @return string
      */
-    public function actionAddToWishList($id, $from)
+    public function actionAddToWishList($id)
     {
+        if (ConferenceWishlist::findOne(['user_id' => Yii::$app->user->id, 'conference_id' => $id])) return;
+
         $wishList = new ConferenceWishlist();
 
         $wishList->user_id = Yii::$app->user->id;
@@ -292,35 +292,27 @@ class ConferenceController extends Controller
         } else {
             Yii::$app->session->setFlash('error', 'Ошибка! Конференция не добавлена в избранное. Обратитесь к администратору системы.');
         }
-
-        return $this->render(
-            '/html_block/' . $from
-        );
     }
 
     /**
      * @param $id
-     * @param $from
-     * @return string
      * @throws \Throwable
      * @throws \yii\db\StaleObjectException
      */
-    public function actionDeleteFromWishList($id, $from)
+    public function actionDeleteFromWishList($id)
     {
         $wishList = ConferenceWishlist::findOne([
             'user_id' => Yii::$app->user->id,
             'conference_id' => $id,
         ]);
 
+        if (!$wishList) return;
+
         if ($wishList->delete()) {
             Yii::$app->session->setFlash('success', 'Конференция удалена из избранного!');
         } else {
             Yii::$app->session->setFlash('error', 'Ошибка! Конференция не удалена из избранного. Обратитесь к администратору системы.');
         };
-
-        return $this->render(
-            '/html_block/' . $from
-        );
     }
 
     /**
