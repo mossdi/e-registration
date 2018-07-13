@@ -56,11 +56,15 @@ function deleteFromWishList(id) {
     })
 }
 
-function registerParticipant(id) {
+function registerParticipant(user_id, conference_id, method) {
     $.ajax({
         type: 'GET',
-        url: '/user/register-participant?user_id=\' . Yii::$app->user->id . \'&conference_id=\' . $model->id . \'&method=\' . Conference::LEARNING_DISTANCE',
-        data: { 'id': id },
+        url: '/user/register-participant',
+        data: {
+            'user_id': user_id,
+            'conference_id': conference_id,
+            'method': method,
+        },
         success: function () {
             pjaxContainersReload();
         }

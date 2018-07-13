@@ -28,7 +28,7 @@ $this->title = $model->id;
             ]) ?>
         <?php endif; ?>
 
-        <?= Html::a('Скачать', ['#', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Скачать', ['/certificate/download', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
     </p>
 
     <?php try {

@@ -73,9 +73,13 @@ $dataProvider->query->where(['>', '(start_time + ' . Yii::$app->setting->get('re
                         'controller' => '/conference',
                         'buttons' => [
                             'register' => function ($url, $model) {
-                                return !$model->participant && $model->registerTime ? Html::button('Участвовать', ['/user/register-participant?user_id=' . Yii::$app->user->id . '&conference_id=' . $model->id . '&method=' . Conference::LEARNING_DISTANCE],
-                                    ['data-pjax' => true]
-                                ) . ' / ' : '';
+                                return !$model->participant && $model->registerTime ? Html::button('Участвовать', [
+                                        'onclick' => 'registerParticipant(' . Yii::$app->user->id . ', ' . $model->id . ', \'' . Conference::LEARNING_DISTANCE . '\')',
+                                        'data'    => ['toggle' => 'tooltip'],
+                                        'class'   => 'btn',
+                                        'title'   => 'Дистанционно',
+                                    ]
+                                ) : null;
                             },
                             'whishlist' => function ($url, $model) {
                                 return !$model->wishList ? Html::button('<span class= "glyphicon glyphicon-star-empty"></span>', [

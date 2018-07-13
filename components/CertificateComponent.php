@@ -2,9 +2,14 @@
 
 namespace app\components;
 
+use Yii;
 use app\entities\Certificate;
 use app\forms\CertificateForm;
 
+/**
+ * Class CertificateComponent
+ * @package app\components
+ */
 class CertificateComponent
 {
     /**
@@ -23,5 +28,23 @@ class CertificateComponent
         }
 
         return $certificate;
+    }
+
+    /**
+     * Certificate download
+     * @param $id
+     * @return mixed
+     */
+    public static function certificateDownload($id) {
+        $certificate = Certificate::findOne($id);
+
+        $template = Yii::$app->controller->renderPartial('/html_block/element/certificate', [
+            'certificate' => $certificate,
+        ]);
+
+        $pdf = Yii::$app->pdfRender;
+        $pdf->content = $template;
+
+        return $pdf->render();
     }
 }

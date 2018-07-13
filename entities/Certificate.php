@@ -26,6 +26,8 @@ use DateTimeZone;
  */
 class Certificate extends ActiveRecord
 {
+    const DOWNLOAD_FOLDER = '/var/www/cert.dwbx.ru/storage/certificate/';
+
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
 

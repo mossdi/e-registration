@@ -2,9 +2,9 @@
 
 namespace app\controllers;
 
+use Yii;
 use app\components\CertificateComponent;
 use app\forms\CertificateForm;
-use Yii;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -143,6 +143,15 @@ class CertificateController extends Controller
         return $this->redirect([
             '/certificate/index'
         ]);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function actionDownload($id)
+    {
+        return CertificateComponent::certificateDownload($id);
     }
 
     /**
