@@ -57,7 +57,7 @@ $this->title = 'Авторизация';
                 <?= Html::a('Зарегистрироваться', ['#'], [
                     'data-toggle' => 'modal',
                     'data-target' => '#modalForm',
-                    'onclick'     => 'formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_REGISTER . '\', \'Регистрационная карточка\')',
+                    'onclick'     => 'formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_REGISTER . '\', \'modal\', \'Регистрационная карточка\')',
                 ]) ?>
             </div>
         </div>

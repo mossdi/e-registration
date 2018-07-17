@@ -68,7 +68,7 @@ $dataProvider->query->where(['user_id' => Yii::$app->user->id])->andWhere(['cert
                                 return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, [
                                     'data-toggle' => 'modal',
                                     'data-target' => '#modalForm',
-                                    'onclick' => 'formLoad(\'/certificate/view\', \'' . $model->conference->title . '\', \'' . $model->id . '\')'
+                                    'onclick' => 'formLoad(\'/certificate/view\', \'modal\', \'' . $model->conference->title . '\', \'' . $model->id . '\')'
                                 ]);
                             },
                         ]

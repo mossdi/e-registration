@@ -79,14 +79,14 @@ $this->title = 'Сертификаты';
                                 return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, [
                                     'data-toggle' => 'modal',
                                     'data-target' => '#modalForm',
-                                    'onclick' => 'formLoad(\'/certificate/view\', \'' . $model->conference->title . '\', \'' . $model->id . '\')'
+                                    'onclick' => 'formLoad(\'/certificate/view\', \'modal\', \'' . $model->conference->title . '\', \'' . $model->id . '\')'
                                 ]);
                             },
                             'update' => function ($url, $model) {
                                 return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
                                     'data-toggle' => 'modal',
                                     'data-target' => '#modalForm',
-                                    'onclick' => 'formLoad(\'/certificate/update-form\', \'' . $model->conference->title . '\', \'' . $model->id . '\')'
+                                    'onclick' => 'formLoad(\'/certificate/update-form\', \'modal\', \'' . $model->conference->title . '\', \'' . $model->id . '\')'
                                 ]);
                             },
                         ]

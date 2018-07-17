@@ -52,7 +52,7 @@ $dataProvider->query->where(['>', '(start_time + ' . Yii::$app->setting->get('re
                             return Html::a($model->title, ['/#'], [
                                 'data-toggle' => 'modal',
                                 'data-target' => '#modalForm',
-                                'onclick' => 'formLoad(\'/conference/view\', \'' . $model->title . '\', \'' . $model->id . '\')']
+                                'onclick' => 'formLoad(\'/conference/view\', \'modal\', \'' . $model->title . '\', \'' . $model->id . '\')']
                             );
                         }
                     ],

@@ -4,14 +4,19 @@
  * @param url_request
  * @param title
  * @param id
+ * @param loadTo
  */
-function formLoad(url_request, title, id = null) {
+function formLoad(url_request, loadTo, title, id = null) {
     if (id != null) {
         url_request += (~url_request.indexOf('?') ? '&id=' : '?id=') + id;
     }
 
-    $('#modalForm').find('.modal-body').load(url_request);
-    $('#modalForm').find('.modal-header').html('<span>' + title + '</span><button type="button" class="close" data-dismiss="modal" onclick="formClean()" aria-hidden="true">×</button>');
+    if (loadTo === 'modal') {
+        $('#modalForm').find('.modal-body').load(url_request);
+        $('#modalForm').find('.modal-header').html('<span>' + title + '</span><button type="button" class="close" data-dismiss="modal" onclick="formClean()" aria-hidden="true">×</button>');
+    } else {
+        $('section.content').load(url_request);
+    }
 }
 
 /**

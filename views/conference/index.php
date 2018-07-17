@@ -51,7 +51,7 @@ $this->title = 'Конференции';
                             return Html::a($model->title, ['/#'], [
                                 'data-toggle' => 'modal',
                                 'data-target' => '#modalForm',
-                                'onclick'     => 'formLoad(\'/conference/view\', \'' . $model->title . '\', \'' . $model->id . '\')'
+                                'onclick'     => 'formLoad(\'/conference/view\', \'modal\', \'' . $model->title . '\', \'' . $model->id . '\')'
                             ]);
                         }
                     ],
@@ -67,7 +67,7 @@ $this->title = 'Конференции';
                             return 'Количество: ' . $model->participantCount . ' / ' . Html::a('Список', ['/#'], [
                                 'data-toggle' => 'modal',
                                 'data-target' => '#modalForm',
-                                'onclick'     => 'formLoad(\'/conference/participant\', \'' . $model->title . '\', \'' . $model->id . '\')'
+                                'onclick'     => 'formLoad(\'/conference/participant\', \'modal\', \'' . $model->title . '\', \'' . $model->id . '\')'
                             ]);
                         }
                     ],
@@ -81,7 +81,7 @@ $this->title = 'Конференции';
                                 return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['/#'], [
                                     'data-toggle' => 'modal',
                                     'data-target' => '#modalForm',
-                                    'onclick'     => 'formLoad(\'/conference/update-form\', \'' . $model->title . '\', \'' . $model->id . '\')'
+                                    'onclick'     => 'formLoad(\'/conference/update-form\', \'modal\', \'' . $model->title . '\', \'' . $model->id . '\')'
                                 ]);
                             },
                             'delete' => function ($url, $model) {

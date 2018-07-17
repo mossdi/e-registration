@@ -17,7 +17,7 @@ $this->title = $model->title;
                 'class' => 'btn btn-info col-margin-bottom-10',
                 'data-toggle' => 'modal',
                 'data-target' => '#modalForm',
-                'onclick'     => 'formLoad(\'/conference/participant\', \'Участники конференции\', \'' . $model->id . '\')'
+                'onclick'     => 'formLoad(\'/conference/participant\', \'modal\', \'Участники конференции\', \'' . $model->id . '\')'
             ]) ?>
 
             <?= Html::a('Тестирование', ['/test/view?id=' . $model->id], [

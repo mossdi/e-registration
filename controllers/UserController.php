@@ -103,9 +103,10 @@ class UserController extends Controller
      *
      * @param null $id
      * @param $scenario
+     * @param bool $clearForm
      * @return array|string
      */
-    public function actionSignupForm($id = null, $scenario)
+    public function actionSignupForm($id = null, $scenario, $clearForm = false)
     {
         $form = new UserForm($id);
         $form->scenario = $scenario;
@@ -118,10 +119,15 @@ class UserController extends Controller
              ->orderBy(['start_time' => SORT_ASC])
                  ->all();
 
-        return $this->renderAjax('signup', [
-            'model' => $form,
-            'conference' => $conference,
-        ]);
+        return $scenario == UserForm::SCENARIO_CREATE_PAGE && !$clearForm ?
+            $this->render('signup', [
+                'model' => $form,
+                'conference' => $conference,
+            ]) :
+            $this->renderAjax('signup', [
+                'model' => $form,
+                'conference' => $conference,
+            ]);
     }
 
     /**
@@ -146,7 +152,7 @@ class UserController extends Controller
      * SignUp user
      *
      * @param $scenario
-     * @return Response
+     * @return array|string
      * @throws \Exception
      */
     public function actionSignup($scenario)
@@ -155,8 +161,8 @@ class UserController extends Controller
         $form->scenario = $scenario;
 
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            if ($scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT) {
-                return $this->actionRegisterParticipant($form->id, $form->conference, Conference::LEARNING_FULL_TIME);
+            if ($scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT || $scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE) {
+                return $this->actionRegisterParticipant($form->id, $form->conference, Conference::LEARNING_FULL_TIME, $scenario);
             }
 
             if (UserComponent::userSignup($form)) {
@@ -165,7 +171,36 @@ class UserController extends Controller
                 Yii::$app->session->setFlash('error', 'Ошибка! Пользователь не зарегистрирован. Обратитесь к администратору системы.');
             };
 
-            $this->redirect(
+            if ($scenario == UserForm::SCENARIO_CREATE_PAGE) {
+                return $this->actionSignupForm($id = null, $scenario, $clearForm = false);
+            } else {
+                return $this->redirect(
+                    '/site/index'
+                );
+            }
+        }
+    }
+
+    /**
+     * SignUp user to conference
+     *
+     * @param $user_id
+     * @param $conference_id
+     * @param $method
+     * @param null $scenario
+     * @return array|string
+     * @throws \Exception
+     */
+    public function actionRegisterParticipant($user_id, $conference_id, $method, $scenario = null)
+    {
+        $result = UserComponent::registerParticipant($user_id, $conference_id, $method);
+
+        Yii::$app->session->setFlash($result['status'], $result['message']);
+
+        if ($scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE) {
+            return $this->actionSignupForm($id = null, UserForm::SCENARIO_CREATE_PAGE, $clearForm = false);
+        } else {
+            return $this->redirect(
                 '/site/index'
             );
         }
@@ -189,7 +224,7 @@ class UserController extends Controller
             };
 
             $this->redirect(
-                '/user/index'
+                '/site/index'
             );
         }
     }
@@ -205,26 +240,6 @@ class UserController extends Controller
         return $this->redirect([
             '/user/index'
         ]);
-    }
-
-    /**
-     * SignUp user to conference
-     *
-     * @param $user_id
-     * @param $conference_id
-     * @param $method
-     * @return Response
-     * @throws \Exception
-     */
-    public function actionRegisterParticipant($user_id, $conference_id, $method)
-    {
-        $result = UserComponent::registerParticipant($user_id, $conference_id, $method);
-
-        Yii::$app->session->setFlash($result['status'], $result['message']);
-
-        return $this->redirect(
-            '/site/index'
-        );
     }
 
     /**

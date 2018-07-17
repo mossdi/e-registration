@@ -32,7 +32,7 @@ $this->title = $conference->title;
                         'class' => 'btn btn-default',
                         'data-toggle' => 'modal',
                         'data-target' => '#modalForm',
-                        'onclick'     => 'formLoad(\'/test/add-answer\', \'Новый ответ\', \'' . $question->id . '\')'
+                        'onclick'     => 'formLoad(\'/test/add-answer\', \'modal\', \'Новый ответ\', \'' . $question->id . '\')'
                     ]) ?>
                 </td>
                 <td>
@@ -40,11 +40,12 @@ $this->title = $conference->title;
                         'class' => 'btn btn-default',
                         'data-toggle' => 'modal',
                         'data-target' => '#modalForm',
-                        'onclick'     => 'formLoad(\'/test/update-question\', \'' . $question->question . '\', \'' . $question->id . '\')'
+                        'onclick'     => 'formLoad(\'/test/update-question\', \'modal\', \'' . $question->question . '\', \'' . $question->id . '\')'
                     ]) ?>
 
                     <?= Html::a('Удалить', ['/test/delete-question?id=' .  $question->id], [
                         'class' => 'btn btn-danger',
+                        'data-confirm' => 'Вы уверены, что хотите удалить вопрос?',
                     ]) ?>
                 </td>
             </tr>
@@ -58,11 +59,12 @@ $this->title = $conference->title;
                             'class' => 'btn',
                             'data-toggle' => 'modal',
                             'data-target' => '#modalForm',
-                            'onclick'     => 'formLoad(\'/test/update-answer\', \'' . $answer->answer . '\', \'' . $answer->id . '\')'
+                            'onclick'     => 'formLoad(\'/test/update-answer\', \'modal\', \'' . $answer->answer . '\', \'' . $answer->id . '\')'
                         ]) ?>
 
                         <?= Html::a('Удалить', ['/test/delete-answer?id=' .  $answer->id], [
                             'class' => 'btn',
+                            'data-confirm' => 'Вы уверены, что хотите удалить вопрос?',
                         ]) ?>
                     </td>
                 </tr>
@@ -75,5 +77,5 @@ $this->title = $conference->title;
     'class' => 'btn btn-info',
     'data-toggle' => 'modal',
     'data-target' => '#modalForm',
-    'onclick'     => 'formLoad(\'/test/add-question\', \'Новый вопрос\', \'' . $conference->id . '\')'
+    'onclick'     => 'formLoad(\'/test/add-question\', \'modal\', \'Новый вопрос\', \'' . $conference->id . '\')'
 ]) ?>

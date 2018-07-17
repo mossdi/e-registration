@@ -53,7 +53,7 @@ $dataProvider->query->where(['is not', 'end_time', null])->andWhere(['status' =>
                             return Html::a($model->title, ['/#'], [
                                 'data-toggle' => 'modal',
                                 'data-target' => '#modalForm',
-                                'onclick' => 'formLoad(\'/conference/view\', \'' . $model->title . '\', \'' . $model->id . '\')']
+                                'onclick' => 'formLoad(\'/conference/view\', \'modal\', \'' . $model->title . '\', \'' . $model->id . '\')']
                             );
                         }
                     ],

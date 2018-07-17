@@ -69,7 +69,7 @@ $conferences = new ActiveDataProvider([
                             return Html::a($model->conference->title, ['/#'], [
                                     'data-toggle' => 'modal',
                                     'data-target' => '#modalForm',
-                                    'onclick' => 'formLoad(\'/conference/view\', \'' . $model->conference->title . '\', \'' . $model->conference->id . '\')']
+                                    'onclick' => 'formLoad(\'/conference/view\', \'modal\', \'' . $model->conference->title . '\', \'' . $model->conference->id . '\')']
                             );
                         }
                     ],
