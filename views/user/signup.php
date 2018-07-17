@@ -80,7 +80,7 @@ use app\forms\UserForm;
                     ->textInput(['placeholder' => 'Паспорт', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT || $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE ? true : false]) ?>
 
                 <?= $form->field($model, 'organization', ['options' => ['class' => 'col-xs-12 col-sm-6']])
-                    ->textInput(['placeholder' => 'Оргнанизация', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT || $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE ? true : false]) ?>
+                    ->textInput(['placeholder' => 'Организация', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT || $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE ? true : false]) ?>
 
                 <?= $form->field($model, 'post', ['options' => ['class' => 'col-xs-12 col-sm-6']])
                     ->textInput(['placeholder' => 'Должность', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT || $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE ? true : false]) ?>
