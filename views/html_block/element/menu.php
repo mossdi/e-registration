@@ -6,6 +6,7 @@ use app\widgets\Menu;
 use app\forms\UserForm;
 use app\entities\User;
 use app\entities\Conference;
+use app\entities\ConferenceParticipant;
 
 $conference_now = Conference::find()
        ->where(['<', 'start_time', time()])
@@ -29,7 +30,7 @@ try {
                     'label' => 'Текущая конференция',
                     'icon' => 'bullhorn fa-2x',
                     'url' => $conference_now ? '/conference/view-now?id=' . $conference_now->id : '',
-                    'visible' => $conference_now ? true : false,
+                    'visible' => $conference_now && ( Yii::$app->user->can(User::ROLE_ADMIN) || (Yii::$app->user->can(User::ROLE_PARTICIPANT) && ConferenceParticipant::findOne(['conference_id' => $conference_now->id, 'user_id' => Yii::$app->user->id]))) ? true : false,
                 ],
 
                 [
@@ -52,6 +53,7 @@ try {
                         ],
                     ]
                 ],
+
                 [
                     'label' => 'Администрирование',
                     'icon' => 'edit fa-2x',
@@ -79,6 +81,7 @@ try {
                         ],
                     ]
                 ],
+
                 [
                     'label' => 'Настройки',
                     'icon' => 'cogs fa-2x',

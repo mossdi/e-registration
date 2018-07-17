@@ -7,11 +7,13 @@ use yii\grid\GridView;
 use yii\helpers\Html;
 use app\entities\User;
 use app\entities\Conference;
-use yii\widgets\Pjax;
+use yii2mod\alert\Alert;
 
-Pjax::begin([
-    'id' => 'participantsListContainer'
-]);
+try {
+    echo Alert::widget();
+} catch (Exception $e) {
+    echo 'Выброшено исключение: ',  $e->getMessage(), "\n";
+}
 
 try {
     echo GridView::widget([
@@ -49,11 +51,10 @@ try {
                 'template' => '{delete}',
                 'buttons' => [
                     'delete' => function ($url, $model) {
-                        return Yii::$app->user->can(User::ROLE_ADMIN) ? Html::a('Удалить', ['/conference/delete-participant?user_id=' . $model->user_id . '&conference_id=' . $model->conference_id], [
-                            'data' => [
-                                'confirm' => 'Вы уверены, что хотите удалить пользователя с конференции?',
-                                'method'  => 'post',
-                            ]
+                        return Yii::$app->user->can(User::ROLE_ADMIN) ? Html::button('Удалить', [
+                            'onclick' => 'deleteParticipant(' . $model->user_id . ', ' . $model->conference_id . ', \'' . $model->conference->title . '\')',
+                            'class'   => 'btn',
+                            'data-confirm' => 'Вы уверены, что хотите удалить пользователя с конференции?',
                         ]) : null;
                     },
                 ]
@@ -63,5 +64,3 @@ try {
 } catch (Exception $e) {
     echo $e->getMessage();
 }
-
-Pjax::end();

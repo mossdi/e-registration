@@ -42,9 +42,11 @@ $this->title = 'Пользователи';
                     'patron_name',
                     'organization',
                     'post',
-                    'passport',
                     'email:email',
-                    'phone',
+                    [
+                        'attribute' => 'phone',
+                        'contentOptions' => ['nowrap']
+                    ],
 
                     [
                         'attribute' => 'status',

@@ -43,8 +43,9 @@ use app\forms\UserForm;
                 </li>
                 <li class="col-margin-bottom-10">
                     <?= Html::a('Выйти', ['/user/logout'], [
-                        'data-method' => 'post',
-                        'class'       => 'btn btn-default btn-flat'
+                        'data-method'  => 'post',
+                        'data-confirm' => 'Хотите выйти?',
+                        'class'        => 'btn btn-default btn-flat'
                     ]); ?>
                 </li>
             </ul>

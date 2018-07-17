@@ -4,6 +4,7 @@
 /* @var $content string */
 
 use yii\helpers\Html;
+use app\entities\User;
 
 ?>
 
@@ -16,15 +17,22 @@ use yii\helpers\Html;
         </a>
 
         <?php if (Yii::$app->user->identity): ?>
-        <div class="navbar-custom-menu">
-            <ul class="nav navbar-nav">
-                <li class="user user-menu">
-                    <a href="#" data-toggle="control-sidebar">
-                        <span><?= Yii::$app->user->identity->first_name; ?> <?= Yii::$app->user->identity->last_name; ?></span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <li class="user user-menu">
+                        <?php if (Yii::$app->user->can(User::ROLE_PARTICIPANT) || Yii::$app->user->can(User::ROLE_ADMIN)): ?>
+                            <a href="#" data-toggle="control-sidebar">
+                                <span><?= Yii::$app->user->identity->first_name; ?> <?= Yii::$app->user->identity->last_name; ?></span>
+                            </a>
+                        <?php else:; ?>
+                            <?= Html::a('Выйти', ['/user/logout'], [
+                                'data-method' => 'post',
+                                'data-confirm' => 'Хотите выйти?'
+                            ]); ?>
+                        <?php endif; ?>
+                    </li>
+                </ul>
+            </div>
         <?php endif; ?>
     </nav>
 </header>

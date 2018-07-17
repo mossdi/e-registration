@@ -42,7 +42,7 @@ function addToWishList(id) {
         url: '/conference/add-to-wish-list',
         data: { 'id': id, },
         success: function () {
-            pjaxContainersReload();
+            wishlistReload();
         }
     })
 }
@@ -56,7 +56,7 @@ function deleteFromWishList(id) {
         url: '/conference/delete-from-wish-list',
         data: { 'id': id, },
         success: function () {
-            pjaxContainersReload();
+            wishlistReload();
         }
     })
 }
@@ -71,7 +71,25 @@ function registerParticipant(user_id, conference_id, method) {
             'method': method,
         },
         success: function () {
-            pjaxContainersReload();
+            wishlistReload();
+        }
+    })
+}
+
+function deleteParticipant(user_id, conference_id, title) {
+    $.ajax({
+        type: 'GET',
+        url: '/conference/delete-participant',
+        data: {
+            'user_id': user_id,
+            'conference_id': conference_id,
+        },
+        success: function () {
+            formLoad('/conference/participant', 'modal', title, conference_id);
+
+            $.pjax.reload({
+                container: '#conferenceListContainer'
+            })
         }
     })
 }
@@ -79,7 +97,7 @@ function registerParticipant(user_id, conference_id, method) {
 /**
  * Pjax containers reload
  */
-function pjaxContainersReload() {
+function wishlistReload() {
     $.pjax.reload({
         container: '#futureConferenceContainer'
     });

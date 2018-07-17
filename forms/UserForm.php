@@ -26,7 +26,6 @@ class UserForm extends Model
     public $patron_name;
     public $organization;
     public $post;
-    public $passport;
     public $phone;
     public $email;
     public $password;
@@ -47,7 +46,6 @@ class UserForm extends Model
             $this->patron_name = $user->patron_name;
             $this->organization = $user->organization;
             $this->post = $user->post;
-            $this->passport = $user->passport;
             $this->phone = $user->phone;
             $this->email = $user->email;
         }
@@ -61,23 +59,21 @@ class UserForm extends Model
     public function rules()
     {
         return [
-            [['first_name', 'last_name', 'patron_name', 'organization', 'post', 'passport', 'phone', 'email'], 'required', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_CREATE_PAGE, self::SCENARIO_UPDATE, self::SCENARIO_REGISTER, self::SCENARIO_REGISTER_PARTICIPANT, self::SCENARIO_REGISTER_PARTICIPANT_PAGE]],
+            [['first_name', 'last_name', 'patron_name', 'organization', 'post', 'phone', 'email'], 'required', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_CREATE_PAGE, self::SCENARIO_UPDATE, self::SCENARIO_REGISTER, self::SCENARIO_REGISTER_PARTICIPANT, self::SCENARIO_REGISTER_PARTICIPANT_PAGE]],
             ['conference', 'required', 'on' => [self::SCENARIO_REGISTER_PARTICIPANT, self::SCENARIO_REGISTER_PARTICIPANT_PAGE]],
             ['password', 'required', 'on' => self::SCENARIO_REGISTER],
 
             [['first_name', 'last_name', 'patron_name', 'organization', 'post', 'password', 'role'], 'string'],
-            [['id', 'passport', 'conference'], 'integer'],
+            [['id', 'conference'], 'integer'],
             ['email', 'email'],
 
             ['phone', 'match', 'pattern' => '/^\+7\s\([0-9]{3}\)\s[0-9]{3}\-[0-9]{2}\-[0-9]{2}$/'],
-            ['passport', 'match', 'pattern' => '/[0-9]{10}$/'],
 
             // TODO: сделать валидацию на уникальность данных для формы обновления данных пользователя!
             // Значения должны быть уникальны, но необходимо чтобы сохранялись ранее введенные данные пользователя!
 
             ['phone', 'unique', 'targetClass' => 'app\entities\User', 'message' => 'Такой телефон уже зарегистрирован', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_CREATE_PAGE, self::SCENARIO_REGISTER]],
             ['email', 'unique', 'targetClass' => 'app\entities\User', 'message' => 'Такая эл.почта уже зарегистрирована', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_CREATE_PAGE, self::SCENARIO_REGISTER]],
-            ['passport', 'unique', 'targetClass' => 'app\entities\User', 'message' => 'Такой паспорт уже зарегистрирован', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_CREATE_PAGE, self::SCENARIO_REGISTER]],
 
             ['role', 'default', 'value' => User::ROLE_PARTICIPANT],
 
@@ -96,7 +92,6 @@ class UserForm extends Model
             'patron_name' => 'Отчество',
             'organization' => 'Организация',
             'post' => 'Должность',
-            'passport' => 'Паспорт',
             'phone' => 'Телефон',
             'email' => 'Email',
             'password' => 'Пароль',

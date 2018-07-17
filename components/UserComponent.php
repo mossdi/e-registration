@@ -27,7 +27,6 @@ class UserComponent
             $form->patron_name,
             $form->organization,
             $form->post,
-            $form->passport,
             $form->phone,
             $form->email,
             $password
@@ -70,7 +69,6 @@ class UserComponent
         $user->patron_name = $form->patron_name;
         $user->organization = $form->organization;
         $user->post = $form->post;
-        $user->passport = $form->passport;
         $user->email = mb_strtolower($form->email);
         $user->phone = $form->phone;
         $user->status = User::STATUS_ACTIVE;

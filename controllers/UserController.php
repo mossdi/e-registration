@@ -66,6 +66,10 @@ class UserController extends Controller
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
+            if (Yii::$app->user->can(User::ROLE_RECEPTIONIST)) {
+                return $this->actionSignupForm($id = null, UserForm::SCENARIO_CREATE_PAGE, $clearForm = false);
+            }
+
             return $this->goHome();
         }
 
@@ -257,7 +261,6 @@ class UserController extends Controller
             ->orFilterWhere(['like', 'first_name', Yii::$app->request->get('term')])
             ->orFilterWhere(['like', 'last_name', Yii::$app->request->get('term')])
             ->orFilterWhere(['like', 'patron_name', Yii::$app->request->get('term')])
-            ->orFilterWhere(['like', 'passport', Yii::$app->request->get('term')])
             ->orFilterWhere(['like', 'phone', Yii::$app->request->get('term')])
             ->orFilterWhere(['like', 'email', Yii::$app->request->get('term')])
                  ->andWhere(['deleted' => 0])
@@ -267,7 +270,7 @@ class UserController extends Controller
             foreach ($results as $user):
                 $users[] = [
                     'value' => $user->id,
-                    'label' => $user->last_name . ' ' . $user->first_name . ' ' . $user->patron_name . ' ('. $user->passport .' / ' . $user->phone . ')'
+                    'label' => $user->last_name . ' ' . $user->first_name . ' ' . $user->patron_name . ' (' . $user->post . ')'
                 ];
             endforeach;
         }

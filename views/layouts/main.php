@@ -4,6 +4,7 @@
 /* @var $content string */
 
 use yii\helpers\Html;
+use app\entities\User;
 
 app\assets\AppAsset::register($this);
 
@@ -46,9 +47,11 @@ app\assets\AppAsset::register($this);
         'footer'
     ) ?>
 
-    <?= $this->render(
-        'user-sidebar'
-    ) ?>
+    <?php if (Yii::$app->user->can(User::ROLE_PARTICIPANT) || Yii::$app->user->can(User::ROLE_ADMIN)): ?>
+        <?= $this->render(
+            'user-sidebar'
+        ) ?>
+    <?php endif; ?>
 
 </div>
 

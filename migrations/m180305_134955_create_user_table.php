@@ -27,7 +27,6 @@ class m180305_134955_create_user_table extends Migration
             'patron_name' => $this->string()->notNull(),
             'organization' => $this->string()->notNull(),
             'post' => $this->string()->notNull(),
-            'passport' => $this->string()->notNull()->unique(),
             'email' => $this->string()->notNull()->unique(),
             'phone' => $this->string()->notNull()->unique(),
             'auth_key' => $this->string(32)->notNull(),

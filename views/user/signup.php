@@ -75,10 +75,6 @@ use app\forms\UserForm;
                 <?= $form->field($model, 'patron_name', ['options' => ['class' => 'col-xs-12 col-sm-4']])
                     ->textInput(['placeholder' => 'Отчество', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT || $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE ? true : false]) ?>
 
-                <?= $form->field($model, 'passport', ['options' => ['class' => 'col-xs-12']])
-                    ->widget(MaskedInput::className(), ['mask' => '9999999999'])
-                    ->textInput(['placeholder' => 'Паспорт', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT || $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE ? true : false]) ?>
-
                 <?= $form->field($model, 'organization', ['options' => ['class' => 'col-xs-12 col-sm-6']])
                     ->textInput(['placeholder' => 'Организация', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT || $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE ? true : false]) ?>
 
@@ -92,14 +88,14 @@ use app\forms\UserForm;
                 <?= $form->field($model, 'email', ['options' => ['class' => 'col-xs-12 col-sm-6']])
                     ->textInput(['placeholder' => 'Эл.почта', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT || $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE ? true : false]) ?>
 
-                <?php if ($model->scenario == UserForm::SCENARIO_REGISTER || ($model->scenario == UserForm::SCENARIO_UPDATE && Yii::$app->user->id == $model->id)):
+                <?php if ($model->scenario == UserForm::SCENARIO_REGISTER || ($model->scenario == UserForm::SCENARIO_UPDATE && (Yii::$app->user->id == $model->id || Yii::$app->user->can(User::ROLE_ADMIN)))):
                     echo $form->field($model, 'password', ['options' => ['class' => 'col-xs-12']])
                         ->textInput(['placeholder' => 'Пароль']);
                 endif; ?>
 
                 <?php if ((Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_RECEPTIONIST)) && $model->scenario != UserForm::SCENARIO_UPDATE):
                     echo $form->field($model, 'conference', ['options' => ['class' => 'col-xs-12']])
-                        ->dropDownList(ArrayHelper::map($conference, 'id', 'title'), ['prompt' => 'Выберите конференцию']);
+                        ->dropDownList(ArrayHelper::map($conference, 'id', 'title'), !$conference ? ['prompt' => 'Регистрация не мероприятия закрыта'] : null);
                 endif; ?>
 
                 <?php if (Yii::$app->user->can(User::ROLE_ADMIN) && ($model->scenario == UserForm::SCENARIO_CREATE || $model->scenario == UserForm::SCENARIO_CREATE_PAGE)):

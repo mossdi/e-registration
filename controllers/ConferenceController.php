@@ -34,7 +34,6 @@ class ConferenceController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
-                    'delete-participant' => ['POST'],
                     'close' => ['POST']
                 ],
             ],
@@ -269,10 +268,6 @@ class ConferenceController extends Controller
         } else {
             Yii::$app->session->setFlash('error', 'Ошибка! Пользователь не удален с конференции. Обратитесь к администратору системы.');
         }
-
-        $this->redirect([
-            '/conference/index'
-        ]);
     }
 
     /**

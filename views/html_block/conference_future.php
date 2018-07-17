@@ -6,6 +6,7 @@ use yii\widgets\Pjax;
 use app\entities\Conference;
 use app\entities\ConferenceSearch;
 use yii2mod\alert\Alert;
+use app\entities\User;
 
 /* @var $this \yii\web\View */
 /* @var $searchModel app\entities\ConferenceSearch */
@@ -69,32 +70,39 @@ $dataProvider->query->where(['>', '(start_time + ' . Yii::$app->setting->get('re
 
                     [
                         'class' => 'yii\grid\ActionColumn',
-                        'template' => '{register} {whishlist}',
+                        'template' => Yii::$app->user->can(User::ROLE_PARTICIPANT) || Yii::$app->user->can(User::ROLE_ADMIN) ? '{register} {whishlist}' : '{view}',
                         'controller' => '/conference',
                         'buttons' => [
+                            'view' => function ($url, $model) {
+                                return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['/#'], [
+                                    'data-toggle' => 'modal',
+                                    'data-target' => '#modalForm',
+                                    'onclick' => 'formLoad(\'/conference/view\', \'modal\', \'' . $model->title . '\', \'' . $model->id . '\')'
+                                ]);
+                            },
                             'register' => function ($url, $model) {
-                                return !$model->participant && $model->registerTime ? Html::button('Участвовать', [
+                                return !$model->participant && $model->registerTime ?
+                                    Html::button('Участвовать', [
                                         'onclick' => 'registerParticipant(' . Yii::$app->user->id . ', ' . $model->id . ', \'' . Conference::LEARNING_DISTANCE . '\')',
                                         'data'    => ['toggle' => 'tooltip'],
                                         'class'   => 'btn',
                                         'title'   => 'Дистанционно',
-                                    ]
-                                ) : null;
+                                    ]) : null;
                             },
                             'whishlist' => function ($url, $model) {
-                                return !$model->wishList ? Html::button('<span class= "glyphicon glyphicon-star-empty"></span>', [
+                                return !$model->wishList ?
+                                    Html::button('<span class= "glyphicon glyphicon-star-empty"></span>', [
                                         'onclick' => 'addToWishList(' . $model->id . ')',
                                         'data'    => ['toggle' => 'tooltip'],
                                         'class'   => 'btn',
                                         'title'   => 'В избранное',
-                                    ]
-                                ) : Html::button('<span class= "glyphicon glyphicon-star"></span>', [
+                                    ]) :
+                                    Html::button('<span class= "glyphicon glyphicon-star"></span>', [
                                         'onclick' => 'deleteFromWishList(' . $model->id . ')',
                                         'data'    => ['toggle' => 'tooltip'],
                                         'class'   => 'btn',
                                         'title'   => 'Удалить из избранного',
-                                    ]
-                                );
+                                    ]);
                             },
                         ],
                     ],

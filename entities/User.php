@@ -18,7 +18,6 @@ use yii\web\IdentityInterface;
  * @property string $patron_name
  * @property string $organization
  * @property string $post
- * @property string $passport
  * @property string $email
  * @property string $phone
  * @property string $auth_key
@@ -91,7 +90,6 @@ class User extends ActiveRecord implements IdentityInterface
             'patron_name' => 'Отчество',
             'organization' => 'Организация',
             'post' => 'Должность',
-            'passport' => 'Паспорт',
             'phone' => 'Телефон',
             'email' => 'Email',
             'icon' => 'Аватар',
@@ -105,14 +103,13 @@ class User extends ActiveRecord implements IdentityInterface
      * @param $patron_name
      * @param $organization
      * @param $post
-     * @param $passport
      * @param $phone
      * @param $email
      * @param $password
      * @return User
      * @throws Exception
      */
-    public static function create($first_name, $last_name, $patron_name, $organization, $post, $passport, $phone, $email, $password)
+    public static function create($first_name, $last_name, $patron_name, $organization, $post, $phone, $email, $password)
     {
         $user = new self();
 
@@ -121,7 +118,6 @@ class User extends ActiveRecord implements IdentityInterface
         $user->patron_name = $patron_name;
         $user->organization = $organization;
         $user->post = $post;
-        $user->passport = $passport;
         $user->email = mb_strtolower($email);
         $user->phone = $phone;
         $user->status = self::STATUS_ACTIVE;
