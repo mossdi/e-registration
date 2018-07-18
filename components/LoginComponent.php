@@ -15,7 +15,7 @@ class LoginComponent
     public static function login(LoginForm $form)
     {
         return Yii::$app->user->login(
-            User::findByPhone($form->phone),
+            User::findByEmail($form->email),
             $form->rememberMe ? 3600 * 24 * 30 : 0
         );
     }

@@ -6,7 +6,7 @@
  * @param id
  * @param loadTo
  */
-function formLoad(url_request, loadTo, title, id = null) {
+function formLoad(url_request, loadTo, title = null, id = null) {
     if (id != null) {
         url_request += (~url_request.indexOf('?') ? '&id=' : '?id=') + id;
     }

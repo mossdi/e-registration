@@ -43,10 +43,6 @@ $this->title = 'Пользователи';
                     'organization',
                     'post',
                     'email:email',
-                    [
-                        'attribute' => 'phone',
-                        'contentOptions' => ['nowrap']
-                    ],
 
                     [
                         'attribute' => 'status',

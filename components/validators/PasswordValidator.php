@@ -12,10 +12,10 @@ class PasswordValidator extends Validator
      */
     public function validateAttribute($form, $attribute)
     {
-        $user = User::findByPhone(!empty($form->phone) ? $form->phone : null);
+        $user = User::findByEmail(!empty($form->email) ? $form->email : null);
 
         if (!$user || !$user->validatePassword(!empty($form->password) ? $form->password : null)) {
-            $this->addError($form, $attribute, 'Неверный пароль или телефон');
+            $this->addError($form, $attribute, 'Неверный пароль или E-mail');
         }
     }
 }

@@ -34,24 +34,19 @@ try {
                 ],
 
                 [
-                    'label' => 'Регистрация',
+                    'label' => 'Страница регистрации',
+                    'icon' => 'address-book fa-2x',
+                    'url' => '#',
+                    'template' => '<a href=\'/user/signup-form?scenario=' . UserForm::SCENARIO_CREATE_PAGE . '\'>{icon}{label}</a>',
+                    'visible' => Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_RECEPTIONIST),
+                ],
+
+                [
+                    'label' => 'Новая конференция',
                     'icon' => 'plus-square fa-2x',
-                    'items' => [
-                        [
-                            'label' => 'Пользователь',
-                            'icon' => 'address-book',
-                            'url' => '#',
-                            'template' => '<a href="#" data-toggle="modal" data-target="#modalForm" onclick="formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_CREATE . '\', \'modal\', \'Регистрационная карточка\')">{icon}{label}</a>',
-                            'visible' => Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_RECEPTIONIST),
-                        ],
-                        [
-                            'label' => 'Конференция',
-                            'icon' => 'mixcloud',
-                            'url' => '#',
-                            'template' => '<a href="#" data-toggle="modal" data-target="#modalForm" onclick="formLoad(\'/conference/create-form\', \'modal\', \'Новая конференция\')">{icon}{label}</a>',
-                            'visible' => Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_SPEAKER),
-                        ],
-                    ]
+                    'url' => '#',
+                    'template' => '<a href="#" data-toggle="modal" data-target="#modalForm" onclick="formLoad(\'/conference/create-form\', \'modal\', \'Новая конференция\')">{icon}{label}</a>',
+                    'visible' => Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_SPEAKER),
                 ],
 
                 [
@@ -92,5 +87,5 @@ try {
         ]
     );
 } catch (Exception $e) {
-    echo 'Выброшено исключение: ',  $e->getMessage(), "\n";
+    echo $e->getMessage();
 }

@@ -10,7 +10,7 @@ use app\components\validators\PasswordValidator;
  */
 class LoginForm extends Model
 {
-    public $phone;
+    public $email;
     public $password;
     public $rememberMe = true;
 
@@ -20,10 +20,9 @@ class LoginForm extends Model
     public function rules()
     {
         return [
-            ['phone', 'required', 'message' => 'Введите телефон'],
+            ['email', 'required', 'message' => 'Введите E-mail'],
             ['password', 'required', 'message' => 'Введите пароль'],
             ['rememberMe', 'boolean'],
-            ['phone', 'match', 'pattern' => '/^\+7\s\([0-9]{3}\)\s[0-9]{3}\-[0-9]{2}\-[0-9]{2}$/', 'message' => 'Неверный формат телефона'],
             ['password', PasswordValidator::className()],
         ];
     }

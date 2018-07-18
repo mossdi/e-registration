@@ -23,13 +23,12 @@ $this->title = 'Авторизация';
         <?php $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => false]); ?>
 
         <?= $form
-            ->field($model, 'phone', [
+            ->field($model, 'email', [
                 'options' => ['class' => 'form-group has-feedback'],
-                'inputTemplate' => "{input}<span class='glyphicon glyphicon-phone form-control-feedback'></span>"
+                'inputTemplate' => "{input}<span class='glyphicon glyphicon-envelope form-control-feedback'></span>"
             ])
             ->label(false)
-            ->widget(MaskedInput::className(), ['mask' => '+7 (999) 999-99-99'])
-            ->textInput(['placeholder' => 'Телефон']) ?>
+            ->textInput(['placeholder' => 'E-mail']) ?>
 
         <?= $form
             ->field($model, 'password', [

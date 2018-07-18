@@ -18,8 +18,8 @@ use yii\web\IdentityInterface;
  * @property string $patron_name
  * @property string $organization
  * @property string $post
+ * @property string $speciality
  * @property string $email
- * @property string $phone
  * @property string $auth_key
  * @property string $password_hash
  * @property string $password_reset_token
@@ -90,7 +90,6 @@ class User extends ActiveRecord implements IdentityInterface
             'patron_name' => 'Отчество',
             'organization' => 'Организация',
             'post' => 'Должность',
-            'phone' => 'Телефон',
             'email' => 'Email',
             'icon' => 'Аватар',
             'status' => 'Статус'
@@ -103,13 +102,13 @@ class User extends ActiveRecord implements IdentityInterface
      * @param $patron_name
      * @param $organization
      * @param $post
-     * @param $phone
+     * @param $speciality
      * @param $email
      * @param $password
      * @return User
      * @throws Exception
      */
-    public static function create($first_name, $last_name, $patron_name, $organization, $post, $phone, $email, $password)
+    public static function create($first_name, $last_name, $patron_name, $organization, $post, $speciality, $email, $password)
     {
         $user = new self();
 
@@ -118,8 +117,8 @@ class User extends ActiveRecord implements IdentityInterface
         $user->patron_name = $patron_name;
         $user->organization = $organization;
         $user->post = $post;
+        $user->speciality = $speciality;
         $user->email = mb_strtolower($email);
-        $user->phone = $phone;
         $user->status = self::STATUS_ACTIVE;
         $user->created_at = time();
 
@@ -155,14 +154,14 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * Finds user by phone
+     * Finds user by email
      *
-     * @param $phone
+     * @param $email
      * @return static|null
      */
-    public static function findByPhone($phone)
+    public static function findByEmail($email)
     {
-        return self::findOne(['phone' => $phone, 'status' => self::STATUS_ACTIVE]);
+        return self::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**

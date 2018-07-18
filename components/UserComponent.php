@@ -10,6 +10,10 @@ use app\forms\LoginForm;
 use app\entities\Conference;
 use app\entities\Certificate;
 
+/**
+ * Class UserComponent
+ * @package app\components
+ */
 class UserComponent
 {
     /**
@@ -27,7 +31,7 @@ class UserComponent
             $form->patron_name,
             $form->organization,
             $form->post,
-            $form->phone,
+            $form->speciality,
             $form->email,
             $password
         );
@@ -39,7 +43,7 @@ class UserComponent
         if ($form->scenario == UserForm::SCENARIO_REGISTER) {
             $loginForm = new LoginForm();
 
-            $loginForm->phone = $form->phone;
+            $loginForm->email = $form->email;
             $loginForm->password = $form->password;
 
             LoginComponent::login($loginForm);
@@ -49,9 +53,9 @@ class UserComponent
             UserComponent::registerParticipant($user->id, $form->conference, Conference::LEARNING_FULL_TIME);
         }
 
-        UserComponent::assignRole($form->role, $form->phone);
+        UserComponent::assignRole($form->role, $form->email);
 
-        SendMailComponent::sendMail($form->email,'<p>Логин: ' . $form->phone . '</p><p>Пароль: ' . $password . '</p>');
+        SendMailComponent::sendMail($form->email,'<p>Логин: ' . $form->email . '</p><p>Пароль: ' . $password . '</p>');
 
         return $user;
     }
@@ -69,8 +73,8 @@ class UserComponent
         $user->patron_name = $form->patron_name;
         $user->organization = $form->organization;
         $user->post = $form->post;
+        $user->speciality = $form->speciality;
         $user->email = mb_strtolower($form->email);
-        $user->phone = $form->phone;
         $user->status = User::STATUS_ACTIVE;
         $user->updated_at = time();
 
@@ -147,13 +151,13 @@ class UserComponent
 
     /**
      * @param $role
-     * @param $user_phone
+     * @param $email
      * @throws \Exception
      * @return mixed
      */
-    public static function assignRole($role, $user_phone)
+    public static function assignRole($role, $email)
     {
-        $user = User::findByPhone($user_phone);
+        $user = User::findByEmail($email);
 
         $userRole = Yii::$app->authManager->getRole($role);
 

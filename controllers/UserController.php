@@ -16,6 +16,10 @@ use app\entities\User;
 use app\entities\Conference;
 use app\entities\UserSearch;
 
+/**
+ * Class UserController
+ * @package app\controllers
+ */
 class UserController extends Controller
 {
     /**
@@ -165,7 +169,7 @@ class UserController extends Controller
         $form->scenario = $scenario;
 
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            if ($scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT || $scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE) {
+            if ($scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE) {
                 return $this->actionRegisterParticipant($form->id, $form->conference, Conference::LEARNING_FULL_TIME, $scenario);
             }
 
@@ -175,13 +179,9 @@ class UserController extends Controller
                 Yii::$app->session->setFlash('error', 'Ошибка! Пользователь не зарегистрирован. Обратитесь к администратору системы.');
             };
 
-            if ($scenario == UserForm::SCENARIO_CREATE_PAGE) {
-                return $this->actionSignupForm($id = null, $scenario, $clearForm = false);
-            } else {
-                return $this->redirect(
-                    '/site/index'
-                );
-            }
+            return $this->redirect(
+                '/user/signup-form?scenario=' . UserForm::SCENARIO_CREATE_PAGE
+            );
         }
     }
 
@@ -201,13 +201,9 @@ class UserController extends Controller
 
         Yii::$app->session->setFlash($result['status'], $result['message']);
 
-        if ($scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE) {
-            return $this->actionSignupForm($id = null, UserForm::SCENARIO_CREATE_PAGE, $clearForm = false);
-        } else {
-            return $this->redirect(
-                '/site/index'
-            );
-        }
+        return $this->redirect(
+            '/user/signup-form?scenario=' . UserForm::SCENARIO_CREATE_PAGE
+        );
     }
 
     /**
@@ -255,13 +251,36 @@ class UserController extends Controller
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
 
-        $users = [];
+        $inputRequest = explode(' ', Yii::$app->request->get('term'));
 
-        $results = User::find()
-            ->where('last_name LIKE \'' . Yii::$app->request->get('term') . '%\'')
-            //->orFilterWhere(['like', 'last_name', Yii::$app->request->get('term')])
-            //->orFilterWhere(['like', 'patron_name', Yii::$app->request->get('term')])
-                 ->andWhere(['deleted' => 0]);
+        $cleanRequest = [];
+
+        //delete empty element
+        foreach ($inputRequest as $requestPart) {
+            if (!empty(trim($requestPart))) {
+                $cleanRequest[] = trim($requestPart);
+            }
+        }
+
+        $results = User::find();
+
+        //foreach ($request as $word) {
+        //    $results->andWhere('(last_name LIKE \'' . $word . '%\' OR first_name LIKE \'' . $word . '%\' OR patron_name LIKE \'' . $word . '%\' )');
+        //};
+
+        if (!empty($cleanRequest[0])) {
+            $results->andWhere('last_name LIKE \'' . $cleanRequest[0] . '%\'');
+        }
+        if (!empty($cleanRequest[1])) {
+            $results->andWhere('first_name LIKE \'' . $cleanRequest[1] . '%\'');
+        }
+        if (!empty($cleanRequest[2])) {
+            $results->andWhere('patron_name LIKE \'' . $cleanRequest[2] . '%\'');
+        }
+
+        $results->andWhere(['deleted' => 0]);
+
+        $users = [];
 
         if ($results) {
             foreach ($results->all() as $user):

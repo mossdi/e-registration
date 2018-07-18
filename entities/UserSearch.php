@@ -17,7 +17,7 @@ class UserSearch extends User
     {
         return [
             [['id', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['first_name', 'last_name', 'patron_name', 'organization', 'post', 'email', 'phone', 'role', 'auth_key', 'password_hash', 'password_reset_token'], 'safe'],
+            [['first_name', 'last_name', 'patron_name', 'organization', 'post', 'email', 'role', 'auth_key', 'password_hash', 'password_reset_token'], 'safe'],
         ];
     }
 
@@ -65,15 +65,14 @@ class UserSearch extends User
         ]);
 
         $query->andFilterWhere(['like', 'first_name', $this->first_name])
-            ->andFilterWhere(['like', 'last_name', $this->last_name])
-            ->andFilterWhere(['like', 'patron_name', $this->patron_name])
-            ->andFilterWhere(['like', 'organization', $this->organization])
-            ->andFilterWhere(['like', 'post', $this->post])
-            ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'phone', $this->phone])
-            ->andFilterWhere(['like', 'auth_key', $this->auth_key])
-            ->andFilterWhere(['like', 'password_hash', $this->password_hash])
-            ->andFilterWhere(['like', 'password_reset_token', $this->password_reset_token]);
+              ->andFilterWhere(['like', 'last_name', $this->last_name])
+              ->andFilterWhere(['like', 'patron_name', $this->patron_name])
+              ->andFilterWhere(['like', 'organization', $this->organization])
+              ->andFilterWhere(['like', 'post', $this->post])
+              ->andFilterWhere(['like', 'email', $this->email])
+              ->andFilterWhere(['like', 'auth_key', $this->auth_key])
+              ->andFilterWhere(['like', 'password_hash', $this->password_hash])
+              ->andFilterWhere(['like', 'password_reset_token', $this->password_reset_token]);
 
         return $dataProvider;
     }
