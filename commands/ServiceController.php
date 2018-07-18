@@ -48,12 +48,17 @@ class ServiceController extends Controller
 
                     $i++;
                 } else {
-                    echo 'Ошибка создания!';
-                    break;
+                    echo 'Ошибка создания пользователя!';
                 }
             }
 
-            echo 'Всего создано ' . $i . ' пользователей';
+            echo 'Всего создано ' . $i . ' пользователей' . PHP_EOL;
+
+            exit();
+        } else {
+            echo 'Ошибка чтения файла!';
+
+            exit();
         }
     }
 }

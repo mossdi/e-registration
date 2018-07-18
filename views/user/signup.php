@@ -108,7 +108,7 @@ use app\forms\UserForm;
 
             <div class="form-group">
                 <?= Html::submitButton($model->scenario == UserForm::SCENARIO_UPDATE ? 'Сохранить' : 'Зарегистрировать' , [
-                    'class' => 'col-xs-7 col-sm-5 btn btn-default',
+                    'class' => 'col-xs-12 col-sm-6 col-md-5 btn btn-default col-margin-bottom-10',
                     'name' => 'signup',
                     'value' => 'conference',
                     'form' => 'signup-form'
@@ -119,12 +119,12 @@ use app\forms\UserForm;
                     $loadTo = $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT ? UserForm::LOAD_FORM_TO_MODAL : UserForm::LOAD_FORM_TO_PAGE;
 
                     echo Html::button('Очистить форму', [
-                        'class' => 'col-xs-7 col-sm-3 pull-right btn btn-default',
+                        'class' => 'col-xs-12 col-sm-6 col-md-3 pull-right btn btn-default col-margin-bottom-10',
                         'onclick' => 'formLoad(\'/user/signup-form?scenario=' . $scenario . '&clearForm=true\', \'' . $loadTo . '\', \'Регистрационная карточка\')'
                     ]);
-                elseif ($model->scenario != UserForm::SCENARIO_CREATE_PAGE && $model->scenario != UserForm::SCENARIO_REGISTER):
+                elseif ($model->scenario == UserForm::SCENARIO_CREATE):
                     echo Html::a('Страница регистрации', ['/user/signup-form?scenario=' . UserForm::SCENARIO_CREATE_PAGE], [
-                        'class' => 'col-xs-7 col-sm-3 pull-right btn btn-default',
+                        'class' => 'col-xs-12 col-sm-6 col-md-3 pull-right btn btn-default col-margin-bottom-10',
                     ]);
                 endif; ?>
             </div>
