@@ -59,7 +59,7 @@ class UserForm extends Model
     public function rules()
     {
         return [
-            [['first_name', 'last_name', 'patron_name', 'organization', 'post', 'phone', 'email'], 'required', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_CREATE_PAGE, self::SCENARIO_UPDATE, self::SCENARIO_REGISTER, self::SCENARIO_REGISTER_PARTICIPANT, self::SCENARIO_REGISTER_PARTICIPANT_PAGE]],
+            [['first_name', 'last_name', 'patron_name'], 'required', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_CREATE_PAGE, self::SCENARIO_UPDATE, self::SCENARIO_REGISTER, self::SCENARIO_REGISTER_PARTICIPANT, self::SCENARIO_REGISTER_PARTICIPANT_PAGE]],
             ['conference', 'required', 'on' => [self::SCENARIO_REGISTER_PARTICIPANT, self::SCENARIO_REGISTER_PARTICIPANT_PAGE]],
             ['password', 'required', 'on' => self::SCENARIO_REGISTER],
 

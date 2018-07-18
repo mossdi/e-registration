@@ -258,18 +258,16 @@ class UserController extends Controller
         $users = [];
 
         $results = User::find()
-            ->orFilterWhere(['like', 'first_name', Yii::$app->request->get('term')])
-            ->orFilterWhere(['like', 'last_name', Yii::$app->request->get('term')])
-            ->orFilterWhere(['like', 'patron_name', Yii::$app->request->get('term')])
-            ->orFilterWhere(['like', 'phone', Yii::$app->request->get('term')])
-            ->orFilterWhere(['like', 'email', Yii::$app->request->get('term')])
-                 ->andWhere(['deleted' => 0])
-                      ->all();
+            ->where('last_name LIKE \'' . Yii::$app->request->get('term') . '%\'')
+            //->orFilterWhere(['like', 'last_name', Yii::$app->request->get('term')])
+            //->orFilterWhere(['like', 'patron_name', Yii::$app->request->get('term')])
+                 ->andWhere(['deleted' => 0]);
 
         if ($results) {
-            foreach ($results as $user):
+            foreach ($results->all() as $user):
                 $users[] = [
-                    'value' => $user->id,
+                    'id'    => $user->id,
+                    'value' => $user->last_name . ' ' . $user->first_name . ' ' . $user->patron_name . ' (' . $user->post . ')',
                     'label' => $user->last_name . ' ' . $user->first_name . ' ' . $user->patron_name . ' (' . $user->post . ')'
                 ];
             endforeach;

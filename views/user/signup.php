@@ -35,9 +35,9 @@ use app\forms\UserForm;
                             'source' => Url::to(['user/autocomplete']),
                             'appendTo' => '#signup-form',
                             'autoFill' => true,
-                            'minLength' => '0',
+                            'minLength' => '2',
                             'select' => new JsExpression('function(event, ui) {
-                                formLoad(\'/user/signup-form?scenario=' . $scenario . '\', \'' . $loadTo . '\', ui.item.label, ui.item.value);
+                                formLoad(\'/user/signup-form?scenario=' . $scenario . '\', \'' . $loadTo . '\', ui.item.label, ui.item.id);
                             }'),
                         ],
 
@@ -95,7 +95,7 @@ use app\forms\UserForm;
 
                 <?php if ((Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_RECEPTIONIST)) && $model->scenario != UserForm::SCENARIO_UPDATE):
                     echo $form->field($model, 'conference', ['options' => ['class' => 'col-xs-12']])
-                        ->dropDownList(ArrayHelper::map($conference, 'id', 'title'), !$conference ? ['prompt' => 'Регистрация не мероприятия закрыта'] : null);
+                        ->dropDownList(ArrayHelper::map($conference, 'id', 'title'), !$conference ? ['prompt' => 'Регистрация не мероприятия закрыта'] : []);
                 endif; ?>
 
                 <?php if (Yii::$app->user->can(User::ROLE_ADMIN) && ($model->scenario == UserForm::SCENARIO_CREATE || $model->scenario == UserForm::SCENARIO_CREATE_PAGE)):
