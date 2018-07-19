@@ -81,7 +81,7 @@ class Conference extends ActiveRecord
             'title' => 'Название',
             'author_id' => 'Ведущий',
             'description' => 'Описание',
-            'start_time' => 'Дата/время начала конференции',
+            'start_time' => 'Дата проведения конференции',
         ];
     }
 

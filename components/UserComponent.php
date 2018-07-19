@@ -53,10 +53,12 @@ class UserComponent
             UserComponent::registerParticipant($user->id, $form->conference, Conference::LEARNING_FULL_TIME);
         }
 
-        UserComponent::assignRole($form->role, $form->email);
+        UserComponent::assignRole($form->role, $user->id);
 
         if (!empty($form->email)) {
-            SendMailComponent::sendMail($form->email, Yii::$app->controller->renderPartial('/html_block/mail/access_data', ['email' => $form->email, 'password' => $password]));
+            SendMailComponent::sendMail($form->email, Yii::$app->controller->renderPartial('/html_block/mail/access_data', [
+                'email' => $form->email, 'password' => $password
+            ]));
         }
 
         return $user;
@@ -153,13 +155,13 @@ class UserComponent
 
     /**
      * @param $role
-     * @param $email
+     * @param $user_id
      * @throws \Exception
      * @return mixed
      */
-    public static function assignRole($role, $email)
+    public static function assignRole($role, $user_id)
     {
-        $user = User::findByEmail($email);
+        $user = User::findOne($user_id);
 
         $userRole = Yii::$app->authManager->getRole($role);
 

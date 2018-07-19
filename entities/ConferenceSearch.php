@@ -59,7 +59,7 @@ class ConferenceSearch extends Conference
             'query' => $query,
             'sort' => [
                 'defaultOrder' => [
-                    'start_time' => SORT_ASC,
+                    'start_time' => SORT_DESC,
                 ]
             ]
         ]);

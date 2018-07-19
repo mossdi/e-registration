@@ -234,10 +234,14 @@ class ConferenceController extends Controller
             'query' => ConferenceParticipant::find()
                  ->with(['user'])
                 ->where(['conference_id' => $id]),
+            'pagination' => [
+                'pageSize' => 50
+            ]
         ]);
 
         return $this->renderAjax('participants', [
             'participants' => $participants,
+            'conference' => Conference::findOne($id),
         ]);
     }
 

@@ -62,7 +62,7 @@ class UserForm extends Model
 
             [['first_name', 'last_name', 'patron_name', 'organization', 'post', 'speciality', 'password', 'role'], 'string'],
             [['id', 'conference'], 'integer'],
-            ['email', 'email', 'on' => [self::SCENARIO_REGISTER, self::SCENARIO_UPDATE]],
+            ['email', 'email', 'on' => [self::SCENARIO_REGISTER]],
 
             ['email', 'unique', 'targetClass' => 'app\entities\User', 'message' => 'Такая эл.почта уже зарегистрирована', 'on' => [self::SCENARIO_CREATE_PAGE, self::SCENARIO_REGISTER]],
 

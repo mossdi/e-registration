@@ -3,11 +3,11 @@
 namespace app\commands;
 
 use Yii;
+use DateTime;
+use DateTimeZone;
 use yii\console\Controller;
 use moonland\phpexcel\Excel;
 use app\entities\User;
-use DateTime;
-use DateTimeZone;
 use app\entities\Conference;
 use app\components\UserComponent;
 

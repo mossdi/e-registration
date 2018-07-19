@@ -2,12 +2,19 @@
 
 /* @var $this \yii\web\View */
 /* @var $participants \yii\data\ActiveDataProvider */
+/* @var $conference \app\entities\Conference */
 
 use yii\grid\GridView;
 use yii\helpers\Html;
 use app\entities\User;
 use app\entities\Conference;
 use yii2mod\alert\Alert;
+use yii\widgets\Pjax;
+
+Pjax::begin([
+    'id' => 'participantsListContainer',
+    'enablePushState' => false,
+]);
 
 try {
     echo Alert::widget();
@@ -18,7 +25,7 @@ try {
 try {
     echo GridView::widget([
         'dataProvider' => $participants,
-        'layout' => '{items}',
+        'layout' => '{items}{pager}',
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
@@ -48,14 +55,14 @@ try {
 
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{delete}',
+                'template' => Yii::$app->user->can(User::ROLE_ADMIN) && $conference->end_time == null ? '{delete}' : '<i class="fa fa-check-circle"></i>',
                 'buttons' => [
                     'delete' => function ($url, $model) {
-                        return Yii::$app->user->can(User::ROLE_ADMIN) ? Html::button('Удалить', [
+                        return Html::button('Удалить', [
                             'onclick' => 'deleteParticipant(' . $model->user_id . ', ' . $model->conference_id . ', \'' . $model->conference->title . '\')',
                             'class'   => 'btn',
                             'data-confirm' => 'Вы уверены, что хотите удалить пользователя с конференции?',
-                        ]) : null;
+                        ]);
                     },
                 ]
             ],
@@ -64,3 +71,5 @@ try {
 } catch (Exception $e) {
     echo $e->getMessage();
 }
+
+Pjax::end();
