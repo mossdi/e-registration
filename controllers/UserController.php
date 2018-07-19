@@ -286,8 +286,8 @@ class UserController extends Controller
             foreach ($results->all() as $user):
                 $users[] = [
                     'id'    => $user->id,
-                    'value' => $user->last_name . ' ' . $user->first_name . ' ' . $user->patron_name . ' (' . $user->post . ')',
-                    'label' => $user->last_name . ' ' . $user->first_name . ' ' . $user->patron_name . ' (' . $user->post . ')'
+                    'value' => $user->last_name . ' ' . $user->first_name . ' ' . $user->patron_name . (!empty($user->post) ? ' (' . $user->post . ')' : ''),
+                    'label' => $user->last_name . ' ' . $user->first_name . ' ' . $user->patron_name . (!empty($user->post) ? ' (' . $user->post . ')' : ''),
                 ];
             endforeach;
         }
