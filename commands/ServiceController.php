@@ -63,9 +63,17 @@ class ServiceController extends Controller
                         }
 
                         foreach ($cleanDates as $date) {
-                            $dateObject = DateTime::createFromFormat('d.m.y', $date, new DateTimeZone('Europe/Moscow'));
+                            if ($date == '11.11.1111') {
+                                $date = '11.11.1991';
+                            }
 
-                            $conference = Conference::findOne(['start_time' => $dateObject->getTimestamp()]);
+                            $date = $date . ' 12:00';
+
+                            $dateObject = DateTime::createFromFormat('d.m.Y H:i', $date, new DateTimeZone('Europe/Moscow'));
+
+                            $timeStamp = $dateObject->getTimestamp();
+
+                            $conference = Conference::findOne(['start_time' => $timeStamp]);
 
                             if (!$conference) {
                                 $conference = new Conference();
@@ -73,13 +81,15 @@ class ServiceController extends Controller
                                 $conference->title = 'Клинико-анатомическая конференция (' . $date . ')';
                                 $conference->author_id = 1;
                                 $conference->description = 'Клинико-анатомическая конференция (' . $date . ')';
-                                $conference->start_time = $dateObject->getTimestamp();
-                                $conference->end_time = $dateObject->getTimestamp();
+                                $conference->start_time = $timeStamp;
+                                $conference->end_time = $timeStamp;
+
+                                $conference->save();
                             }
 
                             $results = UserComponent::registerParticipant($newUser->id, $conference->id, Conference::LEARNING_FULL_TIME);
 
-                            echo $results['message'];
+                            echo $results['message'] . PHP_EOL;
                         }
                     }
 
