@@ -13,6 +13,7 @@ use yii\web\IdentityInterface;
  * User model
  *
  * @property int $id
+ * @property int $code
  * @property string $first_name
  * @property string $last_name
  * @property string $patron_name
@@ -105,10 +106,11 @@ class User extends ActiveRecord implements IdentityInterface
      * @param $speciality
      * @param $email
      * @param $password
+     * @param $code null
      * @return User
      * @throws Exception
      */
-    public static function create($first_name, $last_name, $patron_name, $organization, $post, $speciality, $email, $password)
+    public static function create($first_name, $last_name, $patron_name, $organization, $post, $speciality, $email, $password, $code = null)
     {
         $user = new self();
 
@@ -121,6 +123,7 @@ class User extends ActiveRecord implements IdentityInterface
         $user->email = mb_strtolower($email);
         $user->status = self::STATUS_ACTIVE;
         $user->created_at = time();
+        $user->code = $code;
 
         $user->generateAuthKey();
         $user->setPassword($password);

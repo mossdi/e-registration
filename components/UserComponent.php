@@ -55,7 +55,9 @@ class UserComponent
 
         UserComponent::assignRole($form->role, $form->email);
 
-        SendMailComponent::sendMail($form->email,'<p>Логин: ' . $form->email . '</p><p>Пароль: ' . $password . '</p>');
+        if (!empty($form->email)) {
+            SendMailComponent::sendMail($form->email, Yii::$app->controller->renderPartial('/html_block/mail/access_data', ['email' => $form->email, 'password' => $password]));
+        }
 
         return $user;
     }
