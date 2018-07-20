@@ -1,6 +1,5 @@
 /**
  * Load modal form
- *
  * @param url_request
  * @param title
  * @param id
@@ -35,6 +34,7 @@ $(document).ready(function(){
 
 /**
  * Add conference to wish-list
+ * @param id
  */
 function addToWishList(id) {
     $.ajax({
@@ -49,6 +49,7 @@ function addToWishList(id) {
 
 /**
  * Delete conference from wish-list
+ * @param id
  */
 function deleteFromWishList(id) {
     $.ajax({
@@ -61,6 +62,12 @@ function deleteFromWishList(id) {
     })
 }
 
+/**
+ * Register distance participant
+ * @param user_id
+ * @param conference_id
+ * @param method
+ */
 function registerParticipant(user_id, conference_id, method) {
     $.ajax({
         type: 'GET',
@@ -76,6 +83,29 @@ function registerParticipant(user_id, conference_id, method) {
     })
 }
 
+/**
+ * Update participant
+ * @param id
+ * @param scenario
+ * @param loadTo
+ */
+function updateParticipant(id, scenario, loadTo) {
+    $.ajax({
+        type: 'POST',
+        url: '/user/update?id=' + id,
+        data: $('#update-form').serialize(),
+        success: function () {
+            formLoad('/user/signup-form?scenario=' + scenario, loadTo, null, id);
+        }
+    })
+}
+
+/**
+ * Delete participant
+ * @param user_id
+ * @param conference_id
+ * @param title
+ */
 function deleteParticipant(user_id, conference_id, title) {
     $.ajax({
         type: 'GET',

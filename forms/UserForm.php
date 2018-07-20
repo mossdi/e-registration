@@ -12,6 +12,7 @@ class UserForm extends Model
 {
     const SCENARIO_REGISTER = 'register';
     const SCENARIO_UPDATE = 'update';
+    const SCENARIO_PARTICIPANT_UPDATE = 'participant-update';
     const SCENARIO_CREATE_PAGE = 'create-page';
     const SCENARIO_REGISTER_PARTICIPANT_PAGE = 'register-participant-page';
 
@@ -28,6 +29,7 @@ class UserForm extends Model
     public $password;
     public $role;
     public $conference;
+    public $without_patron_name;
 
     /**
      * @param null $id
@@ -56,8 +58,8 @@ class UserForm extends Model
     public function rules()
     {
         return [
-            [['first_name', 'last_name', 'patron_name'], 'required', 'on' => [self::SCENARIO_CREATE_PAGE, self::SCENARIO_UPDATE, self::SCENARIO_REGISTER, self::SCENARIO_REGISTER_PARTICIPANT_PAGE]],
-            ['conference', 'required', 'on' => [self::SCENARIO_REGISTER_PARTICIPANT_PAGE]],
+            [['first_name', 'last_name'], 'required', 'on' => [self::SCENARIO_CREATE_PAGE, self::SCENARIO_UPDATE, self::SCENARIO_PARTICIPANT_UPDATE, self::SCENARIO_REGISTER, self::SCENARIO_REGISTER_PARTICIPANT_PAGE]],
+            ['conference', 'required', 'on' => self::SCENARIO_REGISTER_PARTICIPANT_PAGE],
             ['password', 'required', 'on' => self::SCENARIO_REGISTER],
 
             [['first_name', 'last_name', 'patron_name', 'organization', 'post', 'speciality', 'password', 'role'], 'string'],
@@ -87,7 +89,8 @@ class UserForm extends Model
             'email' => 'Email',
             'password' => 'Пароль',
             'role' => 'Роль',
-            'conference' => 'Зарегистрировать на конференцию'
+            'conference' => 'Зарегистрировать на конференцию',
+            'without_patron_name' => 'Без отчества',
         ];
     }
 }

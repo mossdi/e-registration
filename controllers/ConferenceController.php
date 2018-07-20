@@ -219,6 +219,8 @@ class ConferenceController extends Controller
 
         $conference->updateAttributes(['end_time' => time()]);
 
+        Yii::$app->session->setFlash('success', 'Конференция закрыта!');
+
         return $this->redirect([
             '/site/index'
         ]);

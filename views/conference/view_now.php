@@ -11,7 +11,7 @@ $this->title = $model->title;
 ?>
 
 <div id="conference-now">
-    <?php if (Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_SPEAKER)):  ?>
+    <?php if (Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_SPEAKER) || Yii::$app->user->can(User::ROLE_RECEPTIONIST_CURATOR)):  ?>
         <div class="control-panel">
             <?= Html::a('Список участников', ['/#'], [
                 'class' => 'btn btn-info col-margin-bottom-10',
@@ -20,7 +20,7 @@ $this->title = $model->title;
                 'onclick'     => 'formLoad(\'/conference/participant\', \'modal\', \'Участники конференции\', \'' . $model->id . '\')'
             ]) ?>
 
-            <?= Html::a('Тестирование', ['/test/view?id=' . $model->id], [
+            <?php /* кнопка отключена */ Html::a('Тестирование', ['/test/view?id=' . $model->id], [
                 'class' => 'btn btn-primary col-margin-bottom-10',
             ]) ?>
 

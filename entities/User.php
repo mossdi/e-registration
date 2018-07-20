@@ -41,14 +41,16 @@ class User extends ActiveRecord implements IdentityInterface
 
     const ROLE_PARTICIPANT  = 'participant';
     const ROLE_RECEPTIONIST = 'receptionist';
+    const ROLE_RECEPTIONIST_CURATOR = 'receptionist-curator';
     const ROLE_SPEAKER      = 'speaker';
     const ROLE_ADMIN        = 'admin';
 
     public static $roleList = [
-        self::ROLE_PARTICIPANT  => 'Слушатель',
-        self::ROLE_SPEAKER      => 'Ведущий',
-        self::ROLE_RECEPTIONIST => 'Регистратор',
-        self::ROLE_ADMIN        => 'Администратор',
+        self::ROLE_PARTICIPANT          => 'Слушатель',
+        self::ROLE_SPEAKER              => 'Ведущий',
+        self::ROLE_RECEPTIONIST         => 'Регистратор',
+        self::ROLE_RECEPTIONIST_CURATOR => 'Регистратор-куратор',
+        self::ROLE_ADMIN                => 'Администратор',
     ];
 
     /**

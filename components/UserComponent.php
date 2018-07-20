@@ -104,6 +104,15 @@ class UserComponent
      */
     public static function registerParticipant($user_id, $conference_id, $method)
     {
+        $conference = Conference::findOne($conference_id);
+
+        if ($conference->end_time != null) {
+            return [
+                'status'  => 'error',
+                'message' => 'Регистрация на конференцию уже закрыта!'
+            ];
+        }
+
         $participant = ConferenceParticipant::findOne([
             'user_id' => $user_id,
             'conference_id' => $conference_id

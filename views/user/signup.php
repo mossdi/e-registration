@@ -12,14 +12,21 @@ use yii\bootstrap\ActiveForm;
 use yii\jui\AutoComplete;
 use app\entities\User;
 use app\forms\UserForm;
+use yii2mod\alert\Alert;
 
 $this->title = 'Регистрация пользователей';
 
 ?>
 
+<?php try {
+    echo Alert::widget();
+} catch (Exception $e) {
+    echo 'Выброшено исключение: ',  $e->getMessage(), "\n";
+} ?>
+
 <div class="site-signup">
     <div class="row">
-        <?php if ((Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_RECEPTIONIST)) && ($model->scenario == UserForm::SCENARIO_CREATE_PAGE || $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE)): ?>
+        <?php if ((Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_RECEPTIONIST) || Yii::$app->user->can(User::ROLE_RECEPTIONIST_CURATOR)) && ($model->scenario == UserForm::SCENARIO_CREATE_PAGE || $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE)): ?>
             <div class="col-xs-12">
                 <label>Поиск пользователя</label>
                 <?php try {
@@ -51,8 +58,8 @@ $this->title = 'Регистрация пользователей';
         <div class="col-xs-12">
             <div class="row">
                 <?php $form = ActiveForm::begin([
-                    'id' => 'signup-form',
-                    'action' => $model->scenario == UserForm::SCENARIO_UPDATE ? ['/user/update?id=' . $model->id] : ['/user/signup?scenario=' . $model->scenario],
+                    'id' => $model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE || $model->scenario == UserForm::SCENARIO_UPDATE ? 'update-form' : 'signup-form',
+                    'action' => $model->scenario == UserForm::SCENARIO_UPDATE || $model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE ? ['/user/update?id=' . $model->id] : ['/user/signup?scenario=' . $model->scenario],
                     'validationUrl' => ['/user/form-validate?scenario=' . $model->scenario],
                     'enableAjaxValidation' => true,
                     'fieldConfig' => [
@@ -62,6 +69,14 @@ $this->title = 'Регистрация пользователей';
 
                 <?php if ($model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE): ?>
                     <?= $form->field($model, 'id')->hiddenInput()->label(false) ?>
+
+                    <div class="col-xs-12 text-right col-margin-bottom-20">
+                        <?= Html::a('Редактировать', ['#'], [
+                            'data-toggle' => 'modal',
+                            'data-target' => '#modalForm',
+                            'onclick' => 'formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_PARTICIPANT_UPDATE . '\', \'modal\', \'' . $model->last_name . ' ' . $model->first_name . ' ' . $model->patron_name . '\',\'' . $model->id . '\')'
+                        ]) ?>
+                    </div>
                 <?php endif; ?>
 
                 <?= $form->field($model, 'last_name', ['options' => ['class' => 'col-xs-12 col-sm-4']])
@@ -94,9 +109,9 @@ $this->title = 'Регистрация пользователей';
                         ->label(($model->scenario == UserForm::SCENARIO_REGISTER ? '<span style="color: red;">*</span> ' : null) . 'Пароль');
                 endif; ?>
 
-                <?php if ((Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_RECEPTIONIST)) && $model->scenario != UserForm::SCENARIO_UPDATE):
+                <?php if ((Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_RECEPTIONIST) || Yii::$app->user->can(User::ROLE_RECEPTIONIST_CURATOR)) && $model->scenario != UserForm::SCENARIO_UPDATE && $model->scenario != UserForm::SCENARIO_PARTICIPANT_UPDATE):
                     echo $form->field($model, 'conference', ['options' => ['class' => 'col-xs-12']])
-                        ->dropDownList(ArrayHelper::map($conference, 'id', 'title'), !$conference ? ['prompt' => 'Регистрация не мероприятия закрыта'] : []);
+                        ->dropDownList(ArrayHelper::map($conference, 'id', 'title'), !$conference || Yii::$app->user->can(User::ROLE_ADMIN) ? ['prompt' => 'Регистрация закрыта'] : []);
                 endif; ?>
 
                 <?php if (Yii::$app->user->can(User::ROLE_ADMIN) && $model->scenario == UserForm::SCENARIO_CREATE_PAGE):
@@ -110,12 +125,20 @@ $this->title = 'Регистрация пользователей';
             <hr>
 
             <div class="form-group">
-                <?= Html::submitButton($model->scenario == UserForm::SCENARIO_UPDATE ? 'Сохранить' : 'Зарегистрировать' , [
-                    'class' => 'col-xs-12 col-sm-6 col-md-5 btn btn-default col-margin-bottom-10',
-                    'name' => 'signup',
-                    'value' => 'conference',
-                    'form' => 'signup-form'
-                ]); ?>
+                <?php if ($model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE): ?>
+                    <?= Html::button('Сохранить', [
+                        'onclick' => 'updateParticipant(' . $model->id . ', \'' . UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE . '\', \'' . UserForm::LOAD_FORM_TO_PAGE . '\')',
+                        'class'   => 'btn',
+                        'data-dismiss' => 'modal',
+                    ]); ?>
+                <?php else: ?>
+                    <?= Html::submitButton($model->scenario == UserForm::SCENARIO_UPDATE ? 'Сохранить' : 'Зарегистрировать' , [
+                        'class' => 'col-xs-12 col-sm-6 col-md-5 btn btn-default col-margin-bottom-10',
+                        'name'  => 'signup',
+                        'value' => 'conference',
+                        'form'  => $model->scenario == UserForm::SCENARIO_UPDATE ? 'update-form' : 'signup-form'
+                    ]); ?>
+                <?php endif; ?>
 
                 <?php if ($model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE):
                     echo Html::button('Очистить форму', [

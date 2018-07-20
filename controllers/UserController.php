@@ -121,7 +121,7 @@ class UserController extends Controller
 
         $conference = Conference::find()
                ->where(['<=', '(start_time - ' . Yii::$app->setting->get('registerOpen') .')', time()])
-            ->andWhere(['>=', '(start_time + ' . Yii::$app->setting->get('registerClose') . ')', time()])
+            ->andWhere(['is', 'end_time', null])
             ->andWhere(['status' => Conference::STATUS_ACTIVE,])
             ->andWhere(['deleted' => 0])
              ->orderBy(['start_time' => SORT_ASC])
@@ -223,9 +223,11 @@ class UserController extends Controller
                 Yii::$app->session->setFlash('error', 'Ошибка! Пользователь не обновлен. Обратитесь к администратору системы.');
             };
 
-            $this->redirect(
-                '/site/index'
-            );
+            if (!Yii::$app->request->isAjax) {
+                $this->redirect(
+                    '/site/index'
+                );
+            }
         }
     }
 
