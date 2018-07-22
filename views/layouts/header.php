@@ -2,9 +2,11 @@
 
 /* @var $this \yii\web\View */
 /* @var $content string */
+/* @var $conference_now \app\entities\Conference|\yii\db\ActiveRecord */
 
 use yii\helpers\Html;
 use app\entities\User;
+use yii\widgets\Pjax;
 
 ?>
 
@@ -12,10 +14,25 @@ use app\entities\User;
     <?= Html::a('<span class="logo-mini">' . Html::img('/image/niiozmm_logo_mini.png', ['class' => 'img-responsive']) . '</span><span class="logo-lg">' . Html::img('/image/niiozmm_logo.png', ['class' => 'img-responsive']) . '</span>', Yii::$app->homeUrl, ['class' => 'logo']) ?>
 
     <nav class="navbar navbar-static-top" role="navigation">
+        <?php Pjax::begin([
+            'id' => 'participantCountContainer',
+            'enablePushState' => false,
+        ]) ?>
         <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
             <span class="sr-only">Toggle navigation</span>
         </a>
-
+        <?php if ($conference_now): ?>
+            <span style="display: inline-block; padding: 15px 10px;">
+                <strong>Всего участников:</strong> <?= $conference_now->participantCount ?>
+            </span>
+            <?= Html::button('<span class="glyphicon glyphicon-refresh"></span>', [
+                'onclick' => 'participantCountReload()',
+                'class' => 'btn'
+            ]); ?>
+            <span style="display: inline-block; padding: 15px 10px;">
+                <strong>Зарег-но на данной стойке:</strong> <?= $conference_now->reseptionParticipantCount ?>
+            </span>
+        <?php endif; ?>
         <?php if (Yii::$app->user->identity): ?>
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
@@ -37,5 +54,7 @@ use app\entities\User;
                 </ul>
             </div>
         <?php endif; ?>
+
+        <?php Pjax::end(); ?>
     </nav>
 </header>

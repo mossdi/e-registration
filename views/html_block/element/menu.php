@@ -1,18 +1,12 @@
 <?php
 
 /* @var $this \yii\web\View */
+/* @var $conference_now \app\entities\Conference; */
 
 use app\widgets\Menu;
 use app\forms\UserForm;
 use app\entities\User;
-use app\entities\Conference;
 use app\entities\ConferenceParticipant;
-
-$conference_now = Conference::find()
-       ->where(['<', 'start_time', time()])
-    ->andWhere(['is', 'end_time', null])
-    ->andWhere(['status' => Conference::STATUS_ACTIVE])
-         ->one();
 
 try {
     echo Menu::widget(

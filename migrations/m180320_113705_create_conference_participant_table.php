@@ -22,6 +22,7 @@ class m180320_113705_create_conference_participant_table extends Migration
         $this->createTable('conference_participant', [
             'user_id' => $this->integer()->notNull(),
             'conference_id' => $this->integer()->notNull(),
+            'reseption_id' => $this->integer()->null(),
             'method' => $this->string()->notNull(),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),

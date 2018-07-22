@@ -5,10 +5,17 @@
 
 use yii\helpers\Html;
 use app\entities\User;
+use app\entities\Conference;
 
 app\assets\AppAsset::register($this);
 
 //Yii::$app->authManager->invalidateCache(); //очистка кэша ролей
+
+$conference_now = Conference::find()
+    ->where(['<', 'start_time', time()])
+    ->andWhere(['is', 'end_time', null])
+    ->andWhere(['status' => Conference::STATUS_ACTIVE])
+    ->one();
 
 ?>
 
@@ -27,7 +34,9 @@ app\assets\AppAsset::register($this);
 <div class="wrapper">
 
     <?= $this->render(
-        'header'
+        'header', [
+            'conference_now' => $conference_now,
+        ]
     ) ?>
 
     <?= $this->render(
@@ -35,7 +44,9 @@ app\assets\AppAsset::register($this);
     ) ?>
 
     <?= $this->render(
-        'left'
+        'left', [
+            'conference_now' => $conference_now,
+        ]
     ) ?>
 
     <?= $this->render(

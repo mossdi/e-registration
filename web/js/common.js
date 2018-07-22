@@ -121,6 +121,14 @@ function deleteParticipant(user_id, conference_id, title) {
             $.pjax.reload({
                 container: '#conferenceListContainer'
             })
+
+            setTimeout(function () {
+                $.pjax.reload({
+                    container: '#participantCountContainer'
+                });
+            }, 400);
+
+            $('html, body').animate({scrollTop: 0},500);
         }
     })
 }
@@ -138,4 +146,9 @@ function wishlistReload() {
             container: '#wishListContainer'
         });
     }, 500);
+}
+function participantCountReload() {
+    $.pjax.reload({
+        container: '#participantCountContainer'
+    });
 }

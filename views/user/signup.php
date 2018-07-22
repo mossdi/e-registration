@@ -61,7 +61,7 @@ $this->title = 'Регистрация пользователей';
                                 'class' => 'btn btn-default',
                                 'data-toggle' => 'modal',
                                 'data-target' => '#modalForm',
-                                'onclick'     => 'formLoad(\'/conference/participant\', \'modal\', \'Участники конференции\', \'' . $conference->id . '\')'
+                                'onclick'     => 'formLoad(\'/conference/participant\', \'modal\', \'Участники конференции\', \'' . $conference->id . '\'); participantCountReload();'
                             ]) ?>
                         </div>
                     <?php endif; ?>

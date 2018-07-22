@@ -15,6 +15,7 @@ use yii\behaviors\TimestampBehavior;
  * @property int $updated_at
  * @property Conference $conference
  * @property User $user
+ * @property int $reseption_id
  */
 class ConferenceParticipant extends ActiveRecord
 {
