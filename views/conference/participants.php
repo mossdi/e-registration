@@ -22,6 +22,11 @@ try {
     echo 'Выброшено исключение: ',  $e->getMessage(), "\n";
 }
 
+echo Html::button('Обновить список участников <span style="margin-left: 5px;" class="glyphicon glyphicon-refresh"></span>', [
+    'class' => 'btn btn-default col-margin-bottom-10',
+    'onclick' => 'formLoad(\'/conference/participant\', \'modal\', \'Участники конференции\', \'' . $conference->id . '\')'
+]);
+
 try {
     echo GridView::widget([
         'dataProvider' => $participants,

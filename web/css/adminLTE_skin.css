@@ -48,6 +48,12 @@
   border-left: 1px solid #d2d6de;
   border-right-width: 0;
 }
+.skin-black-light .main-header .navbar .navbar-custom-menu .navbar-nav > li > span.item {
+  padding: 15px 20px;
+  display: block;
+  font-weight: bold;
+}
+
 .skin-black-light .main-header > .logo {
   background-color: #ffffff;
   color: #333333;

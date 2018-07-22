@@ -125,7 +125,7 @@ class UserController extends Controller
             ->andWhere(['status' => Conference::STATUS_ACTIVE,])
             ->andWhere(['deleted' => 0])
              ->orderBy(['start_time' => SORT_ASC])
-                 ->all();
+                 ->one();
 
         return $scenario == UserForm::SCENARIO_CREATE_PAGE && !$clearForm ?
             $this->render('signup', [
@@ -210,11 +210,17 @@ class UserController extends Controller
      * Update user
      *
      * @param $id
+     * @param null $scenario
+     * @return bool|Response
      * @throws \Exception
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id, $scenario = null)
     {
         $form = new UserForm($id);
+
+        if ($scenario) {
+            $form->scenario = $scenario;
+        }
 
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             if (UserComponent::userUpdate($form, User::findOne($id))) {
@@ -224,11 +230,15 @@ class UserController extends Controller
             };
 
             if (!Yii::$app->request->isAjax) {
-                $this->redirect(
+                return $this->redirect(
                     '/site/index'
                 );
             }
+
+            return true;
         }
+
+        return false;
     }
 
     /**

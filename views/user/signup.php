@@ -26,29 +26,47 @@ $this->title = 'Регистрация пользователей';
 
 <div class="site-signup">
     <div class="row">
-        <?php if ((Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_RECEPTIONIST) || Yii::$app->user->can(User::ROLE_RECEPTIONIST_CURATOR)) && ($model->scenario == UserForm::SCENARIO_CREATE_PAGE || $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE)): ?>
+        <?php if (
+            (Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_RECEPTIONIST) || Yii::$app->user->can(User::ROLE_RECEPTIONIST_CURATOR)) &&
+            ($model->scenario == UserForm::SCENARIO_CREATE_PAGE || $model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE || $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE)
+        ) : ?>
             <div class="col-xs-12">
                 <label>Поиск пользователя</label>
-                <?php try {
-                    echo AutoComplete::widget([
-                        'name' => 'name',
-                        'options' => [
-                            'class' => 'form-control',
-                            'placeholder' => 'Введите данные...',
-                        ],
-                        'clientOptions' => [
-                            'source' => Url::to(['user/autocomplete']),
-                            'appendTo' => '#signup-form',
-                            'autoFill' => true,
-                            'minLength' => '2',
-                            'select' => new JsExpression('function(event, ui) {
+                <div class="row">
+                    <div class="col-xs-12 col-sm-10 col-margin-bottom-10">
+                        <?php try {
+                            echo AutoComplete::widget([
+                                'name' => 'name',
+                                'options' => [
+                                    'class' => 'form-control',
+                                    'placeholder' => 'Введите данные...',
+                                ],
+                                'clientOptions' => [
+                                    'source' => Url::to(['user/autocomplete']),
+                                    'appendTo' => '#signup-form',
+                                    'autoFill' => true,
+                                    'minLength' => '2',
+                                    'select' => new JsExpression('function(event, ui) {
                                 formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE . '\', \'' . UserForm::LOAD_FORM_TO_PAGE . '\', ui.item.label, ui.item.id);
                             }'),
-                        ],
-                    ]);
-                } catch (Exception $e) {
-                    echo 'Выброшено исключение: ',  $e->getMessage(), "\n";
-                } ?>
+                                ],
+                            ]);
+                        } catch (Exception $e) {
+                            echo 'Выброшено исключение: ',  $e->getMessage(), "\n";
+                        } ?>
+                    </div>
+                    <?php if ($conference): ?>
+                        <div class="col-xs-12 col-sm-2 col-margin-bottom-10">
+                            <?= Html::button('Список участников', [
+                                'class' => 'btn btn-default',
+                                'data-toggle' => 'modal',
+                                'data-target' => '#modalForm',
+                                'onclick'     => 'formLoad(\'/conference/participant\', \'modal\', \'Участники конференции\', \'' . $conference->id . '\')'
+                            ]) ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
                 <p style="color: red; font-style: italic">Порядок ввода: ФАМИЛИЯ ИМЯ ОТЧЕСТВО</p>
 
                 <hr>
@@ -62,46 +80,62 @@ $this->title = 'Регистрация пользователей';
                     'action' => $model->scenario == UserForm::SCENARIO_UPDATE || $model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE ? ['/user/update?id=' . $model->id] : ['/user/signup?scenario=' . $model->scenario],
                     'validationUrl' => ['/user/form-validate?scenario=' . $model->scenario],
                     'enableAjaxValidation' => true,
+                    'enableClientValidation' => true,
                     'fieldConfig' => [
                         'template' => "{label}\n{input}",
                     ],
                 ]); ?>
 
-                <?php if ($model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE): ?>
-                    <?= $form->field($model, 'id')->hiddenInput()->label(false) ?>
-
-                    <div class="col-xs-12 text-right col-margin-bottom-20">
-                        <?= Html::a('Редактировать', ['#'], [
-                            'data-toggle' => 'modal',
-                            'data-target' => '#modalForm',
-                            'onclick' => 'formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_PARTICIPANT_UPDATE . '\', \'modal\', \'' . $model->last_name . ' ' . $model->first_name . ' ' . $model->patron_name . '\',\'' . $model->id . '\')'
-                        ]) ?>
+                <?php if ($model->scenario == UserForm::SCENARIO_CREATE_PAGE): ?>
+                    <div class="col-xs-12"><p style="font-weight: bold">Новый пользователь...</p></div>
+                <?php elseif ($model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE || $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE): ?>
+                    <div class="col-xs-12 col-margin-bottom-10">
+                        <p>
+                            <span>Пользователь:</span> <span style="font-weight: bold;"> <?= $model->last_name . ' ' . $model->first_name . ' ' . $model->patron_name .  ($model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE ? ' - <span style="color:red;font-weight:normal;">[ Редактирование ]' : null ) ?></span>
+                            <span>
+                                <?php if ($model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE): ?>
+                                    <?= Html::button('Редактировать', [
+                                        //'data-toggle' => 'modal',
+                                        //'data-target' => '#modalForm',
+                                        'class' => 'btn btn-default',
+                                        'style' => 'margin-left: 15px; padding: 3px 10px;',
+                                        'onclick' => 'formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_PARTICIPANT_UPDATE . '\', \'page\', \'' . $model->last_name . ' ' . $model->first_name . ' ' . $model->patron_name . '\',\'' . $model->id . '\')'
+                                    ]) ?>
+                                    <?= $form->field($model, 'id')->hiddenInput()->label(false) ?>
+                                <?php endif; ?>
+                            </span>
+                        </p>
                     </div>
                 <?php endif; ?>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-margin-bottom-10">
+                        <?= $form->field($model, 'last_name', ['options' => ['class' => 'col-xs-10']])
+                            ->textInput(['placeholder' => 'Фамилия', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE || $model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE  ? true : false])
+                            ->label('<span style="color: red;">*</span> Фамилия') ?>
 
-                <?= $form->field($model, 'last_name', ['options' => ['class' => 'col-xs-12 col-sm-4']])
-                    ->textInput(['placeholder' => 'Фамилия', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE ? true : false])
-                    ->label('<span style="color: red;">*</span> Фамилия') ?>
+                        <?= $form->field($model, 'first_name', ['options' => ['class' => 'col-xs-10']])
+                            ->textInput(['placeholder' => 'Имя', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE || $model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE ? true : false])
+                            ->label('<span style="color: red;">*</span> Имя') ?>
 
-                <?= $form->field($model, 'first_name', ['options' => ['class' => 'col-xs-12 col-sm-4']])
-                    ->textInput(['placeholder' => 'Имя', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE ? true : false])
-                    ->label('<span style="color: red;">*</span> Имя') ?>
+                        <?= $form->field($model, 'patron_name', ['options' => ['class' => 'col-xs-10 col-margin-bottom-10']])
+                            ->textInput(['placeholder' => 'Отчество', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE || $model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE ? true : false])
+                            ->label('<span style="color: red;">*</span> Отчество') ?>
 
-                <?= $form->field($model, 'patron_name', ['options' => ['class' => 'col-xs-12 col-sm-4']])
-                    ->textInput(['placeholder' => 'Отчество', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE ? true : false])
-                    ->label('<span style="color: red;">*</span> Отчество') ?>
+                        <?= $form->field($model, 'email', ['options' => ['class' => 'col-xs-10']])
+                            ->textInput(['placeholder' => 'Эл.почта', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE ? true : false]) ?>
+                    </div>
 
-                <?= $form->field($model, 'organization', ['options' => ['class' => 'col-xs-12 col-sm-4']])
-                    ->textInput(['placeholder' => 'Организация', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE ? true : false]) ?>
+                    <div class="col-xs-12 col-sm-6 col-margin-bottom-10">
+                        <?= $form->field($model, 'organization', ['options' => ['class' => 'col-xs-10']])
+                            ->textInput(['placeholder' => 'Организация', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE ? true : false]) ?>
 
-                <?= $form->field($model, 'post', ['options' => ['class' => 'col-xs-12 col-sm-4']])
-                    ->textInput(['placeholder' => 'Должность', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE ? true : false]) ?>
+                        <?= $form->field($model, 'post', ['options' => ['class' => 'col-xs-10']])
+                            ->textInput(['placeholder' => 'Должность', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE ? true : false]) ?>
 
-                <?= $form->field($model, 'speciality', ['options' => ['class' => 'col-xs-12 col-sm-4']])
-                    ->textInput(['placeholder' => 'Специализация', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE ? true : false]) ?>
-
-                <?= $form->field($model, 'email', ['options' => ['class' => 'col-xs-12 col-sm-6']])
-                    ->textInput(['placeholder' => 'Эл.почта', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE ? true : false]) ?>
+                        <?= $form->field($model, 'speciality', ['options' => ['class' => 'col-xs-10']])
+                            ->textInput(['placeholder' => 'Специализация', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE ? true : false]) ?>
+                    </div>
+                </div>
 
                 <?php if ($model->scenario == UserForm::SCENARIO_REGISTER || ($model->scenario == UserForm::SCENARIO_UPDATE && (Yii::$app->user->id == $model->id || Yii::$app->user->can(User::ROLE_ADMIN)))):
                     echo $form->field($model, 'password', ['options' => ['class' => 'col-xs-12 col-sm-6']])
@@ -109,18 +143,22 @@ $this->title = 'Регистрация пользователей';
                         ->label(($model->scenario == UserForm::SCENARIO_REGISTER ? '<span style="color: red;">*</span> ' : null) . 'Пароль');
                 endif; ?>
 
-                <?php if ((Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_RECEPTIONIST) || Yii::$app->user->can(User::ROLE_RECEPTIONIST_CURATOR)) && $model->scenario != UserForm::SCENARIO_UPDATE && $model->scenario != UserForm::SCENARIO_PARTICIPANT_UPDATE):
-                    echo $form->field($model, 'conference', ['options' => ['class' => 'col-xs-12']])
-                        ->dropDownList(ArrayHelper::map($conference, 'id', 'title'), !$conference || Yii::$app->user->can(User::ROLE_ADMIN) ? ['prompt' => 'Регистрация закрыта'] : []);
-                endif; ?>
+                <div class="col-margin-top-15 col-xs-12">
+                    <span style="color: red;">*</span> - поля обязательные для заполнения
+
+                    <hr>
+                </div>
 
                 <?php if (Yii::$app->user->can(User::ROLE_ADMIN) && $model->scenario == UserForm::SCENARIO_CREATE_PAGE):
-                    echo $form->field($model, 'role', ['options' => ['class' => 'col-xs-12']])
+                    echo $form->field($model, 'role', ['options' => ['class' => 'col-xs-12 col-margin-bottom-10']])
                         ->dropDownList(User::$roleList);
                 endif; ?>
-            </div>
 
-            <div class="col-margin-top-15"><span style="color: red;">*</span> - поля обязательные для заполнения</div>
+                <?php if ((Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_RECEPTIONIST) || Yii::$app->user->can(User::ROLE_RECEPTIONIST_CURATOR)) && $model->scenario != UserForm::SCENARIO_UPDATE && $model->scenario != UserForm::SCENARIO_PARTICIPANT_UPDATE):
+                    echo $form->field($model, 'conference', ['options' => ['class' => 'col-xs-12']])
+                        ->dropDownList([$conference->id => $conference->title], !$conference || (Yii::$app->user->can(User::ROLE_ADMIN) && $model->scenario == UserForm::SCENARIO_CREATE_PAGE) ? ['prompt' => $model->scenario == UserForm::SCENARIO_CREATE_PAGE ? 'Без регистрации на мероприятие' : 'Регистрация закрыта'] : []);
+                endif; ?>
+            </div>
 
             <hr>
 
@@ -128,8 +166,7 @@ $this->title = 'Регистрация пользователей';
                 <?php if ($model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE): ?>
                     <?= Html::button('Сохранить', [
                         'onclick' => 'updateParticipant(' . $model->id . ', \'' . UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE . '\', \'' . UserForm::LOAD_FORM_TO_PAGE . '\')',
-                        'class'   => 'btn',
-                        'data-dismiss' => 'modal',
+                        'class'   => 'btn btn-primary',
                     ]); ?>
                 <?php else: ?>
                     <?= Html::submitButton($model->scenario == UserForm::SCENARIO_UPDATE ? 'Сохранить' : 'Зарегистрировать' , [

@@ -92,10 +92,11 @@ function registerParticipant(user_id, conference_id, method) {
 function updateParticipant(id, scenario, loadTo) {
     $.ajax({
         type: 'POST',
-        url: '/user/update?id=' + id,
+        url: '/user/update?id=' + id + '&scenario=update' ,
         data: $('#update-form').serialize(),
         success: function () {
             formLoad('/user/signup-form?scenario=' + scenario, loadTo, null, id);
+            $('html, body').animate({scrollTop: 0},500);
         }
     })
 }

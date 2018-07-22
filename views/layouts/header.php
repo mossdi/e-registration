@@ -19,6 +19,9 @@ use app\entities\User;
         <?php if (Yii::$app->user->identity): ?>
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
+                    <?php if (Yii::$app->user->can(User::ROLE_RECEPTIONIST) || Yii::$app->user->can(User::ROLE_RECEPTIONIST_CURATOR)): ?>
+                        <li><span class="item"><?= Yii::$app->user->identity->first_name ?></span></li>
+                    <?php endif; ?>
                     <li class="user user-menu">
                         <?php if (Yii::$app->user->can(User::ROLE_PARTICIPANT) || Yii::$app->user->can(User::ROLE_ADMIN)): ?>
                             <a href="#" data-toggle="control-sidebar">
