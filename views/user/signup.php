@@ -6,17 +6,23 @@
 
 use yii\web\JsExpression;
 use yii\helpers\Html;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\bootstrap\ActiveForm;
 use yii\jui\AutoComplete;
 use app\entities\User;
 use app\forms\UserForm;
 use yii2mod\alert\Alert;
+use yii\widgets\Pjax;
 
 $this->title = 'Регистрация пользователей';
 
 ?>
+
+<?php Pjax::begin([
+    'id' => 'updateParticipantContainer',
+    'enablePushState' => false,
+    'timeout' => 10000,
+]); ?>
 
 <?php try {
     echo Alert::widget();
@@ -33,7 +39,7 @@ $this->title = 'Регистрация пользователей';
             <div class="col-xs-12">
                 <label>Поиск пользователя</label>
                 <div class="row">
-                    <div class="col-xs-12 col-sm-10 col-margin-bottom-10">
+                    <div class="col-xs-12 col-sm-9 col-margin-bottom-10">
                         <?php try {
                             echo AutoComplete::widget([
                                 'name' => 'name',
@@ -56,9 +62,9 @@ $this->title = 'Регистрация пользователей';
                         } ?>
                     </div>
                     <?php if ($conference): ?>
-                        <div class="col-xs-12 col-sm-2 col-margin-bottom-10">
+                        <div class="col-xs-12 col-sm-3 col-margin-bottom-10">
                             <?= Html::button('Список участников', [
-                                'class' => 'btn btn-default',
+                                'class' => 'btn btn-default col-xs-12',
                                 'data-toggle' => 'modal',
                                 'data-target' => '#modalForm',
                                 'onclick'     => 'formLoad(\'/conference/participant\', \'modal\', \'Участники конференции\', \'' . $conference->id . '\'); participantCountReload();'
@@ -81,6 +87,9 @@ $this->title = 'Регистрация пользователей';
                     'validationUrl' => ['/user/form-validate?scenario=' . $model->scenario],
                     'enableAjaxValidation' => true,
                     'enableClientValidation' => true,
+                    'options' => [
+                        'data-pjax' => true,
+                    ],
                     'fieldConfig' => [
                         'template' => "{label}\n{input}",
                     ],
@@ -91,19 +100,19 @@ $this->title = 'Регистрация пользователей';
                 <?php elseif ($model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE || $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE): ?>
                     <div class="col-xs-12 col-margin-bottom-10">
                         <p>
-                            <span>Пользователь:</span> <span style="font-weight: bold;"> <?= $model->last_name . ' ' . $model->first_name . ' ' . $model->patron_name .  ($model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE ? ' - <span style="color:red;font-weight:normal;">[ Редактирование ]' : null ) ?></span>
-                            <span>
-                                <?php if ($model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE): ?>
+                            <span>Пользователь:</span> <span style="font-weight: bold; margin-right: 5px;"> <?= $model->last_name . ' ' . $model->first_name . ' ' . $model->patron_name .  ($model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE ? ' <span style="color:red;font-weight:normal;">[Редактирование]</span>' : null ) ?></span>
+                            <?php if ($model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE): ?>
+                                <span>
                                     <?= Html::button('Редактировать', [
                                         //'data-toggle' => 'modal',
                                         //'data-target' => '#modalForm',
                                         'class' => 'btn btn-default',
-                                        'style' => 'margin-left: 15px; padding: 3px 10px;',
+                                        'style' => 'padding: 3px 6px;',
                                         'onclick' => 'formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_PARTICIPANT_UPDATE . '\', \'page\', \'' . $model->last_name . ' ' . $model->first_name . ' ' . $model->patron_name . '\',\'' . $model->id . '\')'
                                     ]) ?>
-                                    <?= $form->field($model, 'id')->hiddenInput()->label(false) ?>
-                                <?php endif; ?>
-                            </span>
+                                </span>
+                                <?= $form->field($model, 'id')->hiddenInput()->label(false) ?>
+                            <?php endif; ?>
                         </p>
                     </div>
                 <?php endif; ?>
@@ -126,8 +135,11 @@ $this->title = 'Регистрация пользователей';
                     </div>
 
                     <div class="col-xs-12 col-sm-6 col-margin-bottom-10">
-                        <?= $form->field($model, 'organization', ['options' => ['class' => 'col-xs-10']])
+                        <?= $form->field($model, 'organization', ['options' => ['class' => 'col-xs-10 col-sm-5']])
                             ->textInput(['placeholder' => 'Организация', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE ? true : false]) ?>
+
+                        <?= $form->field($model, 'organization_branch', ['options' => ['class' => 'col-xs-10 col-sm-5']])
+                            ->textInput(['placeholder' => 'Филиал', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE ? true : false]) ?>
 
                         <?= $form->field($model, 'post', ['options' => ['class' => 'col-xs-10']])
                             ->textInput(['placeholder' => 'Должность', 'readonly' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE ? true : false]) ?>
@@ -163,19 +175,13 @@ $this->title = 'Регистрация пользователей';
             <hr>
 
             <div class="form-group">
-                <?php if ($model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE): ?>
-                    <?= Html::button('Сохранить', [
-                        'onclick' => 'updateParticipant(' . $model->id . ', \'' . UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE . '\', \'' . UserForm::LOAD_FORM_TO_PAGE . '\')',
-                        'class'   => 'btn btn-primary',
-                    ]); ?>
-                <?php else: ?>
-                    <?= Html::submitButton($model->scenario == UserForm::SCENARIO_UPDATE ? 'Сохранить' : 'Зарегистрировать' , [
-                        'class' => 'col-xs-12 col-sm-6 col-md-5 btn btn-default col-margin-bottom-10',
-                        'name'  => 'signup',
-                        'value' => 'conference',
-                        'form'  => $model->scenario == UserForm::SCENARIO_UPDATE ? 'update-form' : 'signup-form'
-                    ]); ?>
-                <?php endif; ?>
+                <?= Html::submitButton($model->scenario == UserForm::SCENARIO_UPDATE || $model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE ? 'Сохранить' : 'Зарегистрировать' , [
+                    'class' => 'col-xs-12 col-sm-6 col-md-5 btn btn-default col-margin-bottom-10',
+                    'name'  => 'signup',
+                    'value' => 'conference',
+                    'onclick' => 'participantCountReload()',
+                    'form'  => $model->scenario == UserForm::SCENARIO_UPDATE || $model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE ? 'update-form' : 'signup-form'
+                ]); ?>
 
                 <?php if ($model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE):
                     echo Html::button('Очистить форму', [
@@ -189,3 +195,5 @@ $this->title = 'Регистрация пользователей';
         </div>
     </div>
 </div>
+
+<?php Pjax::end(); ?>

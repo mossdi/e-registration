@@ -94,9 +94,12 @@ function updateParticipant(id, scenario, loadTo) {
         type: 'POST',
         url: '/user/update?id=' + id + '&scenario=update' ,
         data: $('#update-form').serialize(),
-        success: function () {
-            formLoad('/user/signup-form?scenario=' + scenario, loadTo, null, id);
-            $('html, body').animate({scrollTop: 0},500);
+        success: function (response) {
+            if (response) {
+                alert(response);
+                formLoad('/user/signup-form?scenario=' + scenario, loadTo, null, id);
+                $('html, body').animate({scrollTop: 0}, 500);
+            }
         }
     })
 }
@@ -149,7 +152,9 @@ function wishlistReload() {
 }
 
 function participantCountReload() {
-    $.pjax.reload({
-        container: '#participantCountContainer'
-    });
+    setTimeout(function () {
+        $.pjax.reload({
+            container: '#participantCountContainer'
+        });
+    }, 1000);
 }

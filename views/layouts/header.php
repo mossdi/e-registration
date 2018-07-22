@@ -21,23 +21,25 @@ use yii\widgets\Pjax;
         <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
             <span class="sr-only">Toggle navigation</span>
         </a>
+
         <?php if ($conference_now): ?>
             <span style="display: inline-block; padding: 15px 10px;">
-                <strong>Всего участников:</strong> <?= $conference_now->participantCount ?>
+                <strong class="hidden-xs hidden-sm">Всего участников:</strong> <?= $conference_now->participantCount ?>
             </span>
             <?= Html::button('<span class="glyphicon glyphicon-refresh"></span>', [
                 'onclick' => 'participantCountReload()',
                 'class' => 'btn'
             ]); ?>
             <span style="display: inline-block; padding: 15px 10px;">
-                <strong>Зарег-но на данной стойке:</strong> <?= $conference_now->reseptionParticipantCount ?>
+                <strong class="hidden-xs hidden-sm">Зарег-но на данной стойке:</strong> <?= $conference_now->reseptionParticipantCount ?>
             </span>
         <?php endif; ?>
+
         <?php if (Yii::$app->user->identity): ?>
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                     <?php if (Yii::$app->user->can(User::ROLE_RECEPTIONIST) || Yii::$app->user->can(User::ROLE_RECEPTIONIST_CURATOR)): ?>
-                        <li><span class="item"><?= Yii::$app->user->identity->first_name ?></span></li>
+                        <li class="hidden-xs hidden-sm"><span class="item"><?= Yii::$app->user->identity->first_name ?></span></li>
                     <?php endif; ?>
                     <li class="user user-menu">
                         <?php if (Yii::$app->user->can(User::ROLE_PARTICIPANT) || Yii::$app->user->can(User::ROLE_ADMIN)): ?>

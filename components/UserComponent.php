@@ -30,6 +30,7 @@ class UserComponent
             $form->last_name,
             $form->patron_name,
             $form->organization,
+            $form->organization_branch,
             $form->post,
             $form->speciality,
             $form->email,
@@ -76,6 +77,7 @@ class UserComponent
         $user->last_name = $form->last_name;
         $user->patron_name = $form->patron_name;
         $user->organization = $form->organization;
+        $user->organization_branch = $form->organization_branch;
         $user->post = $form->post;
         $user->speciality = $form->speciality;
         $user->email = mb_strtolower($form->email);
@@ -121,7 +123,7 @@ class UserComponent
         if ($participant) {
             return [
                 'status'  => 'success',
-                'message' => 'Этот пользователь уже зарегистрирован на конференцию - ' . $participant->conference->title
+                'message' => 'Пользователь успешно зарегистрирован на конференцию - ' . $participant->conference->title
             ];
         }
 

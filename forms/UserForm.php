@@ -23,6 +23,7 @@ class UserForm extends Model
     public $last_name;
     public $patron_name;
     public $organization;
+    public $organization_branch;
     public $post;
     public $speciality;
     public $email;
@@ -44,6 +45,7 @@ class UserForm extends Model
             $this->last_name = $user->last_name;
             $this->patron_name = $user->patron_name;
             $this->organization = $user->organization;
+            $this->organization_branch = $user->organization_branch;
             $this->post = $user->post;
             $this->speciality = $user->speciality;
             $this->email = $user->email;
@@ -62,7 +64,7 @@ class UserForm extends Model
             ['conference', 'required', 'on' => self::SCENARIO_REGISTER_PARTICIPANT_PAGE],
             ['password', 'required', 'on' => self::SCENARIO_REGISTER],
 
-            [['first_name', 'last_name', 'patron_name', 'organization', 'post', 'speciality', 'password', 'role'], 'string'],
+            [['first_name', 'last_name', 'patron_name', 'organization', 'organization_branch', 'post', 'speciality', 'password', 'role'], 'string'],
             [['id', 'conference'], 'integer'],
             ['email', 'email', 'on' => [self::SCENARIO_REGISTER]],
 
@@ -84,6 +86,7 @@ class UserForm extends Model
             'last_name' => 'Фамилия',
             'patron_name' => 'Отчество',
             'organization' => 'Организация',
+            'organization_branch' => 'Филиал',
             'post' => 'Должность',
             'speciality' => 'Специализация',
             'email' => 'Email',

@@ -30,12 +30,13 @@ class ServiceController extends Controller
 
             $i = 0;
 
-            foreach ($users as $user) {
+            foreach ($users[0] as $user) {
                 $newUser = User::create(
                     trim($user['first_name']),
                     trim($user['last_name']),
                     trim($user['patron_name']),
                     !empty(trim($user['organization'])) ? trim($user['organization']) : null,
+                    !empty(trim($user['organization_branch'])) ? trim($user['organization_branch']) : null,
                     !empty(trim($user['post'])) ? trim($user['post']) : null,
                     !empty(trim($user['speciality'])) ? trim($user['speciality']) : null,
                     !empty(trim($user['email'])) ? trim($user['email']) : null,
@@ -102,6 +103,37 @@ class ServiceController extends Controller
             echo 'Всего создано ' . $i . ' пользователей' . PHP_EOL;
 
             exit();
+        } else {
+            echo 'Ошибка чтения файла!';
+
+            exit();
+        }
+    }
+
+    /**
+     * @param $attribute
+     */
+    public function actionUpdateUsers($attribute)
+    {
+        $users = Excel::import('/var/www/cert.dwbx.ru/storage/participants.xlsx', $config = []);
+
+        if ($users) {
+            echo 'Файл считан!' . PHP_EOL;
+
+            $i = 0;
+
+            foreach ($users as $user) {
+                $userUpdate = User::findOne(['code' => $user['code']]);
+
+                $userUpdate->updateAttributes([$attribute => $user[$attribute]]);
+
+                echo $userUpdate->last_name . ' ' . $userUpdate->first_name . ' ' . $userUpdate->patron_name . ' - обновлен!' . PHP_EOL;
+                echo $user[$attribute] . PHP_EOL;
+
+                $i++;
+            }
+
+            echo 'Всего обновлено записей - ' . $i . PHP_EOL;
         } else {
             echo 'Ошибка чтения файла!';
 

@@ -179,9 +179,7 @@ class UserController extends Controller
                 Yii::$app->session->setFlash('error', 'Ошибка! Пользователь не зарегистрирован. Обратитесь к администратору системы.');
             };
 
-            return $this->redirect(
-                '/user/signup-form?scenario=' . UserForm::SCENARIO_CREATE_PAGE
-            );
+            return $this->actionSignupForm(null, UserForm::SCENARIO_CREATE_PAGE, true);
         }
     }
 
@@ -201,9 +199,7 @@ class UserController extends Controller
 
         Yii::$app->session->setFlash($result['status'], $result['message']);
 
-        return $this->redirect(
-            '/user/signup-form?scenario=' . UserForm::SCENARIO_CREATE_PAGE
-        );
+        return $this->actionSignupForm(null, UserForm::SCENARIO_CREATE_PAGE, true);
     }
 
     /**
@@ -229,7 +225,9 @@ class UserController extends Controller
                 Yii::$app->session->setFlash('error', 'Ошибка! Пользователь не обновлен. Обратитесь к администратору системы.');
             };
 
-            if (!Yii::$app->request->isAjax) {
+            if (Yii::$app->request->isPjax) {
+                return $this->actionSignupForm($id, UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE);
+            } elseif (!Yii::$app->request->isAjax) {
                 return $this->redirect(
                     '/site/index'
                 );
@@ -238,7 +236,7 @@ class UserController extends Controller
             return true;
         }
 
-        return false;
+        return true;
     }
 
     /**

@@ -18,6 +18,7 @@ use yii\web\IdentityInterface;
  * @property string $last_name
  * @property string $patron_name
  * @property string $organization
+ * @property string $organization_branch
  * @property string $post
  * @property string $speciality
  * @property string $email
@@ -104,6 +105,7 @@ class User extends ActiveRecord implements IdentityInterface
      * @param $last_name
      * @param $patron_name
      * @param $organization
+     * @param $organization_branch
      * @param $post
      * @param $speciality
      * @param $email
@@ -112,7 +114,7 @@ class User extends ActiveRecord implements IdentityInterface
      * @return User
      * @throws Exception
      */
-    public static function create($first_name, $last_name, $patron_name, $organization, $post, $speciality, $email, $password, $code = null)
+    public static function create($first_name, $last_name, $patron_name, $organization, $organization_branch, $post, $speciality, $email, $password, $code = null)
     {
         $user = new self();
 
@@ -120,6 +122,7 @@ class User extends ActiveRecord implements IdentityInterface
         $user->last_name = $last_name;
         $user->patron_name = $patron_name;
         $user->organization = $organization;
+        $user->organization_branch = $organization_branch;
         $user->post = $post;
         $user->speciality = $speciality;
         $user->email = mb_strtolower($email);

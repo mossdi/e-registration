@@ -27,6 +27,7 @@ class m180305_134955_create_user_table extends Migration
             'first_name' => $this->string()->notNull(),
             'patron_name' => $this->string()->notNull(),
             'organization' => $this->string()->null(),
+            'organization_branch' => $this->string()->null(),
             'post' => $this->string()->null(),
             'speciality' => $this->string()->null(),
             'email' => $this->string()->null(),
