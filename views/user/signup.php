@@ -47,7 +47,7 @@ $this->title = 'Регистрация пользователей';
                                     'autoFill' => true,
                                     'minLength' => '2',
                                     'select' => new JsExpression('function(event, ui) {
-                                formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE . '\', \'' . UserForm::LOAD_FORM_TO_PAGE . '\', ui.item.label, ui.item.id);
+                                formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE . '\', \'' . UserForm::LOAD_FORM_TO_PAGE . '\', ui.item.label, ui.item.id); participantCountReload();
                             }'),
                                 ],
                             ]);
@@ -156,7 +156,7 @@ $this->title = 'Регистрация пользователей';
 
                 <?php if ((Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_RECEPTIONIST) || Yii::$app->user->can(User::ROLE_RECEPTIONIST_CURATOR)) && $model->scenario != UserForm::SCENARIO_UPDATE && $model->scenario != UserForm::SCENARIO_PARTICIPANT_UPDATE):
                     echo $form->field($model, 'conference', ['options' => ['class' => 'col-xs-12']])
-                        ->dropDownList([$conference->id => $conference->title], !$conference || (Yii::$app->user->can(User::ROLE_ADMIN) && $model->scenario == UserForm::SCENARIO_CREATE_PAGE) ? ['prompt' => $model->scenario == UserForm::SCENARIO_CREATE_PAGE ? 'Без регистрации на мероприятие' : 'Регистрация закрыта'] : []);
+                        ->dropDownList($conference ? [$conference->id => $conference->title] : [], !$conference || (Yii::$app->user->can(User::ROLE_ADMIN) && $model->scenario == UserForm::SCENARIO_CREATE_PAGE) ? ['prompt' => $model->scenario == UserForm::SCENARIO_CREATE_PAGE ? 'Без регистрации на мероприятие' : 'Регистрация закрыта'] : []);
                 endif; ?>
             </div>
 

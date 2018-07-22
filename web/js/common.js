@@ -147,6 +147,7 @@ function wishlistReload() {
         });
     }, 500);
 }
+
 function participantCountReload() {
     $.pjax.reload({
         container: '#participantCountContainer'

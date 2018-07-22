@@ -12,10 +12,12 @@ app\assets\AppAsset::register($this);
 //Yii::$app->authManager->invalidateCache(); //очистка кэша ролей
 
 $conference_now = Conference::find()
-    ->where(['<', 'start_time', time()])
+       ->where(['<=', '(start_time - ' . Yii::$app->setting->get('registerOpen') .')', time()])
     ->andWhere(['is', 'end_time', null])
-    ->andWhere(['status' => Conference::STATUS_ACTIVE])
-    ->one();
+    ->andWhere(['status' => Conference::STATUS_ACTIVE,])
+    ->andWhere(['deleted' => 0])
+     ->orderBy(['start_time' => SORT_ASC])
+         ->one();
 
 ?>
 
