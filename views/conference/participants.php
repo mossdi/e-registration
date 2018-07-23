@@ -24,7 +24,7 @@ try {
 
 echo Html::button('Обновить список участников <span style="margin-left: 5px;" class="glyphicon glyphicon-refresh"></span>', [
     'class' => 'btn btn-default col-margin-bottom-10',
-    'onclick' => 'formLoad(\'/conference/participant\', \'modal\', \'Участники конференции\', \'' . $conference->id . '\'); participantCountReload();'
+    'onclick' => 'formLoad(\'/conference/participant\', \'modal\', \'' . $conference->title . '\', \'' . $conference->id . '\'); participantCountReload();'
 ]);
 
 try {
@@ -32,8 +32,6 @@ try {
         'dataProvider' => $participants,
         'layout' => '{items}{pager}',
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
             [
                 'label' => 'Ф.И.О.',
                 'value' => function($model) {

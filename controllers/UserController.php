@@ -178,7 +178,7 @@ class UserController extends Controller
             } else {
                 Yii::$app->session->setFlash('error', 'Ошибка! Пользователь не зарегистрирован. Обратитесь к администратору системы.');
             };
-
+            
             return $this->actionSignupForm(null, UserForm::SCENARIO_CREATE_PAGE, true);
         }
     }

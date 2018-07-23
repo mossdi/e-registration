@@ -19,9 +19,9 @@ $this->title = 'Регистрация пользователей';
 ?>
 
 <?php Pjax::begin([
-    'id' => 'updateParticipantContainer',
+    'id' => 'signupParticipantContainer',
     'enablePushState' => false,
-    'timeout' => 10000,
+    'timeout' => 5000,
 ]); ?>
 
 <?php try {
@@ -67,7 +67,7 @@ $this->title = 'Регистрация пользователей';
                                 'class' => 'btn btn-default col-xs-12',
                                 'data-toggle' => 'modal',
                                 'data-target' => '#modalForm',
-                                'onclick'     => 'formLoad(\'/conference/participant\', \'modal\', \'Участники конференции\', \'' . $conference->id . '\'); participantCountReload();'
+                                'onclick'     => 'formLoad(\'/conference/participant\', \'modal\', \'' . $conference->title . '\', \'' . $conference->id . '\'); participantCountReload();'
                             ]) ?>
                         </div>
                     <?php endif; ?>

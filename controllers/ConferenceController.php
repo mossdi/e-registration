@@ -236,6 +236,11 @@ class ConferenceController extends Controller
             'query' => ConferenceParticipant::find()
                  ->with(['user'])
                 ->where(['conference_id' => $id]),
+            'sort' => [
+                'defaultOrder' => [
+                    'created_at' => SORT_DESC,
+                ]
+            ],
             'pagination' => [
                 'pageSize' => 50
             ]
