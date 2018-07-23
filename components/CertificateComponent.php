@@ -36,9 +36,11 @@ class CertificateComponent
      * @return mixed
      */
     public static function certificateDownload($id) {
+        ini_set('pcre.backtrack_limit', '5000000');
+
         $certificate = Certificate::findOne($id);
 
-        $template = Yii::$app->controller->renderPartial('/html_block/element/certificate', [
+        $template = Yii::$app->controller->renderAjax('/html_block/element/certificate', [
             'certificate' => $certificate,
         ]);
 

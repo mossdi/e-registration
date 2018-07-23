@@ -44,7 +44,7 @@ $config = [
         'pdfRender' => [
             'class' => '\kartik\mpdf\Pdf',
             'format' => Pdf::FORMAT_A4,
-            'orientation' => Pdf::ORIENT_PORTRAIT,
+            'orientation' => Pdf::ORIENT_LANDSCAPE,
             'destination' => Pdf::DEST_DOWNLOAD,
         ],
         'log' => [

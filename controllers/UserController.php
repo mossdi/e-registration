@@ -210,13 +210,10 @@ class UserController extends Controller
      * @return bool|Response
      * @throws \Exception
      */
-    public function actionUpdate($id, $scenario = null)
+    public function actionUpdate($id, $scenario)
     {
         $form = new UserForm($id);
-
-        if ($scenario) {
-            $form->scenario = $scenario;
-        }
+        $form->scenario = $scenario;
 
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             if (UserComponent::userUpdate($form, User::findOne($id))) {
@@ -226,17 +223,13 @@ class UserController extends Controller
             };
 
             if (Yii::$app->request->isPjax) {
-                return $this->actionSignupForm($id, UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE);
+                return $this->actionSignupForm($id, $scenario == UserForm::SCENARIO_UPDATE ? $scenario : UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE);
             } elseif (!Yii::$app->request->isAjax) {
                 return $this->redirect(
                     '/site/index'
                 );
             }
-
-            return true;
         }
-
-        return true;
     }
 
     /**

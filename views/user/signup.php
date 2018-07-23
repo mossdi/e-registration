@@ -53,8 +53,8 @@ $this->title = 'Регистрация пользователей';
                                     'autoFill' => true,
                                     'minLength' => '2',
                                     'select' => new JsExpression('function(event, ui) {
-                                formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE . '\', \'' . UserForm::LOAD_FORM_TO_PAGE . '\', ui.item.label, ui.item.id); participantCountReload();
-                            }'),
+                                        formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE . '\', \'' . UserForm::LOAD_FORM_TO_PAGE . '\', ui.item.label, ui.item.id); participantCountReload();
+                                    }'),
                                 ],
                             ]);
                         } catch (Exception $e) {
@@ -82,8 +82,8 @@ $this->title = 'Регистрация пользователей';
         <div class="col-xs-12">
             <div class="row">
                 <?php $form = ActiveForm::begin([
-                    'id' => $model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE || $model->scenario == UserForm::SCENARIO_UPDATE ? 'update-form' : 'signup-form',
-                    'action' => $model->scenario == UserForm::SCENARIO_UPDATE || $model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE ? ['/user/update?id=' . $model->id] : ['/user/signup?scenario=' . $model->scenario],
+                    'id' => ($model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE || $model->scenario == UserForm::SCENARIO_UPDATE) ? 'update-form' : 'signup-form',
+                    'action' => ($model->scenario == UserForm::SCENARIO_UPDATE || $model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE) ? ['/user/update?id=' . $model->id . '&scenario=' . $model->scenario] : ['/user/signup?scenario=' . $model->scenario],
                     'validationUrl' => ['/user/form-validate?scenario=' . $model->scenario],
                     'enableAjaxValidation' => true,
                     'enableClientValidation' => true,
@@ -169,17 +169,17 @@ $this->title = 'Регистрация пользователей';
                 <?php if ((Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_RECEPTIONIST) || Yii::$app->user->can(User::ROLE_RECEPTIONIST_CURATOR)) && $model->scenario != UserForm::SCENARIO_UPDATE && $model->scenario != UserForm::SCENARIO_PARTICIPANT_UPDATE):
                     echo $form->field($model, 'conference', ['options' => ['class' => 'col-xs-12']])
                         ->dropDownList($conference ? [$conference->id => $conference->title] : [], !$conference || (Yii::$app->user->can(User::ROLE_ADMIN) && $model->scenario == UserForm::SCENARIO_CREATE_PAGE) ? ['prompt' => $model->scenario == UserForm::SCENARIO_CREATE_PAGE ? 'Без регистрации на мероприятие' : 'Регистрация закрыта'] : []);
+
+                    echo '<div class="col-xs-12"><hr></div>';
                 endif; ?>
             </div>
-
-            <hr>
 
             <div class="form-group">
                 <?= Html::submitButton($model->scenario == UserForm::SCENARIO_UPDATE || $model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE ? 'Сохранить' : 'Зарегистрировать' , [
                     'class' => 'col-xs-12 col-sm-6 col-md-5 btn btn-default col-margin-bottom-10',
                     'name'  => 'signup',
                     'value' => 'conference',
-                    'onclick' => 'participantCountReload()',
+                    'onclick' => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE || $model->scenario == UserForm::SCENARIO_CREATE_PAGE ? 'participantCountReload()' : null,
                     'form'  => $model->scenario == UserForm::SCENARIO_UPDATE || $model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE ? 'update-form' : 'signup-form'
                 ]); ?>
 

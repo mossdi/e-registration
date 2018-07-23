@@ -1,5 +1,1 @@
-<?php
-
-/* @var $certificate \app\entities\Certificate */
-
-echo $certificate->conference->title;
+<img src="/var/www/cert.dwbx.ru/views/html_block/element/_blank/certificate.svg">
