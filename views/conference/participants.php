@@ -84,7 +84,7 @@ try {
 
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => Yii::$app->user->can(User::ROLE_ADMIN) && $conference->end_time == null ? '{delete}' : '<i class="fa fa-check-circle"></i>',
+                'template' => (Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_RECEPTIONIST_CURATOR)) && $conference->end_time == null ? '{delete}' : '<i class="fa fa-check-circle"></i>',
                 'buttons' => [
                     'delete' => function ($url, $model) {
                         return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['/conference/delete-participant?user_id=' . $model->user_id . '&conference_id=' . $model->conference_id], [
