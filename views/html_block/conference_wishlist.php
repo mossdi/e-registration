@@ -9,6 +9,7 @@ use yii\helpers\Html;
 use app\entities\ConferenceWishlist;
 use yii\widgets\Pjax;
 use yii2mod\alert\Alert;
+use app\forms\UserForm;
 
 $conferences = new ActiveDataProvider([
     'query' => ConferenceWishlist::find()
@@ -69,7 +70,7 @@ $conferences = new ActiveDataProvider([
                             return Html::a($model->conference->title, ['/#'], [
                                     'data-toggle' => 'modal',
                                     'data-target' => '#modalForm',
-                                    'onclick' => 'formLoad(\'/conference/view\', \'modal\', \'' . $model->conference->title . '\', \'' . $model->conference->id . '\')']
+                                    'onclick' => 'formLoad(\'/conference/view\', \'' . UserForm::LOAD_FORM_TO_MODAL . '\', \'' . $model->conference->title . '\', \'' . $model->conference->id . '\')']
                             );
                         }
                     ],

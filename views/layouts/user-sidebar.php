@@ -38,7 +38,7 @@ use app\forms\UserForm;
                         'class'       => 'btn btn-default btn-flat',
                         'data-toggle' => 'modal',
                         'data-target' => '#modalForm',
-                        'onclick'     => 'formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_UPDATE . '\', \'modal\', \'' . Yii::$app->user->identity->first_name . ' ' . Yii::$app->user->identity->last_name . '\', \'' . Yii::$app->user->identity->id .'\')',
+                        'onclick'     => 'formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_UPDATE . '\', \'' . UserForm::LOAD_FORM_TO_MODAL . '\', \'' . Yii::$app->user->identity->first_name . ' ' . Yii::$app->user->identity->last_name . '\', \'' . Yii::$app->user->identity->id .'\')',
                     ]); ?>
                 </li>
                 <li class="col-margin-bottom-10">

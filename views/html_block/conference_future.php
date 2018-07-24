@@ -7,6 +7,7 @@ use app\entities\Conference;
 use app\entities\ConferenceSearch;
 use yii2mod\alert\Alert;
 use app\entities\User;
+use app\forms\UserForm;
 
 /* @var $this \yii\web\View */
 /* @var $searchModel app\entities\ConferenceSearch */
@@ -53,7 +54,7 @@ $dataProvider->query->where(['>', '(start_time + ' . Yii::$app->setting->get('re
                             return Html::a($model->title, ['/#'], [
                                 'data-toggle' => 'modal',
                                 'data-target' => '#modalForm',
-                                'onclick' => 'formLoad(\'/conference/view\', \'modal\', \'' . $model->title . '\', \'' . $model->id . '\')']
+                                'onclick' => 'formLoad(\'/conference/view\', \'' . UserForm::LOAD_FORM_TO_MODAL . '\', \'' . $model->title . '\', \'' . $model->id . '\')']
                             );
                         }
                     ],
@@ -77,7 +78,7 @@ $dataProvider->query->where(['>', '(start_time + ' . Yii::$app->setting->get('re
                                 return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['/#'], [
                                     'data-toggle' => 'modal',
                                     'data-target' => '#modalForm',
-                                    'onclick' => 'formLoad(\'/conference/view\', \'modal\', \'' . $model->title . '\', \'' . $model->id . '\')'
+                                    'onclick' => 'formLoad(\'/conference/view\', \'' . UserForm::LOAD_FORM_TO_MODAL . '\', \'' . $model->title . '\', \'' . $model->id . '\')'
                                 ]);
                             },
                             'register' => function ($url, $model) {

@@ -7,6 +7,7 @@ use yii\widgets\Pjax;
 use app\entities\Conference;
 use app\entities\CertificateSearch;
 use app\entities\Certificate;
+use app\forms\UserForm;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\entities\CertificateSearch */
@@ -68,7 +69,7 @@ $dataProvider->query->where(['user_id' => Yii::$app->user->id])->andWhere(['cert
                                 return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, [
                                     'data-toggle' => 'modal',
                                     'data-target' => '#modalForm',
-                                    'onclick' => 'formLoad(\'/certificate/view\', \'modal\', \'' . $model->conference->title . '\', \'' . $model->id . '\')'
+                                    'onclick' => 'formLoad(\'/certificate/view\', \'' . UserForm::LOAD_FORM_TO_MODAL . '\', \'' . $model->conference->title . '\', \'' . $model->id . '\')'
                                 ]);
                             },
                         ]

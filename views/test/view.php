@@ -8,6 +8,7 @@
 
 use yii\helpers\Html;
 use app\entities\Answer;
+use app\forms\UserForm;
 
 $this->title = $conference->title;
 
@@ -32,7 +33,7 @@ $this->title = $conference->title;
                         'class' => 'btn btn-default',
                         'data-toggle' => 'modal',
                         'data-target' => '#modalForm',
-                        'onclick'     => 'formLoad(\'/test/add-answer\', \'modal\', \'Новый ответ\', \'' . $question->id . '\')'
+                        'onclick'     => 'formLoad(\'/test/add-answer\', \'' . UserForm::LOAD_FORM_TO_MODAL . '\', \'Новый ответ\', \'' . $question->id . '\')'
                     ]) ?>
                 </td>
                 <td>
@@ -40,7 +41,7 @@ $this->title = $conference->title;
                         'class' => 'btn btn-default',
                         'data-toggle' => 'modal',
                         'data-target' => '#modalForm',
-                        'onclick'     => 'formLoad(\'/test/update-question\', \'modal\', \'' . $question->question . '\', \'' . $question->id . '\')'
+                        'onclick'     => 'formLoad(\'/test/update-question\', \'' . UserForm::LOAD_FORM_TO_MODAL . '\', \'' . $question->question . '\', \'' . $question->id . '\')'
                     ]) ?>
 
                     <?= Html::a('Удалить', ['/test/delete-question?id=' .  $question->id], [
@@ -59,7 +60,7 @@ $this->title = $conference->title;
                             'class' => 'btn',
                             'data-toggle' => 'modal',
                             'data-target' => '#modalForm',
-                            'onclick'     => 'formLoad(\'/test/update-answer\', \'modal\', \'' . $answer->answer . '\', \'' . $answer->id . '\')'
+                            'onclick'     => 'formLoad(\'/test/update-answer\', \'' . UserForm::LOAD_FORM_TO_MODAL . '\', \'' . $answer->answer . '\', \'' . $answer->id . '\')'
                         ]) ?>
 
                         <?= Html::a('Удалить', ['/test/delete-answer?id=' .  $answer->id], [
@@ -77,5 +78,5 @@ $this->title = $conference->title;
     'class' => 'btn btn-info',
     'data-toggle' => 'modal',
     'data-target' => '#modalForm',
-    'onclick'     => 'formLoad(\'/test/add-question\', \'modal\', \'Новый вопрос\', \'' . $conference->id . '\')'
+    'onclick'     => 'formLoad(\'/test/add-question\', \'' . UserForm::LOAD_FORM_TO_MODAL . '\', \'Новый вопрос\', \'' . $conference->id . '\')'
 ]) ?>

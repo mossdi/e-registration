@@ -9,6 +9,7 @@ use yii\helpers\Html;
 use yii2mod\alert\Alert;
 use yii\widgets\Pjax;
 use app\entities\User;
+use app\forms\UserForm;
 use app\entities\Conference;
 
 Pjax::begin([
@@ -24,7 +25,7 @@ try {
 
 echo Html::button('Обновить список участников <span style="margin-left: 5px;" class="glyphicon glyphicon-refresh"></span>', [
     'class' => 'btn btn-default col-margin-bottom-10',
-    'onclick' => 'formLoad(\'/conference/participant\', \'modal\', \'' . $conference->title . '\', \'' . $conference->id . '\'); participantCountReload();'
+    'onclick' => 'formLoad(\'/conference/participant\', \'' . UserForm::LOAD_FORM_TO_MODAL . '\', \'Участники конференции - ' . $conference->title . '\', \'' . $conference->id . '\'); participantCountReload();'
 ]);
 
 try {

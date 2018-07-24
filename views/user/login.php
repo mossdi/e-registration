@@ -5,7 +5,6 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-use yii\widgets\MaskedInput;
 use app\forms\UserForm;
 
 $this->title = 'Авторизация';
@@ -56,7 +55,7 @@ $this->title = 'Авторизация';
                 <?= Html::a('Зарегистрироваться', ['#'], [
                     'data-toggle' => 'modal',
                     'data-target' => '#modalForm',
-                    'onclick'     => 'formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_REGISTER . '\', \'modal\', \'Регистрационная карточка\')',
+                    'onclick'     => 'formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_REGISTER . '\', \'' . UserForm::LOAD_FORM_TO_MODAL . '\', \'Регистрационная карточка\')',
                 ]) ?>
             </div>
         </div>

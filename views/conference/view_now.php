@@ -5,6 +5,7 @@
 
 use app\entities\User;
 use yii\helpers\Html;
+use app\forms\UserForm;
 
 $this->title = $model->title;
 
@@ -17,7 +18,7 @@ $this->title = $model->title;
                 'class' => 'btn btn-info col-margin-bottom-10',
                 'data-toggle' => 'modal',
                 'data-target' => '#modalForm',
-                'onclick'     => 'formLoad(\'/conference/participant\', \'modal\', \'Участники конференции\', \'' . $model->id . '\')'
+                'onclick'     => 'formLoad(\'/conference/participant\', \'' . UserForm::LOAD_FORM_TO_MODAL . '\', \'Участники конференции\', \'' . $model->id . '\')'
             ]) ?>
 
             <?php /* кнопка отключена */ Html::a('Тестирование', ['/test/view?id=' . $model->id], [

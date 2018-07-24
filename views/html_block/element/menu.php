@@ -39,7 +39,7 @@ try {
                     'label' => 'Новая конференция',
                     'icon' => 'plus-square fa-2x',
                     'url' => '#',
-                    'template' => '<a href="#" data-toggle="modal" data-target="#modalForm" onclick="formLoad(\'/conference/create-form\', \'modal\', \'Новая конференция\')">{icon}{label}</a>',
+                    'template' => '<a href="#" data-toggle="modal" data-target="#modalForm" onclick="formLoad(\'/conference/create-form\', \'' . UserForm::LOAD_FORM_TO_MODAL . '\', \'Новая конференция\')">{icon}{label}</a>',
                     'visible' => Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_SPEAKER),
                 ],
 

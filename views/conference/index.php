@@ -3,6 +3,7 @@
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
+use app\forms\UserForm;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -51,7 +52,7 @@ $this->title = 'Конференции';
                             return Html::a($model->title, ['/#'], [
                                 'data-toggle' => 'modal',
                                 'data-target' => '#modalForm',
-                                'onclick'     => 'formLoad(\'/conference/view\', \'modal\', \'' . $model->title . '\', \'' . $model->id . '\')'
+                                'onclick'     => 'formLoad(\'/conference/view\', \'' . UserForm::LOAD_FORM_TO_MODAL . '\', \'' . $model->title . '\', \'' . $model->id . '\')'
                             ]);
                         }
                     ],
@@ -67,7 +68,7 @@ $this->title = 'Конференции';
                             return 'Количество: ' . $model->participantCount . ' / ' . Html::a('Список', ['/#'], [
                                 'data-toggle' => 'modal',
                                 'data-target' => '#modalForm',
-                                'onclick'     => 'formLoad(\'/conference/participant\', \'modal\', \'' . $model->title . '\', \'' . $model->id . '\')'
+                                'onclick'     => 'formLoad(\'/conference/participant\', \'' . UserForm::LOAD_FORM_TO_MODAL . '\', \'Участники конференции - ' . $model->title . '\', \'' . $model->id . '\')'
                             ]);
                         }
                     ],
@@ -81,7 +82,7 @@ $this->title = 'Конференции';
                                 return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['/#'], [
                                     'data-toggle' => 'modal',
                                     'data-target' => '#modalForm',
-                                    'onclick'     => 'formLoad(\'/conference/update-form\', \'modal\', \'' . $model->title . '\', \'' . $model->id . '\')'
+                                    'onclick'     => 'formLoad(\'/conference/update-form\', \'' . UserForm::LOAD_FORM_TO_MODAL . '\', \'' . $model->title . '\', \'' . $model->id . '\')'
                                 ]);
                             },
                             'delete' => function ($url, $model) {

@@ -17,6 +17,7 @@ class UserForm extends Model
     const SCENARIO_REGISTER_PARTICIPANT_PAGE = 'register-participant-page';
 
     const LOAD_FORM_TO_PAGE = 'page';
+    const LOAD_FORM_TO_MODAL = 'modal';
 
     public $id;
     public $first_name;
