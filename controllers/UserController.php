@@ -70,8 +70,10 @@ class UserController extends Controller
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
-            if (Yii::$app->user->can(User::ROLE_RECEPTIONIST)) {
-                return $this->actionSignupForm($id = null, UserForm::SCENARIO_CREATE_PAGE, $clearForm = false);
+            if (Yii::$app->user->can(User::ROLE_RECEPTIONIST) || User::ROLE_RECEPTIONIST_CURATOR) {
+                return $this->redirect([
+                    '/user/signup-form?scenario=create-page'
+                ]);
             }
 
             return $this->goHome();
