@@ -1,15 +1,15 @@
 <?php
 
 /* @var $this \yii\web\View */
-/* @var $participants \yii\data\ActiveDataProvider */
+/* @var $dataProvider \yii\data\ActiveDataProvider */
 /* @var $conference \app\entities\Conference */
 
 use yii\grid\GridView;
 use yii\helpers\Html;
-use app\entities\User;
-use app\entities\Conference;
 use yii2mod\alert\Alert;
 use yii\widgets\Pjax;
+use app\entities\User;
+use app\entities\Conference;
 
 Pjax::begin([
     'id' => 'participantsListContainer',
@@ -29,22 +29,44 @@ echo Html::button('Обновить список участников <span styl
 
 try {
     echo GridView::widget([
-        'dataProvider' => $participants,
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
         'layout' => '{items}{pager}',
         'columns' => [
             [
-                'label' => 'Ф.И.О.',
+                'label' => 'Фамилия',
+                'attribute' => 'userLastName',
                 'value' => function($model) {
-                    return $model->user->last_name . ' ' . $model->user->first_name . ' ' . $model->user->patron_name;
+                    return $model->user->last_name;
+                }
+            ],
+            [
+                'label' => 'Имя',
+                'attribute' => 'userFirstName',
+                'value' => function($model) {
+                    return $model->user->first_name;
+                }
+            ],
+            [
+                'label' => 'Отчество',
+                'attribute' => 'userPatronName',
+                'value' => function($model) {
+                    return $model->user->patron_name;
                 }
             ],
             [
                 'label' => 'Организация',
-                'attribute' => 'user.organization',
+                'attribute' => 'userOrganization',
+                'value' => function($model) {
+                    return $model->user->organization;
+                }
             ],
             [
                 'label' => 'Должность',
-                'attribute' => 'user.post',
+                'attribute' => 'userPost',
+                'value' => function($model) {
+                    return $model->user->post;
+                }
             ],
 
             [
@@ -54,6 +76,10 @@ try {
                     return $model->method == Conference::LEARNING_FULL_TIME ? 'Очно' : 'Дистанционно';
                 },
                 'enableSorting' => false,
+                'filter' => Html::activeDropDownList($searchModel, 'method', [
+                    Conference::LEARNING_FULL_TIME => 'Очно',
+                    Conference::LEARNING_DISTANCE  => 'Дистанционно',
+                ], ['prompt' => 'Все', 'class' => 'form-control'])
             ],
 
             [
@@ -61,9 +87,9 @@ try {
                 'template' => Yii::$app->user->can(User::ROLE_ADMIN) && $conference->end_time == null ? '{delete}' : '<i class="fa fa-check-circle"></i>',
                 'buttons' => [
                     'delete' => function ($url, $model) {
-                        return Html::button('Удалить', [
-                            'onclick' => 'deleteParticipant(' . $model->user_id . ', ' . $model->conference_id . ', \'' . $model->conference->title . '\')',
+                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['/conference/delete-participant?user_id=' . $model->user_id . '&conference_id=' . $model->conference_id], [
                             'class'   => 'btn',
+                            'data-pjax' => true,
                             'data-confirm' => 'Вы уверены, что хотите удалить пользователя с конференции?',
                         ]);
                     },

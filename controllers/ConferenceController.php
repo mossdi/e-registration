@@ -8,7 +8,6 @@ use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use yii\data\ActiveDataProvider;
 use yii\widgets\ActiveForm;
 use app\forms\ConferenceForm;
 use app\components\ConferenceComponent;
@@ -16,6 +15,7 @@ use app\entities\Conference;
 use app\entities\ConferenceSearch;
 use app\entities\ConferenceWishlist;
 use app\entities\ConferenceParticipant;
+use app\entities\ConferenceParticipantSearch;
 use app\entities\Certificate;
 use app\entities\User;
 
@@ -232,29 +232,20 @@ class ConferenceController extends Controller
      */
     public function actionParticipant($id)
     {
-        $participants = new ActiveDataProvider([
-            'query' => ConferenceParticipant::find()
-                 ->with(['user'])
-                ->where(['conference_id' => $id]),
-            'sort' => [
-                'defaultOrder' => [
-                    'created_at' => SORT_DESC,
-                ]
-            ],
-            'pagination' => [
-                'pageSize' => 50
-            ]
-        ]);
+        $searchModel = new ConferenceParticipantSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $id);
 
         return $this->renderAjax('participants', [
-            'participants' => $participants,
-            'conference' => Conference::findOne($id),
+            'dataProvider' => $dataProvider,
+            'searchModel'  => $searchModel,
+            'conference'   => Conference::findOne($id),
         ]);
     }
 
     /**
      * @param $user_id
      * @param $conference_id
+     * @return string
      * @throws \Throwable
      * @throws \yii\db\StaleObjectException
      */
@@ -279,6 +270,8 @@ class ConferenceController extends Controller
         } else {
             Yii::$app->session->setFlash('error', 'Ошибка! Пользователь не удален с конференции. Обратитесь к администратору системы.');
         }
+
+        return $this->actionParticipant($conference_id);
     }
 
     /**

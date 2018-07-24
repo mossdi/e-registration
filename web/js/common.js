@@ -26,13 +26,6 @@ function formClean() {
 }
 
 /**
- * Tooltip
- */
-$(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();
-});
-
-/**
  * Add conference to wish-list
  * @param id
  */
@@ -84,59 +77,6 @@ function registerParticipant(user_id, conference_id, method) {
 }
 
 /**
- * Update participant
- * @param id
- * @param scenario
- * @param loadTo
- */
-function updateParticipant(id, scenario, loadTo) {
-    $.ajax({
-        type: 'POST',
-        url: '/user/update?id=' + id + '&scenario=update' ,
-        data: $('#update-form').serialize(),
-        success: function (response) {
-            if (response) {
-                alert(response);
-                formLoad('/user/signup-form?scenario=' + scenario, loadTo, null, id);
-                $('html, body').animate({scrollTop: 0}, 500);
-            }
-        }
-    })
-}
-
-/**
- * Delete participant
- * @param user_id
- * @param conference_id
- * @param title
- */
-function deleteParticipant(user_id, conference_id, title) {
-    $.ajax({
-        type: 'GET',
-        url: '/conference/delete-participant',
-        data: {
-            'user_id': user_id,
-            'conference_id': conference_id,
-        },
-        success: function () {
-            formLoad('/conference/participant', 'modal', title, conference_id);
-
-            $.pjax.reload({
-                container: '#conferenceListContainer'
-            })
-
-            setTimeout(function () {
-                $.pjax.reload({
-                    container: '#participantCountContainer'
-                });
-            }, 400);
-
-            $('html, body').animate({scrollTop: 0},500);
-        }
-    })
-}
-
-/**
  * Pjax containers reload
  */
 function wishlistReload() {
@@ -158,3 +98,16 @@ function participantCountReload() {
         });
     }, 1000);
 }
+
+function participantCountReload() {
+    $.pjax.reload({
+        container: '#participantCountContainer'
+    });
+}
+
+/**
+ * Tooltip
+ */
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});

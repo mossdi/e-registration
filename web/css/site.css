@@ -145,7 +145,8 @@ a.desc:after {
 
 /* table */
 .grid-view {
-    overflow-y: scroll;
+    overflow-x: scroll;
+    overflow-y: hidden;
 }
 
 table tr.col-question {

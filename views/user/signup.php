@@ -109,6 +109,7 @@ $this->title = 'Регистрация пользователей';
                                         'onclick' => 'formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_PARTICIPANT_UPDATE . '\', \'page\', \'' . $model->last_name . ' ' . $model->first_name . ' ' . $model->patron_name . '\',\'' . $model->id . '\')'
                                     ]) ?>
                                 </span>
+
                                 <?= $form->field($model, 'id')->hiddenInput()->label(false) ?>
                             <?php endif; ?>
                         </p>
@@ -119,21 +120,21 @@ $this->title = 'Регистрация пользователей';
                         <?= $form->field($model, 'last_name', ['options' => ['class' => 'col-xs-10']])
                             ->textInput([
                                 'placeholder' => 'Фамилия',
-                                'readonly'    => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE || $model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE  ? true : false
+                                'readonly'    => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE || ($model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE && !Yii::$app->user->can(User::ROLE_ADMIN) && !Yii::$app->user->can(User::ROLE_RECEPTIONIST_CURATOR))  ? true : false
                             ])
                             ->label('<span style="color: red;">*</span> Фамилия') ?>
 
                         <?= $form->field($model, 'first_name', ['options' => ['class' => 'col-xs-10']])
                             ->textInput([
                                 'placeholder' => 'Имя',
-                                'readonly'    => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE || $model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE ? true : false
+                                'readonly'    => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE || ($model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE && !Yii::$app->user->can(User::ROLE_ADMIN) && !Yii::$app->user->can(User::ROLE_RECEPTIONIST_CURATOR))  ? true : false
                             ])
                             ->label('<span style="color: red;">*</span> Имя') ?>
 
                         <?= $form->field($model, 'patron_name', ['options' => ['class' => 'col-xs-10 col-margin-bottom-10']])
                             ->textInput([
                                 'placeholder' => 'Отчество',
-                                'readonly'    => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE || $model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE ? true : false
+                                'readonly'    => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE || ($model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE && !Yii::$app->user->can(User::ROLE_ADMIN) && !Yii::$app->user->can(User::ROLE_RECEPTIONIST_CURATOR))  ? true : false
                             ])
                             ->label('<span style="color: red;">*</span> Отчество') ?>
 
@@ -206,6 +207,13 @@ $this->title = 'Регистрация пользователей';
                     'onclick' => ($model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE || $model->scenario == UserForm::SCENARIO_CREATE_PAGE) ? 'participantCountReload()' : null,
                     'form'    => ($model->scenario == UserForm::SCENARIO_UPDATE || $model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE) ? 'update-form' : 'signup-form'
                 ]); ?>
+
+                <?php if ($model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE):
+                    echo Html::button('Отмена', [
+                        'class' => 'col-xs-12 col-sm-6 col-md-3 pull-right btn btn-default col-margin-bottom-10',
+                        'onclick' => 'formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE . '\', \'' . UserForm::LOAD_FORM_TO_PAGE . '\', \' \', ' . $model->id . ')'
+                    ]);
+                endif; ?>
 
                 <?php if ($model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE):
                     echo Html::button('Очистить форму', [

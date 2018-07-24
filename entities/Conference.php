@@ -156,6 +156,6 @@ class Conference extends ActiveRecord
      */
     public function getRegisterTime()
     {
-        return (($this->start_time - Yii::$app->setting->get('registerOpen')) <= time()) && (($this->start_time + Yii::$app->setting->get('registerClose')) >= time());
+        return (($this->start_time - Yii::$app->setting->get('registerOpen')) <= time() && $this->end_time != null);
     }
 }
