@@ -49,12 +49,15 @@ $this->title = 'Пользователи';
                         'value' => function($model) {
                             return $model->status == 10 ? 'Включен' : 'Заблокирован';
                         },
-                        'filter' => Html::activeDropDownList($searchModel, 'status', User::$statusList)
+                        'filter' => Html::activeDropDownList($searchModel, 'status', User::$statusList, [
+                            'class' => 'form-control'
+                        ])
                     ],
 
                     [
                         'class' => 'yii\grid\ActionColumn',
-                        'template' => '{update} {delete}',
+                        'template' => '{update} {delete} {removal}',
+                        'contentOptions' => ['nowrap' => 'nowrap'],
                         'buttons' => [
                             'update' => function ($url, $model) {
                                 return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
@@ -68,6 +71,12 @@ $this->title = 'Пользователи';
                                     'data-method'  => 'post',
                                     'data-confirm' => 'Вы уверены, что хотите удалить пользователя?',
                                 ]);
+                            },
+                            'removal' => function ($url, $model) {
+                                return Yii::$app->user->can(User::ROLE_ADMIN) ? Html::a('<span style="color: red;" class="glyphicon glyphicon-trash"></span>', ['/user/delete?id=' . $model->id . '&removal=' . true], [
+                                    'data-method'  => 'post',
+                                    'data-confirm' => 'Вы уверены, что хотите полностью удалить пользователя?',
+                                ]) : null;
                             },
                         ]
                     ],

@@ -34,6 +34,15 @@ class m180320_113705_create_conference_participant_table extends Migration
             'conference_participant',
             'user_id, conference_id'
         );
+
+        $this->addForeignKey(
+            'fk-conference_participant-user_id',
+            'conference_participant',
+            'user_id',
+            'user',
+            'id',
+            'CASCADE'
+        );
     }
 
     /**
@@ -45,6 +54,11 @@ class m180320_113705_create_conference_participant_table extends Migration
 
         $this->dropIndex(
             'idx-conference_participant_user_id-conference_id',
+            'conference_participant'
+        );
+
+        $this->dropForeignKey(
+            'fk-conference_participant-user_id',
             'conference_participant'
         );
     }

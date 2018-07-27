@@ -167,6 +167,10 @@ select.form-control {
 #modalForm .modal-header .close {
     color: red;
 }
+#modalForm .modal-dialog.modal-ultra-lg {
+    width: 90%;
+    max-width: 90%;
+}
 
 /* additional */
 .col-padding-0 {

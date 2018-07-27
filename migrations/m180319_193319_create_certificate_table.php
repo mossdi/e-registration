@@ -39,6 +39,15 @@ class m180319_193319_create_certificate_table extends Migration
             'id, user_id, conference_id',
             true
         );
+
+        $this->addForeignKey(
+            'fk-certificate-user_id-conference_id',
+            'certificate',
+            'user_id, conference_id',
+            'conference_participant',
+            'user_id, conference_id',
+            'CASCADE'
+        );
     }
 
     /**

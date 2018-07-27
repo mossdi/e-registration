@@ -69,6 +69,21 @@ try {
                     return $model->user->post;
                 }
             ],
+            [
+                'label' => 'E-mail',
+                'attribute' => 'userEmail',
+                'value' => function($model) {
+                    return $model->user->email;
+                }
+            ],
+            [
+                'label' => 'Время регистрации',
+                'attribute' => 'created_at',
+                'value' => function($model) {
+                    return Yii::$app->formatter->asDatetime($model->created_at, 'php:H:i - d.m.y');
+                },
+                'filter' => false,
+            ],
 
             [
                 'label' => 'Присутствие',
@@ -88,7 +103,7 @@ try {
                 'template' => (Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_RECEPTIONIST_CURATOR)) && $conference->end_time == null ? '{delete}' : '<i class="fa fa-check-circle"></i>',
                 'buttons' => [
                     'delete' => function ($url, $model) {
-                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['/conference/delete-participant?user_id=' . $model->user_id . '&conference_id=' . $model->conference_id], [
+                        return Html::a('<span style="color: red;" class="glyphicon glyphicon-trash"></span>', ['/conference/delete-participant?user_id=' . $model->user_id . '&conference_id=' . $model->conference_id], [
                             'class'   => 'btn',
                             'data-pjax' => true,
                             'data-confirm' => 'Вы уверены, что хотите удалить пользователя с конференции?',

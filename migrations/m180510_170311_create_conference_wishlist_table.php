@@ -31,6 +31,15 @@ class m180510_170311_create_conference_wishlist_table extends Migration
             'user_id, conference_id',
             true
         );
+
+        $this->addForeignKey(
+            'fk-conference_wishlist-user_id',
+            'conference_wishlist',
+            'user_id',
+            'user',
+            'id',
+            'CASCADE'
+        );
     }
 
     /**
@@ -42,6 +51,11 @@ class m180510_170311_create_conference_wishlist_table extends Migration
 
         $this->dropIndex(
             'idx-conference_wishlist-conference_id',
+            'conference_wishlist'
+        );
+
+        $this->dropForeignKey(
+            'fk-conference_wishlist-user_id',
             'conference_wishlist'
         );
     }

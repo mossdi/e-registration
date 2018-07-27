@@ -17,6 +17,7 @@ class ConferenceParticipantSearch extends ConferenceParticipant
     public $userPatronName;
     public $userOrganization;
     public $userPost;
+    public $userEmail;
 
     /**
      * {@inheritdoc}
@@ -25,7 +26,7 @@ class ConferenceParticipantSearch extends ConferenceParticipant
     {
         return [
             [['user_id', 'conference_id', 'reseption_id', 'created_at', 'updated_at'], 'integer'],
-            [['userLastName', 'userFirstName', 'userPatronName', 'userOrganization', 'userPost', 'method'], 'safe'],
+            [['userLastName', 'userFirstName', 'userPatronName', 'userOrganization', 'userPost', 'userEmail', 'method'], 'safe'],
         ];
     }
 
@@ -59,6 +60,33 @@ class ConferenceParticipantSearch extends ConferenceParticipant
             'sort' => [
                 'defaultOrder' => [
                     'created_at' => SORT_DESC,
+                ],
+                'attributes' => [
+                    'userLastName' => [
+                        'asc'  => ['user.last_name' => SORT_ASC],
+                        'desc' => ['user.last_name' => SORT_DESC],
+                    ],
+                    'userFirstName' => [
+                        'asc'  => ['user.first_name' => SORT_ASC],
+                        'desc' => ['user.first_name' => SORT_DESC],
+                    ],
+                    'userPatronName' => [
+                        'asc'  => ['user.patron_name' => SORT_ASC],
+                        'desc' => ['user.patron_name' => SORT_DESC],
+                    ],
+                    'userOrganization' => [
+                        'asc'  => ['user.organization' => SORT_ASC],
+                        'desc' => ['user.organization' => SORT_DESC],
+                    ],
+                    'userPost' => [
+                        'asc'  => ['user.post' => SORT_ASC],
+                        'desc' => ['user.post' => SORT_DESC],
+                    ],
+                    'userEmail' => [
+                        'asc'  => ['user.email' => SORT_ASC],
+                        'desc' => ['user.email' => SORT_DESC],
+                    ],
+                    'created_at',
                 ]
             ],
             'pagination' => [
@@ -88,7 +116,8 @@ class ConferenceParticipantSearch extends ConferenceParticipant
               ->andFilterWhere(['like', 'user.first_name', $this->userFirstName])
               ->andFilterWhere(['like', 'user.patron_name', $this->userPatronName])
               ->andFilterWhere(['like', 'user.organization', $this->userOrganization])
-              ->andFilterWhere(['like', 'user.post', $this->userPost]);
+              ->andFilterWhere(['like', 'user.post', $this->userPost])
+              ->andFilterWhere(['like', 'user.email', $this->userEmail]);
 
         return $dataProvider;
     }

@@ -14,7 +14,7 @@ try {
              'data-keyboard' => 'false',
              'data-backdrop' => 'static'
          ],
-        'size' => 'modal-lg',
+        'size' => 'modal-ultra-lg',
     ]);
 } catch (Exception $e) {
     echo 'Выброшено исключение: ',  $e->getMessage(), "\n";

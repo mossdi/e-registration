@@ -218,7 +218,7 @@ $this->title = 'Регистрация пользователей';
                 <?php if ($model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE):
                     echo Html::button('Очистить форму', [
                         'class' => 'col-xs-12 col-sm-6 col-md-3 pull-right btn btn-default col-margin-bottom-10',
-                        'onclick' => 'formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_CREATE_PAGE . '&clearForm=true\', \'' . UserForm::LOAD_FORM_TO_PAGE . '\')'
+                        'onclick' => 'formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_CREATE_PAGE . '&clearForm=' . true . '\', \'' . UserForm::LOAD_FORM_TO_PAGE . '\')'
                     ]);
                 endif; ?>
             </div>

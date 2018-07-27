@@ -172,16 +172,23 @@ class UserController extends Controller
 
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             if ($scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE) {
-                return $this->actionRegisterParticipant($form->id, $form->conference, Conference::LEARNING_FULL_TIME, $scenario);
+                return $this->actionRegisterParticipant($form->id, $form->conference, Conference::LEARNING_FULL_TIME);
             }
 
             if (UserComponent::userSignup($form)) {
-                Yii::$app->session->setFlash('success', 'Пользователь успешно зарегистрирован в системе!');
+                Yii::$app->session->setFlash('success', $form->conference ? 'Пользователь успешно зарегистрирован на конференцию - ' . Conference::findOne($form->conference)->title : 'Пользователь успешно зарегистрирован в системе!');
             } else {
                 Yii::$app->session->setFlash('error', 'Ошибка! Пользователь не зарегистрирован. Обратитесь к администратору системы.');
             };
             
             return $this->actionSignupForm(null, UserForm::SCENARIO_CREATE_PAGE, true);
+        }
+
+        //Если вдруг pJax не дождется ответа и будет ломится в экшн по прямой ссылке
+        if (!Yii::$app->request->isPjax && !Yii::$app->request->isAjax) {
+            return $this->redirect([
+                'user/signup-form?scenario=' . UserForm::SCENARIO_CREATE_PAGE,
+            ]);
         }
     }
 
@@ -191,11 +198,10 @@ class UserController extends Controller
      * @param $user_id
      * @param $conference_id
      * @param $method
-     * @param null $scenario
      * @return array|string
      * @throws \Exception
      */
-    public function actionRegisterParticipant($user_id, $conference_id, $method, $scenario = null)
+    public function actionRegisterParticipant($user_id, $conference_id, $method)
     {
         $result = UserComponent::registerParticipant($user_id, $conference_id, $method);
 
@@ -236,11 +242,22 @@ class UserController extends Controller
 
     /**
      * @param $id
+     * @param bool $removal
      * @return Response
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
-    public function actionDelete($id)
+    public function actionDelete($id, $removal = false)
     {
-        User::findOne($id)->updateAttributes(['deleted' => 1]);
+        $user = User::findOne($id);
+
+        if ($removal) {
+            $user->delete();
+        } else {
+            $user->updateAttributes(['deleted' => 1]);
+        }
+
+        Yii::$app->session->setFlash('success', 'Пользователь успешно ' . ($removal ? 'удален' : 'заблокирован') . '!');
 
         return $this->redirect([
             '/user/index'
