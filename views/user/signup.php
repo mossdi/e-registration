@@ -64,7 +64,7 @@ $this->title = 'Регистрация пользователей';
                     <?php if ($conference): ?>
                         <div class="col-xs-12 col-sm-3 col-margin-bottom-10">
                             <?= Html::button('Список участников', [
-                                'class' => 'btn btn-default col-xs-12',
+                                'class' => 'btn btn-info col-xs-12',
                                 'data-toggle' => 'modal',
                                 'data-target' => '#modalForm',
                                 'onclick'     => 'formLoad(\'/conference/participant\', \'' . UserForm::LOAD_FORM_TO_MODAL . '\', \'Участники конференции - ' . $conference->title . '\', \'' . $conference->id . '\'); participantCountReload();'
@@ -201,7 +201,7 @@ $this->title = 'Регистрация пользователей';
 
             <div class="form-group">
                 <?= Html::submitButton($model->scenario == UserForm::SCENARIO_UPDATE || $model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE ? 'Сохранить' : 'Зарегистрировать' , [
-                    'class' => 'col-xs-12 col-sm-6 col-md-5 btn btn-default col-margin-bottom-10',
+                    'class' => 'col-xs-12 col-sm-6 col-md-5 btn btn-success col-margin-bottom-10',
                     'name'  => 'signup',
                     'value' => 'conference',
                     'onclick' => ($model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE || $model->scenario == UserForm::SCENARIO_CREATE_PAGE) ? 'participantCountReload()' : null,
@@ -210,14 +210,14 @@ $this->title = 'Регистрация пользователей';
 
                 <?php if ($model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE):
                     echo Html::button('Отмена', [
-                        'class' => 'col-xs-12 col-sm-6 col-md-3 pull-right btn btn-default col-margin-bottom-10',
+                        'class' => 'col-xs-12 col-sm-6 col-md-3 pull-right btn btn-danger col-margin-bottom-10',
                         'onclick' => 'formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE . '\', \'' . UserForm::LOAD_FORM_TO_PAGE . '\', \' \', ' . $model->id . ')'
                     ]);
                 endif; ?>
 
                 <?php if ($model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE):
                     echo Html::button('Очистить форму', [
-                        'class' => 'col-xs-12 col-sm-6 col-md-3 pull-right btn btn-default col-margin-bottom-10',
+                        'class' => 'col-xs-12 col-sm-6 col-md-3 pull-right btn btn-danger col-margin-bottom-10',
                         'onclick' => 'formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_CREATE_PAGE . '&clearForm=' . true . '\', \'' . UserForm::LOAD_FORM_TO_PAGE . '\')'
                     ]);
                 endif; ?>
