@@ -70,7 +70,7 @@ class UserController extends Controller
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
-            if (Yii::$app->user->can(User::ROLE_RECEPTIONIST) || User::ROLE_RECEPTIONIST_CURATOR) {
+            if (Yii::$app->user->can(User::ROLE_RECEPTIONIST) || Yii::$app->user->can(User::ROLE_RECEPTIONIST_CURATOR)) {
                 return $this->redirect([
                     '/user/signup-form?scenario=create-page'
                 ]);
