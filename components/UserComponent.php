@@ -135,7 +135,7 @@ class UserComponent
         $participant->method = $method;
 
         if ($method == Conference::LEARNING_FULL_TIME){
-            $certificate = Certificate::create($user_id, $conference_id, $method);
+            $certificate = Certificate::create($user_id, $conference_id, $conference->start_time);
 
             $transaction = Yii::$app->db->beginTransaction();
 

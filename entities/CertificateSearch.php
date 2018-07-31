@@ -23,7 +23,7 @@ class CertificateSearch extends Certificate
     {
         return [
             [['id', 'user_id', 'conference_id', 'date_issue', 'status', 'deleted', 'created_at', 'updated_at'], 'integer'],
-            [['document_series', 'learning_method', 'userLastName', 'userFirstName', 'userPatronName'], 'safe'],
+            [['userLastName', 'userFirstName', 'userPatronName', 'document_series', 'verification_code'], 'safe'],
         ];
     }
 
@@ -68,6 +68,7 @@ class CertificateSearch extends Certificate
                     'conference.start_time',
                     'date_issue',
                     'document_series',
+                    'verification_code',
                 ],
                 'defaultOrder' => [
                     'conference.start_time' => SORT_ASC,
@@ -89,11 +90,11 @@ class CertificateSearch extends Certificate
             'certificate.conference_id' => $this->conference_id,
         ]);
 
-        $query->andFilterWhere(['like', 'certificate.document_series', $this->document_series])
-              ->andFilterWhere(['like', 'certificate.learning_method', $this->learning_method])
-              ->andFilterWhere(['like', 'user.last_name', $this->userLastName])
+        $query->andFilterWhere(['like', 'user.last_name', $this->userLastName])
               ->andFilterWhere(['like', 'user.first_name', $this->userFirstName])
-              ->andFilterWhere(['like', 'user.patron_name', $this->userPatronName]);
+              ->andFilterWhere(['like', 'user.patron_name', $this->userPatronName])
+              ->andFilterWhere(['like', 'certificate.document_series', $this->document_series])
+              ->andFilterWhere(['like', 'certificate.verification_code', $this->verification_code]);
 
         return $dataProvider;
     }

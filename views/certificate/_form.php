@@ -42,6 +42,8 @@ use kartik\date\DatePicker;
 
     <?= $form->field($model, 'document_series')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'verification_code')->textInput(['maxlength' => true]) ?>
+
     <?= $form->field($model, 'status')->dropDownList(Certificate::$statusList) ?>
 
     <div class="form-group">

@@ -5,8 +5,6 @@ namespace app\entities;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
-use DateTime;
-use DateTimeZone;
 
 /**
  * Class Certificate
@@ -16,7 +14,7 @@ use DateTimeZone;
  * @property int $conference_id
  * @property int $date_issue
  * @property string $document_series
- * @property string $learning_method
+ * @property string $verification_code
  * @property int $status
  * @property int $deleted
  * @property int $created_at
@@ -55,21 +53,6 @@ class Certificate extends ActiveRecord
     }
 
     /**
-     * @param bool $insert
-     * @return bool
-     */
-    public function beforeSave($insert)
-    {
-        if (!empty($this->date_issue)) {
-            $date = DateTime::createFromFormat('d.m.yy', $this->date_issue, new DateTimeZone('Europe/Moscow'));
-
-            $this->date_issue = $date->getTimestamp();
-        }
-
-        return parent::beforeSave($insert);
-    }
-
-    /**
      * @return array
      */
     public function rules()
@@ -86,16 +69,16 @@ class Certificate extends ActiveRecord
     /**
      * @param $user_id
      * @param $conference_id
-     * @param $learning_method
+     * @param $date_issue
      * @return Certificate
      */
-    public static function create($user_id, $conference_id, $learning_method)
+    public static function create($user_id, $conference_id, $date_issue)
     {
         $certificate = new self();
 
         $certificate->user_id = $user_id;
         $certificate->conference_id = $conference_id;
-        $certificate->learning_method = $learning_method;
+        $certificate->date_issue = $date_issue;
 
         return $certificate;
     }
@@ -111,6 +94,7 @@ class Certificate extends ActiveRecord
             'conference.title' => 'Конференция',
             'date_issue' => 'Дата выдачи',
             'document_series' => 'Номер документа',
+            'verification_code' => 'Код подтверждения',
             'status' => 'Статус',
         ];
     }
@@ -135,7 +119,7 @@ class Certificate extends ActiveRecord
      */
     public  function getConference()
     {
-        return$this->hasOne(Conference::className(), ['id' => 'conference_id']);
+        return $this->hasOne(Conference::className(), ['id' => 'conference_id']);
     }
 
     /**
@@ -143,8 +127,13 @@ class Certificate extends ActiveRecord
      */
     public function getParticipantMethod()
     {
-        $model = ConferenceParticipant::findOne(['conference_id' => $this->conference_id, 'user_id' => Yii::$app->user->id]);
+        $model = ConferenceParticipant::findOne([
+            'conference_id' => $this->conference_id,
+            'user_id' => $this->user_id
+        ]);
 
-        return !empty($model) && $model->method == Conference::LEARNING_FULL_TIME ? 'Очно' : 'Дистанционно';
+        if (!empty($model)) {
+            return $model->method == Conference::LEARNING_FULL_TIME ? Conference::LEARNING_FULL_TIME : Conference::LEARNING_DISTANCE;
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace app\commands;
 
+use app\entities\Certificate;
 use Yii;
 use DateTime;
 use DateTimeZone;
@@ -123,7 +124,7 @@ class ServiceController extends Controller
             $i = 0;
 
             foreach ($users as $user) {
-                $userUpdate = User::findOne(['code' => $user['code']]);
+                $userUpdate = User::findOne(['code' => $user['code']]); //Поиск по столшбцу код
 
                 $userUpdate->updateAttributes([$attribute => $user[$attribute]]);
 
@@ -139,5 +140,70 @@ class ServiceController extends Controller
 
             exit();
         }
+    }
+
+    /**
+     * @param $conference_id
+     */
+    public function actionCertificateIssue($conference_id)
+    {
+        $certificates = Excel::import('/var/www/cert.dwbx.ru/storage/certificates.xlsx', $config = []);
+
+        $i = 0;
+
+        foreach ($certificates as $certificate) {
+            $fullName = explode(' ', $certificate['full_name']);
+
+            $cleanName = [];
+
+            //delete empty element
+            foreach ($fullName as $namePart) {
+                if (!empty(trim($namePart))) {
+                    $cleanName[] = trim($namePart);
+                }
+            }
+
+            $user = User::find();
+
+            if (!empty($cleanName[0])) {
+                $user->andWhere('last_name LIKE \'' . $cleanName[0] . '%\'');
+            }
+            if (!empty($cleanName[1])) {
+                $user->andWhere('first_name LIKE \'' . $cleanName[1] . '%\'');
+            }
+            if (!empty($cleanName[2])) {
+                $user->andWhere('patron_name LIKE \'' . $cleanName[2] . '%\'');
+            }
+
+            $userFind = $user->one();
+
+            if ($userFind) {
+                $userCertificate = Certificate::findOne([
+                    'user_id' => $userFind->id,
+                    'conference_id' => $conference_id
+                ]);
+
+                $userCertificate->updateAttributes([
+                    'document_series' => $certificate['document_series'],
+                    'verification_code' => $certificate['verification_code'],
+                ]);
+
+                $conference = Conference::findOne($conference_id);
+
+                if ($userCertificate->date_issue == null) {
+                    $userCertificate->updateAttributes([
+                        'date_issue' => $conference->start_time
+                    ]);
+                }
+
+                echo 'Выдан сертификат на имя ' . $userFind->last_name . ' ' . $userFind->first_name . ' ' . $userFind->patron_name . ' (' . $conference->title . ')' . PHP_EOL;
+
+                $i++;
+            } else {
+                echo 'Не найден пользователь ' . $cleanName[0] . ' ' . $cleanName[1] . ' ' . $cleanName[2] . PHP_EOL;
+            }
+        }
+
+        echo 'Всего выдано ' .$i . ' сертификатов' . PHP_EOL;
     }
 }

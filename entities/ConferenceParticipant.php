@@ -16,6 +16,8 @@ use yii\behaviors\TimestampBehavior;
  * @property Conference $conference
  * @property User $user
  * @property int $reseption_id
+ * @property $certificate
+ * @property $certificateVerificationCode
  */
 class ConferenceParticipant extends ActiveRecord
 {
@@ -50,6 +52,22 @@ class ConferenceParticipant extends ActiveRecord
      */
     public function getUser()
     {
-        return$this->hasOne(User::className(), ['id' => 'user_id']);
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCertificate()
+    {
+        return $this->hasOne(Certificate::className(), ['user_id' => 'user_id', 'conference_id' => 'conference_id']);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCertificateVerificationCode()
+    {
+        return $this->certificate->verification_code;
     }
 }

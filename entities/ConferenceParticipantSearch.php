@@ -18,6 +18,7 @@ class ConferenceParticipantSearch extends ConferenceParticipant
     public $userOrganization;
     public $userPost;
     public $userEmail;
+    public $certificateVerificationCode;
 
     /**
      * {@inheritdoc}
@@ -26,7 +27,7 @@ class ConferenceParticipantSearch extends ConferenceParticipant
     {
         return [
             [['user_id', 'conference_id', 'reseption_id', 'created_at', 'updated_at'], 'integer'],
-            [['userLastName', 'userFirstName', 'userPatronName', 'userOrganization', 'userPost', 'userEmail', 'method'], 'safe'],
+            [['userLastName', 'userFirstName', 'userPatronName', 'userOrganization', 'userPost', 'userEmail', 'method', 'certificateVerificationCode'], 'safe'],
         ];
     }
 
@@ -50,8 +51,9 @@ class ConferenceParticipantSearch extends ConferenceParticipant
     public function search($params, $conference_id)
     {
         $query = ConferenceParticipant::find()
+            ->joinWith(['certificate'])
             ->joinWith(['user'])
-               ->where(['conference_id' => $conference_id]);
+               ->where(['conference_participant.conference_id' => $conference_id]);
 
         // add conditions that should always apply here
 
@@ -86,6 +88,10 @@ class ConferenceParticipantSearch extends ConferenceParticipant
                         'asc'  => ['user.email' => SORT_ASC],
                         'desc' => ['user.email' => SORT_DESC],
                     ],
+                    'certificateVerificationCode' => [
+                        'asc'  => ['certificate.verification_code' => SORT_ASC],
+                        'desc' => ['certificate.verification_code' => SORT_DESC],
+                    ],
                     'created_at',
                 ]
             ],
@@ -117,7 +123,8 @@ class ConferenceParticipantSearch extends ConferenceParticipant
               ->andFilterWhere(['like', 'user.patron_name', $this->userPatronName])
               ->andFilterWhere(['like', 'user.organization', $this->userOrganization])
               ->andFilterWhere(['like', 'user.post', $this->userPost])
-              ->andFilterWhere(['like', 'user.email', $this->userEmail]);
+              ->andFilterWhere(['like', 'user.email', $this->userEmail])
+              ->andFilterWhere(['like', 'certificate.verification_code', $this->certificateVerificationCode]);
 
         return $dataProvider;
     }

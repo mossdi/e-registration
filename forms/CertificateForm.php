@@ -11,6 +11,7 @@ class CertificateForm extends Model
     public $id;
     public $date_issue;
     public $document_series;
+    public $verification_code;
     public $status;
 
     /**
@@ -26,6 +27,7 @@ class CertificateForm extends Model
             $this->id = $certificate->id;
             $this->date_issue = Yii::$app->formatter->asDate($certificate->date_issue,'php:d.m.yy');
             $this->document_series = $certificate->document_series;
+            $this->verification_code = $certificate->verification_code;
             $this->status = $certificate->status;
         }
 
@@ -38,9 +40,11 @@ class CertificateForm extends Model
     public function rules()
     {
         return [
-            [['date_issue', 'document_series'], 'required'],
+            [['date_issue', 'document_series', 'verification_code'], 'required'],
+
             [['date_issue'], 'date', 'format' => 'php:d.m.yy'],
-            [['document_series'], 'string'],
+
+            [['document_series', 'verification_code'], 'string'],
         ];
     }
 
@@ -52,6 +56,7 @@ class CertificateForm extends Model
         return [
             'date_issue' => 'Дата выдачи',
             'document_series' => 'Номер документа',
+            'verification_code' => 'Код подтверждения',
             'status' => 'Статус',
         ];
     }

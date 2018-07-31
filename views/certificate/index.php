@@ -66,15 +66,22 @@ $this->title = 'Сертификаты';
                         'format' => 'date',
                     ],
                     'document_series',
+                    'verification_code',
                     [
                         'attribute' => 'date_issue',
                         'format' => 'date',
-                        'filter' => false
+                        'filter' => false,
+                        'contentOptions' => [
+                            'nowrap' => true
+                        ]
                     ],
 
                     [
                         'class' => 'yii\grid\ActionColumn',
                         'template' => '{view} {update}',
+                        'contentOptions' => [
+                            'nowrap' => true
+                        ],
                         'buttons' => [
                             'view' => function ($url, $model) {
                                 return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, [

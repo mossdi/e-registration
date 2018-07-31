@@ -84,7 +84,16 @@ try {
                 },
                 'filter' => false,
             ],
-
+            [
+                'label' => 'Сертификат',
+                'attribute' => 'certificateVerificationCode',
+                'value' => function($model) {
+                    return $model->certificateVerificationCode;
+                },
+                'contentOptions' => [
+                    'nowrap' => true,
+                ]
+            ],
             [
                 'label' => 'Присутствие',
                 'attribute' => 'method',

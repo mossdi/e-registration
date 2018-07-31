@@ -26,7 +26,7 @@ class m180319_193319_create_certificate_table extends Migration
             'conference_id' => $this->integer()->notNull(),
             'date_issue' => $this->integer()->null(),
             'document_series' => $this->string()->null(),
-            'learning_method' => $this->string()->notNull(),
+            'verification_code' => $this->string()->null(),
             'status' => $this->smallInteger()->notNull()->defaultValue(Certificate::STATUS_ACTIVE),
             'deleted' => $this->smallInteger()->notNull()->defaultValue(0),
             'created_at' => $this->integer()->notNull(),
