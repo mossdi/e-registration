@@ -20,13 +20,13 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/adminLTE.css?v.1.2',
-        'css/adminLTE_skin.css?v.1.2',
-        'css/site.css?v.1.2',
+        'css/adminLTE.css?v.1.3',
+        'css/adminLTE_skin.css?v.1.3',
+        'css/site.css?v.1.3',
     ];
     public $js = [
-        'js/adminlte.min.js?v.1.2',
-        'js/common.js?v.1.2',
+        'js/adminlte.min.js?v.1.3',
+        'js/common.js?v.1.3',
     ];
     public $depends = [
         'rmrevin\yii\fontawesome\AssetBundle',

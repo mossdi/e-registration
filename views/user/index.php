@@ -63,7 +63,7 @@ $this->title = 'Пользователи';
                                 return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
                                     'data-toggle' => 'modal',
                                     'data-target' => '#modalForm',
-                                    'onclick' => 'formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_UPDATE . '\', \'' . UserForm::LOAD_FORM_TO_MODAL . '\', \'' . $model->last_name . ' ' . $model->first_name . ' ' . $model->patron_name . '\',\'' . $model->id . '\')'
+                                    'onclick' => 'formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_UPDATE . '\', \'' . UserForm::LOAD_FORM_TO_MODAL . '\', \'' . $model->last_name . ' ' . $model->first_name . ' ' . $model->patron_name . '\', \'' . $model->id . '\')'
                                 ]);
                             },
                             'delete' => function ($url, $model) {

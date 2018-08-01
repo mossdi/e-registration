@@ -92,14 +92,6 @@ function wishlistReload() {
 }
 
 function participantCountReload() {
-    setTimeout(function () {
-        $.pjax.reload({
-            container: '#participantCountContainer'
-        });
-    }, 1000);
-}
-
-function participantCountReload() {
     $.pjax.reload({
         container: '#participantCountContainer'
     });

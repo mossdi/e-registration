@@ -143,6 +143,14 @@ $this->title = 'Регистрация пользователей';
                                 'placeholder' => 'Эл.почта',
                                 'readonly'    => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE ? true : false
                             ]) ?>
+
+                        <?php if ($model->scenario == UserForm::SCENARIO_REGISTER || ($model->scenario == UserForm::SCENARIO_UPDATE && (Yii::$app->user->id == $model->id || Yii::$app->user->can(User::ROLE_ADMIN)))):
+                            echo $form->field($model, 'password', ['options' => ['class' => 'col-xs-10']])
+                                ->textInput([
+                                    'placeholder' => 'Пароль'
+                                ])
+                                ->label(($model->scenario == UserForm::SCENARIO_REGISTER ? '<span style="color: red;">*</span> ' : null) . 'Пароль');
+                        endif; ?>
                     </div>
 
                     <div class="col-xs-12 col-sm-6 col-margin-bottom-10">
@@ -171,14 +179,6 @@ $this->title = 'Регистрация пользователей';
                             ]) ?>
                     </div>
                 </div>
-
-                <?php if ($model->scenario == UserForm::SCENARIO_REGISTER || ($model->scenario == UserForm::SCENARIO_UPDATE && (Yii::$app->user->id == $model->id || Yii::$app->user->can(User::ROLE_ADMIN)))):
-                    echo $form->field($model, 'password', ['options' => ['class' => 'col-xs-12 col-sm-6']])
-                        ->textInput([
-                            'placeholder' => 'Пароль'
-                        ])
-                        ->label(($model->scenario == UserForm::SCENARIO_REGISTER ? '<span style="color: red;">*</span> ' : null) . 'Пароль');
-                endif; ?>
 
                 <div class="col-margin-top-15 col-xs-12">
                     <span style="color: red;">*</span> - поля обязательные для заполнения

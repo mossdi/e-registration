@@ -35,7 +35,7 @@ class m180318_134628_create_setting_table extends Migration
             true
         );
 
-        $this->truncateTable('setting'); //TODO: Вывести настройки в интерфейс. Запретить удлаление предустановленных настроек.
+        $this->truncateTable('setting');
 
         $this->insert('setting', [
             'param' => 'registerOpen',

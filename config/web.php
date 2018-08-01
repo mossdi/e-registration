@@ -39,7 +39,15 @@ $config = [
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
-            'useFileTransport' => true,
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.mail.ru',
+                'username' => 'mossol_87@mail.ru',
+                'password' => 'PhSQqNqq8i',
+                'port' => '465',
+                //'encryption' => 'SSL',
+            ],
+            'useFileTransport' => false,
         ],
         'pdfRender' => [
             'class' => '\kartik\mpdf\Pdf',
