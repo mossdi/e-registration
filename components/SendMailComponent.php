@@ -8,11 +8,12 @@ class SendMailComponent
 {
     public static function sendMail($mailTo, $htmlBody)
     {
-        Yii::$app->mailer->compose()
-            ->setFrom('admin@localhost')
+        $mailer = Yii::$app->mailer->compose()
+            ->setFrom(Yii::$app->params['smtpParams']['username'])
             ->setTo($mailTo)
             ->setSubject('Данные для авторизации в системе')
-            ->setHtmlBody($htmlBody)
-            ->send();
+            ->setHtmlBody($htmlBody);
+
+        $mailer->send();
     }
 }

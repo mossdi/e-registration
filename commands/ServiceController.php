@@ -2,7 +2,6 @@
 
 namespace app\commands;
 
-use app\entities\Certificate;
 use Yii;
 use DateTime;
 use DateTimeZone;
@@ -10,7 +9,9 @@ use yii\console\Controller;
 use moonland\phpexcel\Excel;
 use app\entities\User;
 use app\entities\Conference;
+use app\entities\Certificate;
 use app\components\UserComponent;
+use app\components\SendMailComponent;
 
 /**
  * Class ServiceController
@@ -204,6 +205,20 @@ class ServiceController extends Controller
             }
         }
 
-        echo 'Всего выдано ' .$i . ' сертификатов' . PHP_EOL;
+        echo 'Всего выдано ' . $i . ' сертификатов' . PHP_EOL;
+    }
+
+    /**
+     * Send e-Mail
+     * @param $mailTo
+     */
+    public function actionMail($mailTo)
+    {
+        $htmBody = Yii::$app->controller->renderPartial('/html_block/mail/access_data', [
+            'email' => 'mail@mail.ru',
+            'password' => '12345'
+        ]);
+
+        SendMailComponent::sendMail($mailTo, $htmBody);
     }
 }

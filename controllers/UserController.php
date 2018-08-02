@@ -116,7 +116,7 @@ class UserController extends Controller
      * @param bool $clearForm
      * @return array|string
      */
-    public function actionSignupForm($id = null, $scenario, $clearForm = false)
+    public function actionSignupForm($scenario, $id = null, $clearForm = false)
     {
         $form = new UserForm($id);
         $form->scenario = $scenario;
@@ -180,8 +180,12 @@ class UserController extends Controller
             } else {
                 Yii::$app->session->setFlash('error', 'Ошибка! Пользователь не зарегистрирован. Обратитесь к администратору системы.');
             };
-            
-            return $this->actionSignupForm(null, UserForm::SCENARIO_CREATE_PAGE, true);
+
+            if ($form->scenario == UserForm::SCENARIO_REGISTER) {
+                return $this->goHome();
+            }
+
+            return $this->actionSignupForm(UserForm::SCENARIO_CREATE_PAGE, null, true);
         }
 
         //Если вдруг pJax не дождется ответа и будет ломится в экшн по прямой ссылке
@@ -207,7 +211,7 @@ class UserController extends Controller
 
         Yii::$app->session->setFlash($result['status'], $result['message']);
 
-        return $this->actionSignupForm(null, UserForm::SCENARIO_CREATE_PAGE, true);
+        return $this->actionSignupForm( UserForm::SCENARIO_CREATE_PAGE, null, true);
     }
 
     /**
@@ -231,8 +235,8 @@ class UserController extends Controller
             };
 
             if (Yii::$app->request->isPjax) {
-                return $this->actionSignupForm($id, $scenario == UserForm::SCENARIO_UPDATE ? $scenario : UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE);
-            } elseif (!Yii::$app->request->isAjax) {
+                return $this->actionSignupForm( $scenario == UserForm::SCENARIO_UPDATE ? $scenario : UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE, $id);
+            } else {
                 return $this->redirect(
                     '/site/index'
                 );

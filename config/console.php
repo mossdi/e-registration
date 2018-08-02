@@ -13,6 +13,12 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+        'mailer' => [
+            'class' => 'yii\swiftmailer\Mailer',
+            'messageConfig' => ['charset' => 'UTF-8'],
+            'transport' => $params['smtpParams'],
+            'useFileTransport' => false,
+        ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],

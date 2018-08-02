@@ -58,7 +58,8 @@ class UserComponent
 
         if (!empty($form->email)) {
             SendMailComponent::sendMail($form->email, Yii::$app->controller->renderPartial('/html_block/mail/access_data', [
-                'email' => $form->email, 'password' => $password
+                'email' => $form->email,
+                'password' => $password
             ]));
         }
 

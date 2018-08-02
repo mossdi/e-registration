@@ -39,14 +39,8 @@ $config = [
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
-            'transport' => [
-                'class' => 'Swift_SmtpTransport',
-                'host' => 'smtp.mail.ru',
-                'username' => 'mossol_87@mail.ru',
-                'password' => 'PhSQqNqq8i',
-                'port' => '465',
-                //'encryption' => 'SSL',
-            ],
+            'messageConfig' => ['charset' => 'UTF-8'],
+            'transport' => $params['smtpParams'],
             'useFileTransport' => false,
         ],
         'pdfRender' => [

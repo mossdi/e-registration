@@ -63,6 +63,7 @@ class UserForm extends Model
         return [
             [['first_name', 'last_name'], 'required', 'on' => [self::SCENARIO_CREATE_PAGE, self::SCENARIO_UPDATE, self::SCENARIO_PARTICIPANT_UPDATE, self::SCENARIO_REGISTER, self::SCENARIO_REGISTER_PARTICIPANT_PAGE]],
             ['conference', 'required', 'on' => self::SCENARIO_REGISTER_PARTICIPANT_PAGE],
+            ['email', 'required', 'on' => self::SCENARIO_REGISTER],
             ['password', 'required', 'on' => self::SCENARIO_REGISTER],
 
             [['first_name', 'last_name', 'patron_name', 'organization', 'organization_branch', 'post', 'speciality', 'password', 'role'], 'string'],
