@@ -21,6 +21,7 @@ use yii\behaviors\TimestampBehavior;
  * @property int $updated_at
  * @property User $user
  * @property Conference $conference
+ * @property string $userFullName
  */
 class Certificate extends ActiveRecord
 {

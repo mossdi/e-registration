@@ -5,6 +5,7 @@ namespace app\components;
 use Yii;
 use app\entities\Certificate;
 use app\forms\CertificateForm;
+use mikehaertl\wkhtmlto\Pdf;
 
 /**
  * Class CertificateComponent
@@ -36,17 +37,24 @@ class CertificateComponent
      * @return mixed
      */
     public static function certificateDownload($id) {
-        ini_set('pcre.backtrack_limit', '5000000');
-
         $certificate = Certificate::findOne($id);
 
-        $template = Yii::$app->controller->renderAjax('/html_block/element/certificate', [
+        $template = Yii::$app->controller->renderPartial('/html_block/element/certificate', [
             'certificate' => $certificate,
         ]);
 
-        $pdf = Yii::$app->pdfRender;
-        $pdf->content = $template;
+        $image = new Pdf();
 
-        return $pdf->render();
+        $image->addPage($template);
+
+        $image->setOptions([
+            'orientation'   => 'Landscape',
+            'margin-left'   => '0mm',
+            'margin-right'  => '0mm',
+            'margin-top'    => '0mm',
+            'margin-bottom' => '0mm'
+        ]);
+
+        return $image->send();
     }
 }

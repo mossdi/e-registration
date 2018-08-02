@@ -1,7 +1,5 @@
 <?php
 
-use kartik\mpdf\Pdf;
-
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -42,12 +40,6 @@ $config = [
             'messageConfig' => ['charset' => 'UTF-8'],
             'transport' => $params['smtpParams'],
             'useFileTransport' => false,
-        ],
-        'pdfRender' => [
-            'class' => '\kartik\mpdf\Pdf',
-            'format' => Pdf::FORMAT_A4,
-            'orientation' => Pdf::ORIENT_LANDSCAPE,
-            'destination' => Pdf::DEST_DOWNLOAD,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
