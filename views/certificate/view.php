@@ -40,6 +40,7 @@ $this->title = $model->id;
                 'conference.title',
                 'date_issue:date',
                 'document_series',
+                'verification_code',
                 'participantMethod',
             ],
         ]);

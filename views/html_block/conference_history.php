@@ -1,23 +1,18 @@
 <?php
 
 use yii\grid\GridView;
-use yii\helpers\Html;
 use yii\widgets\Pjax;
-use app\entities\Conference;
-use app\entities\ConferenceSearch;
+use app\entities\ConferenceParticipantSearch;
 use yii2mod\alert\Alert;
-use app\forms\UserForm;
 
 /* @var $this \yii\web\View */
 /* @var $searchModel app\entities\ConferenceSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$searchModel = new ConferenceSearch();
+$searchModel = new ConferenceParticipantSearch();
 $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-$dataProvider->query->where(['is not', 'end_time', null])->andWhere(['status' => Conference::STATUS_ACTIVE]);
-
-//TODO: Переделать!!!!!!!!!!
+$dataProvider->query->where(['conference_participant.user_id' => Yii::$app->user->id]);
 
 ?>
 
@@ -47,27 +42,15 @@ $dataProvider->query->where(['is not', 'end_time', null])->andWhere(['status' =>
                 'columns' => [
                     ['class' => 'yii\grid\SerialColumn'],
 
+                    'conference.title',
+                    'conference.start_time:datetime',
                     [
-                        'attribute' => 'title',
-                        'format' => 'raw',
-                        'value' => function ($model) {
-                            return Html::a($model->title, ['/#'], [
-                                'data-toggle' => 'modal',
-                                'data-target' => '#modalForm',
-                                'onclick' => 'formLoad(\'/conference/view\', \'' . UserForm::LOAD_FORM_TO_MODAL . '\', \'' . $model->title . '\', \'' . $model->id . '\')']
-                            );
-                        }
-                    ],
-
-                    [
-                        'attribute' => 'author_id',
-                        'label' => 'Ведущий',
+                        'attribute' => 'certificateVerificationCode',
+                        'label' => 'Сертификат',
                         'value' => function($model) {
-                            return $model->author->first_name . ' ' . $model->author->last_name;
+                            return $model->certificateVerificationCode;
                         }
-                    ],
-
-                    'start_time:datetime',
+                    ]
                 ],
             ]);
         } catch (Exception $e) {

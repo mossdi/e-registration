@@ -134,7 +134,7 @@ class Certificate extends ActiveRecord
         ]);
 
         if (!empty($model)) {
-            return $model->method == Conference::LEARNING_FULL_TIME ? Conference::LEARNING_FULL_TIME : Conference::LEARNING_DISTANCE;
+            return $model->method == Conference::LEARNING_FULL_TIME ? 'Очно' : 'Дистанционно';
         }
     }
 }

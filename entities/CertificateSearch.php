@@ -71,7 +71,7 @@ class CertificateSearch extends Certificate
                     'verification_code',
                 ],
                 'defaultOrder' => [
-                    'conference.start_time' => SORT_ASC,
+                    'conference.start_time' => SORT_DESC,
                 ]
             ]
         ]);

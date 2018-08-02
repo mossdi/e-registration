@@ -45,24 +45,25 @@ class ConferenceParticipantSearch extends ConferenceParticipant
      *
      * @param array $params
      *
-     * @param $conference_id
+     * @param null $conference_id
      * @return ActiveDataProvider
      */
-    public function search($params, $conference_id)
+    public function search($params, $conference_id = null)
     {
         $query = ConferenceParticipant::find()
+            ->joinWith(['conference'])
             ->joinWith(['certificate'])
-            ->joinWith(['user'])
-               ->where(['conference_participant.conference_id' => $conference_id]);
+            ->joinWith(['user']);
+
+        if ($conference_id != null) {
+            $query->where(['conference_participant.conference_id' => $conference_id]);
+        }
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => [
-                'defaultOrder' => [
-                    'created_at' => SORT_DESC,
-                ],
                 'attributes' => [
                     'userLastName' => [
                         'asc'  => ['user.last_name' => SORT_ASC],
@@ -92,8 +93,13 @@ class ConferenceParticipantSearch extends ConferenceParticipant
                         'asc'  => ['certificate.verification_code' => SORT_ASC],
                         'desc' => ['certificate.verification_code' => SORT_DESC],
                     ],
+                    'conference.title',
+                    'conference.start_time',
                     'created_at',
-                ]
+                ],
+                'defaultOrder' => [
+                    'conference.start_time' => SORT_DESC,
+                ],
             ],
             'pagination' => [
                 'pageSize' => 50
