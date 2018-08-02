@@ -136,13 +136,14 @@ $this->title = 'Регистрация пользователей';
                                 'placeholder' => 'Отчество',
                                 'readonly'    => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE || ($model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE && !Yii::$app->user->can(User::ROLE_ADMIN) && !Yii::$app->user->can(User::ROLE_RECEPTIONIST_CURATOR))  ? true : false
                             ])
-                            ->label('<span style="color: red;">*</span> Отчество') ?>
+                            ->label('Отчество') ?>
 
                         <?= $form->field($model, 'email', ['options' => ['class' => 'col-xs-10']])
                             ->textInput([
                                 'placeholder' => 'Эл.почта',
                                 'readonly'    => $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE ? true : false
-                            ]) ?>
+                            ])
+                            ->label(($model->scenario == UserForm::SCENARIO_REGISTER ? '<span style="color: red;">*</span> ' : null) . 'Email') ?>
 
                         <?php if ($model->scenario == UserForm::SCENARIO_REGISTER || ($model->scenario == UserForm::SCENARIO_UPDATE && (Yii::$app->user->id == $model->id || Yii::$app->user->can(User::ROLE_ADMIN)))):
                             echo $form->field($model, 'password', ['options' => ['class' => 'col-xs-10']])
