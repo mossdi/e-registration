@@ -100,7 +100,7 @@ $this->title = 'Регистрация пользователей';
                         <h3 style="font-weight: bold; margin: 0;">Новый пользователь</h3>
                     <?php elseif ($model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE || $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE): ?>
                         <h3 style="display: inline-block; margin: 0; vertical-align: middle">
-                            <span>Пользователь:</span> <span style="font-weight: bold; margin-right: 5px;"> <?= $model->last_name . ' ' . $model->first_name . ' ' . $model->patron_name .  ($model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE ? ' <span style="color:red;font-weight:normal;">[Редактирование]</span>' : null ) ?></span>
+                            <span>Пользователь:</span> <span style="font-weight: bold; margin-right: 5px;"> <?= $model->last_name . ' ' . $model->first_name . ' ' . $model->patron_name .  ($model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE ? '<span style="color:red;font-weight:normal;"> - Редактирование</span>' : null ) ?></span>
                         </h3>
                         <?php if ($model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE): ?>
                             <span style="display: inline-block;">
