@@ -6,6 +6,10 @@ use Yii;
 use app\entities\User;
 use app\forms\LoginForm;
 
+/**
+ * Class LoginComponent
+ * @package app\components
+ */
 class LoginComponent
 {
     /**

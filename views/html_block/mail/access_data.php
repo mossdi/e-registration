@@ -19,8 +19,14 @@ use yii\helpers\Html;
 <body>
 <?php $this->beginBody() ?>
 
-<p>Логин: <?= $email ?></p>
-<p>Пароль: <?= $password ?></p>
+<p>
+    <strong>Ссылка на личный кабинет:</strong> <a href="http://cert.dwbx.ru">cert.dwbx.ru</a>
+</p>
+<p>
+    <strong>Логин:</strong> <?= $email ?>
+    <br>
+    <strong>Пароль:</strong> <?= $password ?>
+</p>
 
 <?php $this->endBody() ?>
 </body>

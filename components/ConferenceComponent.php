@@ -5,6 +5,10 @@ namespace app\components;
 use app\forms\ConferenceForm;
 use app\entities\Conference;
 
+/**
+ * Class ConferenceComponent
+ * @package app\components
+ */
 class ConferenceComponent
 {
     /**
