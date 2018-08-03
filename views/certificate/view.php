@@ -29,7 +29,10 @@ $this->title = $model->id;
             ]) ?>
         <?php endif; ?>
 
-        <?= Html::a('Скачать', ['/certificate/download', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Скачать сертификат в формате <strong>PDF</strong>', ['/certificate/download', 'id' => $model->id], [
+            'class' => 'btn btn-success',
+            'target' => '_blank'
+        ]) ?>
     </p>
 
     <?php try {

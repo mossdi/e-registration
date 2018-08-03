@@ -29,7 +29,7 @@
     </p>
 
     <p style="position:absolute; top:787px; font-family:&quot;Arial&quot;; color:black; font-size:30px; left:0; right:0; padding:0px 601px; text-align:center; line-height:53px;">
-        Это содержимое тега макета P Это содержимое тега макета P
+
     </p>
 
     <p style="position:absolute; top:925px; font-family:&quot;Arial&quot;; color:black; font-size:20px; left:1030px; width:188px; text-align:center;">
