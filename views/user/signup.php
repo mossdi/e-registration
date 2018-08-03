@@ -95,28 +95,26 @@ $this->title = 'Регистрация пользователей';
                     ],
                 ]); ?>
 
-                <?php if ($model->scenario == UserForm::SCENARIO_CREATE_PAGE): ?>
-                    <div class="col-xs-12"><p style="font-weight: bold">Новый пользователь...</p></div>
-                <?php elseif ($model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE || $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE): ?>
-                    <div class="col-xs-12 col-margin-bottom-10">
-                        <p>
-                            <h3 style="display: inline-block;">
-                                <span>Пользователь:</span> <span style="font-weight: bold; margin-right: 5px;"> <?= $model->last_name . ' ' . $model->first_name . ' ' . $model->patron_name .  ($model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE ? ' <span style="color:red;font-weight:normal;">[Редактирование]</span>' : null ) ?></span>
-                            </h3>
-                            <?php if ($model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE): ?>
-                                <span style="display: inline-block;">
-                                    <?= Html::button('Редактировать', [
-                                        'class' => 'btn btn-warning',
-                                        'style' => 'padding: 3px 6px;',
-                                        'onclick' => 'formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_PARTICIPANT_UPDATE . '\', \'page\', \'' . $model->last_name . ' ' . $model->first_name . ' ' . $model->patron_name . '\',\'' . $model->id . '\')'
-                                    ]) ?>
-                                </span>
+                <div class="col-xs-12 col-margin-bottom-20">
+                    <?php if ($model->scenario == UserForm::SCENARIO_CREATE_PAGE): ?>
+                        <h3 style="font-weight: bold; margin: 0;">Новый пользователь</h3>
+                    <?php elseif ($model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE || $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE): ?>
+                        <h3 style="display: inline-block; margin: 0; vertical-align: middle">
+                            <span>Пользователь:</span> <span style="font-weight: bold; margin-right: 5px;"> <?= $model->last_name . ' ' . $model->first_name . ' ' . $model->patron_name .  ($model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE ? ' <span style="color:red;font-weight:normal;">[Редактирование]</span>' : null ) ?></span>
+                        </h3>
+                        <?php if ($model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE): ?>
+                            <span style="display: inline-block;">
+                                <?= Html::button('Редактировать', [
+                                    'class' => 'btn btn-warning',
+                                    'style' => 'padding: 3px 6px;',
+                                    'onclick' => 'formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_PARTICIPANT_UPDATE . '\', \'page\', \'' . $model->last_name . ' ' . $model->first_name . ' ' . $model->patron_name . '\',\'' . $model->id . '\')'
+                                ]) ?>
+                            </span>
 
-                                <?= $form->field($model, 'id')->hiddenInput()->label(false) ?>
-                            <?php endif; ?>
-                        </p>
-                    </div>
-                <?php endif; ?>
+                            <?= $form->field($model, 'id')->hiddenInput()->label(false) ?>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                </div>
                 <div class="row">
                     <div class="col-xs-12 col-sm-6 col-margin-bottom-10">
                         <?= $form->field($model, 'last_name', ['options' => ['class' => 'col-xs-10']])
