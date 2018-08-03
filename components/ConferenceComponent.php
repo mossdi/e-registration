@@ -2,6 +2,7 @@
 
 namespace app\components;
 
+use Yii;
 use app\forms\ConferenceForm;
 use app\entities\Conference;
 
@@ -46,5 +47,21 @@ class ConferenceComponent
         }
 
         return $conference;
+    }
+
+    /**
+     * @return \yii\db\ActiveRecord
+     */
+    public static function conferenceCurrent()
+    {
+        $conference_current = Conference::find()
+               ->where(['<=', '(start_time - ' . Yii::$app->setting->get('registerOpen') .')', time()])
+            ->andWhere(['is', 'end_time', null])
+            ->andWhere(['status' => Conference::STATUS_ACTIVE,])
+            ->andWhere(['deleted' => 0])
+             ->orderBy(['start_time' => SORT_ASC])
+                 ->one();
+
+        return $conference_current;
     }
 }

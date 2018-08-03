@@ -2,11 +2,14 @@
 
 /* @var $this \yii\web\View */
 /* @var $content string */
-/* @var $conference_now \app\entities\Conference|\yii\db\ActiveRecord */
+/* @var $conference_current \app\entities\Conference|\yii\db\ActiveRecord */
 
 use yii\helpers\Html;
 use app\entities\User;
 use yii\widgets\Pjax;
+use app\components\ConferenceComponent;
+
+$conference_current = ConferenceComponent::conferenceCurrent();
 
 ?>
 
@@ -22,16 +25,16 @@ use yii\widgets\Pjax;
             <span class="sr-only">Toggle navigation</span>
         </a>
 
-        <?php if ($conference_now): ?>
+        <?php if ($conference_current): ?>
             <span style="display: inline-block; padding: 15px 10px;">
-                <strong class="hidden-xs hidden-sm">Всего участников:</strong> <?= $conference_now->participantCount ?>
+                <strong class="hidden-xs hidden-sm">Всего участников:</strong> <?= $conference_current->participantCount ?>
             </span>
             <?= Html::button('<span class="glyphicon glyphicon-refresh"></span>', [
                 'onclick' => 'participantCountReload()',
                 'class' => 'btn'
             ]); ?>
             <span style="display: inline-block; padding: 15px 10px;">
-                <strong class="hidden-xs hidden-sm">Зарег-но на данной стойке:</strong> <?= $conference_now->reseptionParticipantCount ?>
+                <strong class="hidden-xs hidden-sm">Зарег-но на данной стойке:</strong> <?= $conference_current->reseptionParticipantCount ?>
             </span>
         <?php endif; ?>
 

@@ -84,15 +84,13 @@ class ConferenceController extends Controller
      * @param $id
      * @return string
      */
-    public function actionViewNow ($id)
+    public function actionCurrent ()
     {
-        $model = Conference::findOne($id);
+        $model = ConferenceComponent::conferenceCurrent();
 
-        return $this->render(
-            'view_now',[
-                'model' => $model,
-            ]
-        );
+        return $this->render('current',[
+            'model' => $model,
+        ]);
     }
 
     /**

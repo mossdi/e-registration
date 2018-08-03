@@ -11,14 +11,6 @@ app\assets\AppAsset::register($this);
 
 //Yii::$app->authManager->invalidateCache(); //очистка кэша ролей
 
-$conference_now = Conference::find()
-       ->where(['<=', '(start_time - ' . Yii::$app->setting->get('registerOpen') .')', time()])
-    ->andWhere(['is', 'end_time', null])
-    ->andWhere(['status' => Conference::STATUS_ACTIVE,])
-    ->andWhere(['deleted' => 0])
-     ->orderBy(['start_time' => SORT_ASC])
-         ->one();
-
 ?>
 
 <?php $this->beginPage() ?>
@@ -36,9 +28,7 @@ $conference_now = Conference::find()
 <div class="wrapper">
 
     <?= $this->render(
-        'header', [
-            'conference_now' => $conference_now,
-        ]
+        'header'
     ) ?>
 
     <?= $this->render(
@@ -46,9 +36,7 @@ $conference_now = Conference::find()
     ) ?>
 
     <?= $this->render(
-        'left', [
-            'conference_now' => $conference_now,
-        ]
+        'left'
     ) ?>
 
     <?= $this->render(

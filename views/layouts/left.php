@@ -1,7 +1,7 @@
 <?php
 
 /* @var $this \yii\web\View */
-/* @var $conference_now \app\entities\Conference|\yii\db\ActiveRecord */
+/* @var $conference_current \app\entities\Conference|\yii\db\ActiveRecord */
 
 ?>
 
@@ -9,9 +9,7 @@
     <section class="sidebar">
 
         <?= $this->render(
-            '/html_block/element/menu', [
-                'conference_now' => $conference_now
-            ]
+            '/html_block/element/menu'
         ) ?>
 
     </section>

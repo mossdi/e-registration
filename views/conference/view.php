@@ -13,13 +13,15 @@ use yii\widgets\DetailView;
             'model' => $model,
             'attributes' => [
                 'title',
-                [
+
+                /*[
                     'attribute' => 'author_id',
                     'label' => 'Ведущий',
                     'value' => function($model) {
                         return $model->author->first_name . ' ' . $model->author->last_name;
                     }
-                ],
+                ],*/
+
                 [
                     'attribute' => 'description',
                     'label' => 'Описание',

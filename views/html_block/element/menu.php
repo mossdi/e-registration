@@ -1,12 +1,15 @@
 <?php
 
 /* @var $this \yii\web\View */
-/* @var $conference_now \app\entities\Conference; */
+/* @var $conference_current \app\entities\Conference; */
 
 use app\widgets\Menu;
 use app\forms\UserForm;
 use app\entities\User;
 use app\entities\ConferenceParticipant;
+use app\components\ConferenceComponent;
+
+$conference_current = ConferenceComponent::conferenceCurrent();
 
 try {
     echo Menu::widget(
@@ -23,8 +26,8 @@ try {
                 [
                     'label' => 'Текущая конференция',
                     'icon' => 'bullhorn fa-2x',
-                    'url' => $conference_now ? '/conference/view-now?id=' . $conference_now->id : '',
-                    'visible' => $conference_now && (Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_RECEPTIONIST_CURATOR) || (Yii::$app->user->can(User::ROLE_PARTICIPANT) && ConferenceParticipant::findOne(['conference_id' => $conference_now->id, 'user_id' => Yii::$app->user->id]))) ? true : false,
+                    'url' => '/conference/current',
+                    'visible' => $conference_current && (Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_RECEPTIONIST_CURATOR) || (Yii::$app->user->can(User::ROLE_PARTICIPANT) && ConferenceParticipant::findOne(['conference_id' => $conference_current->id, 'user_id' => Yii::$app->user->id]))) ? true : false,
                 ],
 
                 [
