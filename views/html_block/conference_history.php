@@ -4,6 +4,8 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 use app\entities\ConferenceParticipantSearch;
 use yii2mod\alert\Alert;
+use yii\helpers\Html;
+use app\forms\UserForm;
 
 /* @var $this \yii\web\View */
 /* @var $searchModel app\entities\ConferenceSearch */
@@ -50,7 +52,21 @@ $dataProvider->query->where(['conference_participant.user_id' => Yii::$app->user
                         'value' => function($model) {
                             return $model->certificateVerificationCode;
                         }
-                    ]
+                    ],
+
+                    [
+                        'class' => 'yii\grid\ActionColumn',
+                        'template' => '{view}',
+                        'buttons' => [
+                            'view' => function ($url, $model) {
+                                return Html::a('<span class="glyphicon glyphicon-list-alt"></span>', ['#'], [
+                                    'data-toggle' => 'modal',
+                                    'data-target' => '#modalForm',
+                                    'onclick' => 'formLoad(\'/certificate/view\', \'' . UserForm::LOAD_FORM_TO_MODAL . '\', \'' . $model->conference->title . '\', \'' . $model->certificate->id . '\')'
+                                ]);
+                            },
+                        ]
+                    ],
                 ],
             ]);
         } catch (Exception $e) {
