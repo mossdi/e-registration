@@ -57,10 +57,12 @@ class UserComponent
         UserComponent::assignRole($form->role, $user->id);
 
         if (!empty($form->email)) {
-            SendMailComponent::sendMail($form->email, Yii::$app->controller->renderPartial('/html_block/mail/access_data', [
+            $template = Yii::$app->controller->renderPartial('/html_block/mail/access_data', [
                 'email' => $form->email,
                 'password' => $password
-            ]));
+            ]);
+
+            SendMailComponent::sendMail($form->email, $template);
         }
 
         return $user;
@@ -136,7 +138,11 @@ class UserComponent
         $participant->method = $method;
 
         if ($method == Conference::LEARNING_FULL_TIME){
-            $certificate = Certificate::create($user_id, $conference_id, $conference->start_time);
+            $certificate = Certificate::create(
+                $user_id,
+                $conference_id,
+                $conference->start_time
+            );
 
             $transaction = Yii::$app->db->beginTransaction();
 

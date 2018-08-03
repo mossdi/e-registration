@@ -100,11 +100,13 @@ $this->title = 'Регистрация пользователей';
                 <?php elseif ($model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE || $model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE): ?>
                     <div class="col-xs-12 col-margin-bottom-10">
                         <p>
-                            <span>Пользователь:</span> <span style="font-weight: bold; margin-right: 5px;"> <?= $model->last_name . ' ' . $model->first_name . ' ' . $model->patron_name .  ($model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE ? ' <span style="color:red;font-weight:normal;">[Редактирование]</span>' : null ) ?></span>
+                            <h3 style="display: inline-block;">
+                                <span>Пользователь:</span> <span style="font-weight: bold; margin-right: 5px;"> <?= $model->last_name . ' ' . $model->first_name . ' ' . $model->patron_name .  ($model->scenario == UserForm::SCENARIO_PARTICIPANT_UPDATE ? ' <span style="color:red;font-weight:normal;">[Редактирование]</span>' : null ) ?></span>
+                            </h3>
                             <?php if ($model->scenario == UserForm::SCENARIO_REGISTER_PARTICIPANT_PAGE): ?>
-                                <span>
+                                <span style="display: inline-block;">
                                     <?= Html::button('Редактировать', [
-                                        'class' => 'btn btn-default',
+                                        'class' => 'btn btn-warning',
                                         'style' => 'padding: 3px 6px;',
                                         'onclick' => 'formLoad(\'/user/signup-form?scenario=' . UserForm::SCENARIO_PARTICIPANT_UPDATE . '\', \'page\', \'' . $model->last_name . ' ' . $model->first_name . ' ' . $model->patron_name . '\',\'' . $model->id . '\')'
                                     ]) ?>
