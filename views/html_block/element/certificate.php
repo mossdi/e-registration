@@ -2,6 +2,9 @@
 
 /* @var $certificate \app\entities\Certificate */
 
+$points = 2;
+$provider = ''
+
 ?>
 
 <html>
@@ -20,7 +23,7 @@
         <?= Yii::$app->formatter->asDate($certificate->conference->start_time, 'php: d.m.Y') ?>
     </p>
 
-    <p style="position:absolute; top:536px; font-family:&quot;Arial&quot;; color:black; font-size:20px; left:800px; width:188px; text-align:center;">
+    <p style="position:absolute; top:535px; font-family:&quot;Arial&quot;; color:black; font-size:26px; left:790px; width:188px; text-align:center;">
         <?= $certificate->document_series ?>
     </p>
 
@@ -28,11 +31,15 @@
         <?= $certificate->userFullName ?>
     </p>
 
+    <p style="position:absolute; top:748px; font-family:&quot;Arial&quot;; color:black; font-size:26px; right:545px; text-align:center; line-height:53px;">
+        <?= $points ?>
+    </p>
+
     <p style="position:absolute; top:787px; font-family:&quot;Arial&quot;; color:black; font-size:30px; left:0; right:0; padding:0px 601px; text-align:center; line-height:53px;">
 
     </p>
 
-    <p style="position:absolute; top:925px; font-family:&quot;Arial&quot;; color:black; font-size:20px; left:1030px; width:188px; text-align:center;">
+    <p style="position:absolute; top:925px; font-family:&quot;Arial&quot;; color:black; font-size:26px; left:1025px; width:200px; text-align:center;">
         <?= $certificate->verification_code ?>
     </p>
 </div>
