@@ -20,6 +20,7 @@ class m180305_134955_create_user_table extends Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci';
         }
 
+        //TODO: Разбить на две таблицы
         $this->createTable('user', [
             'id' => $this->primaryKey(),
             'code' => $this->integer()->null(),

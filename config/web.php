@@ -15,7 +15,7 @@ $config = [
     ],
     'components' => [
         'setting' => [
-            'class' => 'app\components\SettingComponent',
+            'class' => 'app\services\setting\SettingService',
         ],
         'request' => [
             'cookieValidationKey' => 'UayAHkW-zVazTrXeG0T6sZ3vRGvXQrzM',

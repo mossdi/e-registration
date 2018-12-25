@@ -10,8 +10,8 @@ use moonland\phpexcel\Excel;
 use app\entities\User;
 use app\entities\Conference;
 use app\entities\Certificate;
-use app\components\UserComponent;
-use app\components\SendMailComponent;
+use app\services\user\UserService;
+use app\services\mail\MailService;
 
 /**
  * Class ServiceController
@@ -25,6 +25,7 @@ class ServiceController extends Controller
      */
     public function actionUploadUsers()
     {
+        //TODO: Доменное имя параметром
         $users = Excel::import('/var/www/cert.dwbx.ru/storage/participants.xlsx', $config = []);
 
         if ($users) {
@@ -90,7 +91,7 @@ class ServiceController extends Controller
                                 $conference->save();
                             }
 
-                            $results = UserComponent::registerParticipant($newUser->id, $conference->id, Conference::LEARNING_FULL_TIME);
+                            $results = UserService::registerParticipant($newUser->id, $conference->id, Conference::LEARNING_FULL_TIME);
 
                             echo $results['message'] . PHP_EOL;
                         }
@@ -219,6 +220,6 @@ class ServiceController extends Controller
             'password' => '12345'
         ]);
 
-        SendMailComponent::sendMail($mailTo, $htmBody);
+        MailService::sendMail($mailTo, $htmBody);
     }
 }

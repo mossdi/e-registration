@@ -1,22 +1,22 @@
 <?php
 
-namespace app\components;
+namespace app\services\conference;
 
 use Yii;
 use app\forms\ConferenceForm;
 use app\entities\Conference;
 
 /**
- * Class ConferenceComponent
- * @package app\components
+ * Class ConferenceService
+ * @package app\services\conference
  */
-class ConferenceComponent
+class ConferenceService
 {
     /**
      * @param ConferenceForm $form
      * @return Conference
      */
-    public static function conferenceCreate(ConferenceForm $form)
+    public static function conferenceCreate(ConferenceForm $form) : Conference
     {
         $conference = Conference::create(
             $form->title,
@@ -36,7 +36,7 @@ class ConferenceComponent
      * @param Conference $conference
      * @return Conference
      */
-    public static function conferenceUpdate(ConferenceForm $form, Conference $conference)
+    public static function conferenceUpdate(ConferenceForm $form, Conference $conference) : Conference
     {
         $conference->title = $form->title;
         $conference->description = $form->description;
@@ -50,7 +50,7 @@ class ConferenceComponent
     }
 
     /**
-     * @return \yii\db\ActiveRecord
+     * @return Conference|null
      */
     public static function conferenceCurrent()
     {

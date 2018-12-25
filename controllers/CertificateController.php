@@ -3,17 +3,17 @@
 namespace app\controllers;
 
 use Yii;
-use app\components\CertificateComponent;
-use app\forms\CertificateForm;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\web\NotFoundHttpException;
+use yii\widgets\ActiveForm;
+use app\services\certificate\CertificateService;
+use app\forms\CertificateForm;
 use app\entities\User;
 use app\entities\Certificate;
 use app\entities\CertificateSearch;
-use yii\widgets\ActiveForm;
 
 /**
  * CertificateController implements the CRUD actions for Certificate model.
@@ -117,7 +117,7 @@ class CertificateController extends Controller
         $form = new CertificateForm($id);
 
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            if (CertificateComponent::certificateUpdate($form, Certificate::findOne($id))) {
+            if (CertificateService::certificateUpdate($form, Certificate::findOne($id))) {
                 Yii::$app->session->setFlash('success', 'Сертификат успешно обновлен!');
             } else {
                 Yii::$app->session->setFlash('error', 'Ошибка! Сертификат не обновлен. Обратитесь к администратору системы.');
@@ -151,7 +151,7 @@ class CertificateController extends Controller
      */
     public function actionDownload($id)
     {
-        return CertificateComponent::certificateDownload($id);
+        return CertificateService::certificateDownload($id);
     }
 
     /**

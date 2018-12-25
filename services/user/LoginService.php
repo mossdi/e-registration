@@ -1,22 +1,22 @@
 <?php
 
-namespace app\components;
+namespace app\services\user;
 
 use Yii;
 use app\entities\User;
 use app\forms\LoginForm;
 
 /**
- * Class LoginComponent
- * @package app\components
+ * Class LoginService
+ * @package app\services\user
  */
-class LoginComponent
+class LoginService
 {
     /**
      * @param LoginForm $form
      * @return bool
      */
-    public static function login(LoginForm $form)
+    public static function login(LoginForm $form) : bool
     {
         return Yii::$app->user->login(
             User::findByEmail($form->email),

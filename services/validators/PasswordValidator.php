@@ -1,6 +1,6 @@
 <?php
 
-namespace app\components\validators;
+namespace app\services\validators;
 
 use yii\validators\Validator;
 use app\entities\User;

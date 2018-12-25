@@ -3,7 +3,7 @@
 namespace app\forms;
 
 use yii\base\Model;
-use app\components\validators\PasswordValidator;
+use app\services\validators\PasswordValidator;
 
 /**
  * Login form

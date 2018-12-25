@@ -10,7 +10,7 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\widgets\ActiveForm;
 use app\forms\ConferenceForm;
-use app\components\ConferenceComponent;
+use app\services\conference\ConferenceService;
 use app\entities\Conference;
 use app\entities\ConferenceSearch;
 use app\entities\ConferenceWishlist;
@@ -86,7 +86,7 @@ class ConferenceController extends Controller
      */
     public function actionCurrent ()
     {
-        $model = ConferenceComponent::conferenceCurrent();
+        $model = ConferenceService::conferenceCurrent();
 
         return $this->render('current',[
             'model' => $model,
@@ -154,7 +154,7 @@ class ConferenceController extends Controller
         $form = new ConferenceForm($id);
 
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            if (ConferenceComponent::conferenceCreate($form)) {
+            if (ConferenceService::conferenceCreate($form)) {
                 Yii::$app->session->setFlash('success', 'Событие успешно зарегистрировано в системе!');
             } else {
                 Yii::$app->session->setFlash('error', 'Ошибка! Событие не зарегистрировано. Обратитесь к администратору системы.');
@@ -177,7 +177,7 @@ class ConferenceController extends Controller
         $form = new ConferenceForm($id);
 
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            if (ConferenceComponent::conferenceUpdate($form, Conference::findOne($id))) {
+            if (ConferenceService::conferenceUpdate($form, Conference::findOne($id))) {
                 Yii::$app->session->setFlash('success', 'Событие успешно обновлено!');
             } else {
                 Yii::$app->session->setFlash('error', 'Ошибка! Событие не обновлено. Обратитесь к администратору системы.');

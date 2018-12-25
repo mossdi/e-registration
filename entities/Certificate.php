@@ -2,7 +2,6 @@
 
 namespace app\entities;
 
-use Yii;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 
@@ -25,6 +24,7 @@ use yii\behaviors\TimestampBehavior;
  */
 class Certificate extends ActiveRecord
 {
+    //TODO: Доменное имя сделать параметром системы
     const DOWNLOAD_FOLDER = '/var/www/cert.dwbx.ru/storage/certificate/';
 
     const STATUS_DELETED = 0;

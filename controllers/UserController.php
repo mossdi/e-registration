@@ -8,8 +8,8 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
-use app\components\UserComponent;
-use app\components\LoginComponent;
+use app\services\user\UserService;
+use app\components\LoginService;
 use app\forms\LoginForm;
 use app\forms\UserForm;
 use app\entities\User;
@@ -84,7 +84,7 @@ class UserController extends Controller
         $form = new LoginForm();
 
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            if (LoginComponent::login($form)) {
+            if (LoginService::login($form)) {
                 $this->refresh();
             };
         }
@@ -175,7 +175,7 @@ class UserController extends Controller
                 return $this->actionRegisterParticipant($form->id, $form->conference, Conference::LEARNING_FULL_TIME);
             }
 
-            if (UserComponent::userSignup($form)) {
+            if (UserService::userSignup($form)) {
                 Yii::$app->session->setFlash('success', $form->conference ? 'Пользователь успешно зарегистрирован на конференцию - ' . Conference::findOne($form->conference)->title : 'Пользователь успешно зарегистрирован в системе!');
             } else {
                 Yii::$app->session->setFlash('error', 'Ошибка! Пользователь не зарегистрирован. Обратитесь к администратору системы.');
@@ -207,7 +207,7 @@ class UserController extends Controller
      */
     public function actionRegisterParticipant($user_id, $conference_id, $method)
     {
-        $result = UserComponent::registerParticipant($user_id, $conference_id, $method);
+        $result = UserService::registerParticipant($user_id, $conference_id, $method);
 
         Yii::$app->session->setFlash($result['status'], $result['message']);
 
@@ -228,7 +228,7 @@ class UserController extends Controller
         $form->scenario = $scenario;
 
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            if (UserComponent::userUpdate($form, User::findOne($id))) {
+            if (UserService::userUpdate($form, User::findOne($id))) {
                 Yii::$app->session->setFlash('success', 'Пользователь успешно обновлен!');
             } else {
                 Yii::$app->session->setFlash('error', 'Ошибка! Пользователь не обновлен. Обратитесь к администратору системы.');

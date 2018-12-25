@@ -7,9 +7,9 @@ use app\widgets\Menu;
 use app\forms\UserForm;
 use app\entities\User;
 use app\entities\ConferenceParticipant;
-use app\components\ConferenceComponent;
+use app\services\conference\ConferenceService;
 
-$conference_current = ConferenceComponent::conferenceCurrent();
+$conference_current = ConferenceService::conferenceCurrent();
 
 try {
     echo Menu::widget(

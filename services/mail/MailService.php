@@ -1,16 +1,16 @@
 <?php
 
-namespace app\components;
+namespace app\services\mail;
 
 use Yii;
 
 /**
- * Class SendMailComponent
- * @package app\components
+ * Class MailService
+ * @package app\services\mail
  */
-class SendMailComponent
+class MailService
 {
-    public static function sendMail($mailTo, $htmlBody)
+    public static function sendMail($mailTo, $htmlBody) : bool
     {
         $mailer = Yii::$app->mailer->compose()
             ->setFrom([Yii::$app->params['smtpParams']['username'] => 'ГБУ НИИОЗММ ДЗМ'])

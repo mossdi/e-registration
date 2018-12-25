@@ -5,11 +5,11 @@
 /* @var $conference_current \app\entities\Conference|\yii\db\ActiveRecord */
 
 use yii\helpers\Html;
-use app\entities\User;
 use yii\widgets\Pjax;
-use app\components\ConferenceComponent;
+use app\entities\User;
+use app\services\conference\ConferenceService;
 
-$conference_current = ConferenceComponent::conferenceCurrent();
+$conference_current = ConferenceService::conferenceCurrent();
 
 ?>
 

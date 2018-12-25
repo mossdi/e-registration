@@ -1,27 +1,28 @@
 <?php
 
-namespace app\components;
+namespace app\services\user;
 
 use Yii;
 use app\forms\UserForm;
+use app\forms\LoginForm;
 use app\entities\User;
 use app\entities\ConferenceParticipant;
-use app\forms\LoginForm;
 use app\entities\Conference;
 use app\entities\Certificate;
+use app\services\mail\MailService;
 
 /**
- * Class UserComponent
- * @package app\components
+ * Class UserService
+ * @package app\services\user
  */
-class UserComponent
+class UserService
 {
     /**
      * @param UserForm $form
      * @return User
      * @throws \Exception
      */
-    public static function userSignup(UserForm $form)
+    public static function userSignup(UserForm $form) : User
     {
         $password = $form->scenario == UserForm::SCENARIO_REGISTER ? $form->password : Yii::$app->security->generateRandomString(8);
 
@@ -47,14 +48,14 @@ class UserComponent
             $loginForm->email = $form->email;
             $loginForm->password = $form->password;
 
-            LoginComponent::login($loginForm);
+            LoginService::login($loginForm);
         }
 
         if ($form->conference) {
-            UserComponent::registerParticipant($user->id, $form->conference, Conference::LEARNING_FULL_TIME);
+            UserService::registerParticipant($user->id, $form->conference, Conference::LEARNING_FULL_TIME);
         }
 
-        UserComponent::assignRole($form->role, $user->id);
+        UserService::assignRole($form->role, $user->id);
 
         if (!empty($form->email)) {
             $template = Yii::$app->controller->renderPartial('/html_block/mail/access_data', [
@@ -62,7 +63,7 @@ class UserComponent
                 'password' => $password
             ]);
 
-            SendMailComponent::sendMail($form->email, $template);
+            MailService::sendMail($form->email, $template);
         }
 
         return $user;
@@ -74,7 +75,7 @@ class UserComponent
      * @throws \Exception
      * @return User
      */
-    public static function userUpdate(UserForm $form, User $user)
+    public static function userUpdate(UserForm $form, User $user) : User
     {
         $user->first_name = $form->first_name;
         $user->last_name = $form->last_name;

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\components;
+namespace app\services\certificate;
 
 use Yii;
 use app\entities\Certificate;
@@ -8,17 +8,17 @@ use app\forms\CertificateForm;
 use mikehaertl\wkhtmlto\Pdf;
 
 /**
- * Class CertificateComponent
- * @package app\components
+ * Class CertificateService
+ * @package app\services\certificate
  */
-class CertificateComponent
+class CertificateService
 {
     /**
      * @param CertificateForm $form
      * @param Certificate $certificate
      * @return Certificate
      */
-    public static function certificateUpdate(CertificateForm $form, Certificate $certificate)
+    public static function certificateUpdate(CertificateForm $form, Certificate $certificate) : Certificate
     {
         $certificate->date_issue = $form->date_issue;
         $certificate->document_series = $form->document_series;
@@ -34,9 +34,10 @@ class CertificateComponent
     /**
      * Certificate download
      * @param $id
-     * @return mixed
+     * @return bool
      */
-    public static function certificateDownload($id) {
+    public static function certificateDownload(int $id) : bool
+    {
         $certificate = Certificate::findOne($id);
 
         $template = Yii::$app->controller->renderPartial('/html_block/element/certificate', [

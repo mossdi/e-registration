@@ -1,16 +1,16 @@
 <?php
 
-namespace app\components;
+namespace app\services\setting;
 
 use Exception;
 use yii\base\Component;
 use app\entities\Setting;
 
 /**
- * Class SettingComponent
- * @package common\components
+ * Class SettingService
+ * @package app\services\setting
  */
-class SettingComponent extends Component {
+class SettingService extends Component {
 
     protected $data = array();
 
