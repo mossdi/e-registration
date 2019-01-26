@@ -6,6 +6,8 @@ use Yii;
 use app\entities\Certificate;
 use app\forms\CertificateForm;
 use mikehaertl\wkhtmlto\Pdf;
+use DateTime;
+use DateTimeZone;
 
 /**
  * Class CertificateService
@@ -20,8 +22,11 @@ class CertificateService
      */
     public static function certificateUpdate(CertificateForm $form, Certificate $certificate) : Certificate
     {
-        $certificate->date_issue = $form->date_issue;
+        $date = DateTime::createFromFormat('d.m.yy', $form->date_issue, new DateTimeZone('Europe/Moscow'));
+
+        $certificate->date_issue = $date->getTimestamp();
         $certificate->document_series = $form->document_series;
+        $certificate->verification_code = $form->verification_code;
         $certificate->status = $form->status;
 
         if (!$certificate->save()) {

@@ -9,7 +9,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use app\services\user\UserService;
-use app\components\LoginService;
+use app\services\user\LoginService;
 use app\forms\LoginForm;
 use app\forms\UserForm;
 use app\entities\User;
