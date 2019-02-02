@@ -81,7 +81,6 @@ class ConferenceController extends Controller
     }
 
     /**
-     * @param $id
      * @return string
      */
     public function actionCurrent ()
