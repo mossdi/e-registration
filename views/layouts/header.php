@@ -34,7 +34,7 @@ $conference_current = ConferenceService::conferenceCurrent();
                 'class' => 'btn'
             ]); ?>
             <span style="display: inline-block; padding: 15px 10px;">
-                <strong class="hidden-xs hidden-sm">Зарег-но на данной стойке:</strong> <?= $conference_current->reseptionParticipantCount ?>
+                <strong class="hidden-xs hidden-sm">Зарег-но на данной стойке:</strong> <?= $conference_current->receptionParticipantCount ?>
             </span>
         <?php endif; ?>
 

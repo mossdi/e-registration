@@ -135,7 +135,7 @@ class UserService
 
         $participant->user_id = $user_id;
         $participant->conference_id = $conference_id;
-        $participant->reseption_id = Yii::$app->user->id;
+        $participant->reception_id = Yii::$app->user->id;
         $participant->method = $method;
 
         if ($method == Conference::LEARNING_FULL_TIME){

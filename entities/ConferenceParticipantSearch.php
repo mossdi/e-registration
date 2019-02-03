@@ -26,7 +26,7 @@ class ConferenceParticipantSearch extends ConferenceParticipant
     public function rules()
     {
         return [
-            [['user_id', 'conference_id', 'reseption_id', 'created_at', 'updated_at'], 'integer'],
+            [['user_id', 'conference_id', 'reception_id', 'created_at', 'updated_at'], 'integer'],
             [['userLastName', 'userFirstName', 'userPatronName', 'userOrganization', 'userPost', 'userEmail', 'method', 'certificateVerificationCode'], 'safe'],
         ];
     }
@@ -118,7 +118,7 @@ class ConferenceParticipantSearch extends ConferenceParticipant
         $query->andFilterWhere([
             'user_id' => $this->user_id,
             'conference_id' => $this->conference_id,
-            'reseption_id' => $this->reseption_id,
+            'reception_id' => $this->reception_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);

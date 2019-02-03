@@ -72,7 +72,7 @@ class UserController extends Controller
         if (!Yii::$app->user->isGuest) {
             if (Yii::$app->user->can(User::ROLE_RECEPTIONIST) || Yii::$app->user->can(User::ROLE_RECEPTIONIST_CURATOR)) {
                 return $this->redirect([
-                    '/user/signup-form?scenario=create-page'
+                    '/user/signup-form?scenario=' . UserForm::SCENARIO_CREATE_PAGE
                 ]);
             }
 

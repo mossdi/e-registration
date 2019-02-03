@@ -15,7 +15,7 @@ use yii\behaviors\TimestampBehavior;
  * @property int $updated_at
  * @property Conference $conference
  * @property User $user
- * @property int $reseption_id
+ * @property int $reception_id
  * @property $certificate
  * @property $certificateVerificationCode
  */

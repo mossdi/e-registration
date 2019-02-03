@@ -24,7 +24,7 @@ use DateTimeZone;
  * @property int $updated_at
  * @property int $participantCount
  * @property ConferenceParticipant $participant
- * @property $reseptionParticipantCount
+ * @property $receptionParticipantCount
  */
 class Conference extends ActiveRecord
 {
@@ -135,10 +135,10 @@ class Conference extends ActiveRecord
     /**
      * @return int|string
      */
-    public function getReseptionParticipantCount()
+    public function getReceptionParticipantCount()
     {
         return $this->hasMany(ConferenceParticipant::className(), ['conference_id' => 'id'])
-            ->andWhere(['conference_participant.reseption_id' => Yii::$app->user->id])
+            ->andWhere(['conference_participant.reception_id' => Yii::$app->user->id])
             ->count();
     }
 
